@@ -21,3 +21,28 @@ export const timeStampToDateTime = (timestamp) => {
 	const date = new Date(timestamp);
 	return date.toLocaleString(); // Adjust this to your preferred format
 };
+
+export const formatDateAndTime = (timestamp) => {
+	// Create a Date object from the timestamp
+	var date = new Date(timestamp);
+
+	// Format the date as YYYY-MM-DD
+	var year = date.getFullYear();
+	var month = date.getMonth() + 1; // getMonth() returns month from 0-11
+	var day = date.getDate();
+	var formattedDate = `${year}-${month.toString().padStart(2, "0")}-${day
+		.toString()
+		.padStart(2, "0")}`;
+
+	// Format the time as XX:XXAM or XX:XXPM
+	var hours = date.getHours();
+	var minutes = date.getMinutes();
+	var ampm = hours >= 12 ? "PM" : "AM";
+	hours = hours % 12;
+	hours = hours ? hours : 12; // the hour '0' should be '12'
+	var formattedTime = `${hours.toString().padStart(2, "0")}:${minutes
+		.toString()
+		.padStart(2, "0")}${ampm}`;
+
+	return { date: formattedDate, time: formattedTime };
+};

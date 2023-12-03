@@ -74,9 +74,7 @@ const BookingProvider = ({ children }) => {
 
 	const book = async () => {
 		const res = await finalizeBooking(bookingData);
-		if (res.ok) {
-			// TODO: drop the booking Stack to return to consultant filtering screen
-		}
+		return res;
 	};
 
 	// The context value that will be supplied to any descendants of this provider

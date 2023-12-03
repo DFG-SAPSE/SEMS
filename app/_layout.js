@@ -1,10 +1,10 @@
-import { Tab } from "expo-router";
+import { Tabs } from "expo-router";
 import AppContextProvider from "../context/AppContextProvider";
 
 const Layout = () => {
 	return (
 		<AppContextProvider>
-			<Tab screenOptions={{ headerShown: false }}></Tab>
+			<Tabs screenOptions={{ headerShown: false }}></Tabs>
 		</AppContextProvider>
 	);
 };
