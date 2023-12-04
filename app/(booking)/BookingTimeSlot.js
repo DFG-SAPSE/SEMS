@@ -47,7 +47,7 @@ const BookTimeSlot = () => {
 
 		await chooseTimeSlot(startTimeStamp, endTimeStamp);
 
-		router.push("/booking-question/");
+		router.push("/BookingQuestions");
 	};
 
 	return (

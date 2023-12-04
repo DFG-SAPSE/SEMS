@@ -5,29 +5,43 @@ import { finalizeBooking } from "../services/scheduling";
 
 export const BookingContext = createContext(null);
 
+const DEFAULT_BOOKING_DATA = {
+	startTime: null,
+	endTime: null,
+	answers: [],
+	fileAttachments: [],
+	payment: {
+		paymentMethod: "",
+		// other information TBD
+		// TODO: consult with payment team
+	},
+};
+
+const DEFAULT_CONSULTANT_DATA = {
+	consultantId: "",
+	name: "",
+	avatar: "",
+	title: "",
+	company: "",
+	questions: [],
+	price: 0,
+	// TODO: Waiting for Paul to answer my question on Slack
+	// If a consultant provide different services at different price
+	// we need to model the data carefully.
+};
+
+const DEFAULT_MODAL_VISIBLE = false;
+
 const BookingProvider = ({ children }) => {
-	const [bookingData, setBookingData] = useState({
-		startTime: null,
-		endTime: null,
-		answers: [],
-		fileAttachments: [],
-		payment: {
-			paymentMethod: "",
-			// other information TBD
-			// TODO: consult with payment team
-		},
-	});
-
-	const [consultantData, setConsultantData] = useState({
-		consultantId: "",
-		name: "",
-		avatar: "",
-		title: "",
-		company: "",
-		question: [],
-	});
-
-	const [modalVisible, setModalVisible] = useState(false);
+	// Booking information user provides
+	const [bookingData, setBookingData] = useState(DEFAULT_BOOKING_DATA);
+	// Information about the consultant that user is booking
+	const [consultantData, setConsultantData] = useState(DEFAULT_CONSULTANT_DATA);
+	// Control the ConfirmCancelModal
+	const [modalVisible, setModalVisible] = useState(DEFAULT_MODAL_VISIBLE);
+	// After we book the meeting, we save the meeting id in case user wants to
+	// reschedule or cancel
+	const [recentlyBookedMeetingId, setRecentlyBookedMeetingId] = useState(null);
 
 	/**
 	 * TODO
@@ -71,7 +85,10 @@ const BookingProvider = ({ children }) => {
 
 	const book = async () => {
 		const res = await finalizeBooking(bookingData);
-		return res;
+		if (res.ok) {
+			setRecentlyBookedMeetingId(res.meetingId);
+		}
+		return { ok: res.ok };
 	};
 
 	const changeConsultant = async (consultantId) => {
@@ -82,11 +99,20 @@ const BookingProvider = ({ children }) => {
 	const showModal = () => setModalVisible(true);
 	const hideModal = () => setModalVisible(false);
 
+	const resetBookingContext = () => {
+		setBookingData(DEFAULT_BOOKING_DATA);
+		setConsultantData(DEFAULT_CONSULTANT_DATA);
+		setModalVisible(DEFAULT_MODAL_VISIBLE);
+		// Dummy, delete once consultant filtering team implements their part
+		changeConsultant("123");
+	};
+
 	// The context value that will be supplied to any descendants of this provider
 	const contextValue = {
 		bookingData,
 		consultantData,
 		modalVisible,
+		recentlyBookedMeetingId,
 		chooseTimeSlot,
 		updateAnswers,
 		uploadFile,
@@ -95,6 +121,7 @@ const BookingProvider = ({ children }) => {
 		changeConsultant,
 		showModal,
 		hideModal,
+		resetBookingContext,
 	};
 
 	return (

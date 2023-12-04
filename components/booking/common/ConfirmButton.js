@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { StyleSheet } from "react-native";
-import { useNavigation } from "expo-router";
+import { useNavigation, router } from "expo-router";
 import { StackActions } from "@react-navigation/native";
 
 import Button from "../../common/Button";
@@ -15,6 +15,7 @@ const ConfirmButton = () => {
 		const res = await book();
 		if (res.ok) {
 			navigation.dispatch(StackActions.popToTop());
+			router.push("/BookingConfirmation");
 		}
 	};
 

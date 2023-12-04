@@ -17,6 +17,7 @@ const QuestionList = () => {
 			{consultantData.questions.map((question, index) => (
 				<Question
 					key={index}
+                    index={index}
 					question={question}
 					answer={bookingData.answers[index]}
 					handleAnswerChange={handleAnswerChange}

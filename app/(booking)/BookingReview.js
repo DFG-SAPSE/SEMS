@@ -1,15 +1,18 @@
 import React, { useContext } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { Stack } from "expo-router";
+import { View, ScrollView, StyleSheet } from "react-native";
 
 import { BookingContext } from "../../context/BookingContext";
 import ConfirmBlock from "../../components/booking/review/ConfirmBlock";
-import BookingCommon from "../../components/booking/common/BookingCommon";
 import ConfirmButton from "../../components/booking/common/ConfirmButton";
+import ConsultantProfile from "../../components/booking/common/ConsultantProfile";
+import CancelConfirmModal from "../../components/booking/common/CancelConfirmModal";
+import CancelBookingButton from "../../components/booking/common/CancelBookingButton";
 
 import { formatDateAndTime } from "../../utils/dateAndTime";
 import { camelCaseToNormalText } from "../../utils/stringFormat";
 
-const BookingReview = () => {
+const BookingReview = ({ pageTitle, children, footerComponent }) => {
 	const { bookingData, consultantData } = useContext(BookingContext);
 
 	// Preparing data for date and time of booking
@@ -23,7 +26,15 @@ const BookingReview = () => {
 	];
 
 	return (
-		<BookingCommon proceedButton={<ConfirmButton />}>
+		<ScrollView style={styles.container}>
+			<CancelConfirmModal />
+
+			<Stack.Screen options={{ title: pageTitle ? pageTitle : "Review" }} />
+
+			{children}
+
+			<ConsultantProfile />
+
 			<View style={styles.divider} />
 
 			<View style={styles.section}>
@@ -60,7 +71,16 @@ const BookingReview = () => {
 					/>
 				))}
 			</View>
-		</BookingCommon>
+
+			{footerComponent ? (
+				footerComponent
+			) : (
+				<View style={styles.footer}>
+					<CancelBookingButton />
+					<ConfirmButton />
+				</View>
+			)}
+		</ScrollView>
 	);
 };
 
@@ -78,6 +98,11 @@ const styles = StyleSheet.create({
 		height: 1,
 		backgroundColor: "#e1e1e1",
 		marginVertical: 10,
+	},
+	footer: {
+		flexDirection: "row",
+		justifyContent: "space-between",
+		marginTop: theme.spacing.xlarge,
 	},
 });
 

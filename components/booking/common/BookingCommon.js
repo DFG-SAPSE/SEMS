@@ -3,31 +3,31 @@ import { StyleSheet, ScrollView, View } from "react-native";
 import { Stack } from "expo-router";
 
 import { BookingContext } from "../../../context/BookingContext";
-import CancelConfirmModal from "./CancelModal";
-import ConsultantProfile from "./ConsultantProfile";
+import CancelConfirmModal from "./CancelConfirmModal";
 import CancelBookingButton from "./CancelBookingButton";
 
-const BookingCommon = ({ children, proceedButton }) => {
+const BookingCommon = ({ children, proceedButton, pageTitle }) => {
 	const { consultantData } = useContext(BookingContext);
+	const title = pageTitle ? pageTitle : `Booking with ${consultantData.name}`;
 
 	return (
-		<ScrollView style={styles.container}>
-			<CancelConfirmModal />
+		<ScrollView style={{ backgroundColor: theme.colors.background }}>
+			<ScrollView style={styles.container}>
+				<CancelConfirmModal />
 
-			<Stack.Screen
-				options={{
-					title: `Booking with ${consultantData.name}`,
-				}}
-			/>
+				<Stack.Screen
+					options={{
+						title,
+					}}
+				/>
 
-			<ConsultantProfile />
+				{children}
 
-			{children}
-
-			<View style={styles.footer}>
-				<CancelBookingButton />
-				{proceedButton}
-			</View>
+				<View style={styles.footer}>
+					<CancelBookingButton />
+					{proceedButton}
+				</View>
+			</ScrollView>
 		</ScrollView>
 	);
 };

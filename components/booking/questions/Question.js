@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, TextInput, StyleSheet, View } from "react-native";
 
-const Question = ({ question, answer, handleAnswerChange }) => {
+const Question = ({ index, question, answer, handleAnswerChange }) => {
 	return (
 		<View style={styles.questionContainer}>
 			<Text style={styles.question}>{question}</Text>

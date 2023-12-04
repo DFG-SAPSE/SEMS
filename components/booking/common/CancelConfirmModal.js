@@ -8,13 +8,13 @@ import { BookingContext } from "../../../context/BookingContext";
 import Button from "../../common/Button";
 
 const CancelConfirmModal = () => {
-	const { consultantData, modalVisible, hideModal } =
+	const { consultantData, modalVisible, hideModal, resetBookingContext } =
 		useContext(BookingContext);
 	const navigation = useNavigation();
 
 	const dropBooking = async () => {
+		resetBookingContext();
 		navigation.dispatch(StackActions.popToTop());
-		// TODO: Wipe out all the current BookingContext data
 	};
 
 	return (

@@ -28,11 +28,32 @@ export const finalizeBooking = (bookingData) => {
 			if (isSuccess) {
 				resolve({
 					ok: true,
+					meetingId: "123",
 					message: "Booking finalized successfully.",
 				});
 			} else {
 				reject({ ok: false, message: "Failed to finalize booking." });
 			}
 		}, 1000); // simulate a network delay
+	});
+};
+
+export const cancelMeeting = (meetingId) => {
+	return new Promise((resolve, reject) => {
+		setTimeout(() => {
+			const success = true;
+
+			if (success) {
+				resolve({
+					ok: true,
+					message: `Meeting with ID ${meetingId} was successfully cancelled.`,
+				});
+			} else {
+				reject({
+					ok: false,
+					message: `Failed to cancel meeting with ID ${meetingId}.`,
+				});
+			}
+		}, 2000);
 	});
 };
