@@ -1,16 +1,14 @@
-import { router, Stack } from "expo-router";
 import React, { useContext, useState } from "react";
-import { StyleSheet, ScrollView } from "react-native";
 
 import { BookingContext } from "../../context/BookingContext";
-import ConsultantProfile from "../../components/booking/ConsultantProfile";
-import Button from "../../components/common/Button";
+import BookingCommon from "../../components/booking/common/BookingCommon";
+import NextButton from "../../components/booking/common/NextButton";
 import VoucherForm from "../../components/booking/payment/VoucherForm";
 import SelectPaymentMethod from "../../components/booking/payment/SelectPaymentMethod";
 
 const PaymentComponent = () => {
 	const [voucher, setVoucher] = useState("");
-	const { updatePaymentMethod, consultantData } = useContext(BookingContext);
+	const { updatePaymentMethod } = useContext(BookingContext);
 
 	const handleApplyVoucher = () => {
 		// Logic to apply voucher
@@ -20,16 +18,10 @@ const PaymentComponent = () => {
 		updatePaymentMethod(method);
 	};
 
+	const nextBtn = <NextButton nextRoute={"/booking-review"}></NextButton>;
+
 	return (
-		<ScrollView contentContainerStyle={styles.container}>
-			<Stack.Screen
-				options={{
-					title: `Booking with ${consultantData.name}`,
-				}}
-			/>
-
-			<ConsultantProfile />
-
+		<BookingCommon proceedButton={nextBtn}>
 			<SelectPaymentMethod
 				handleSelectPaymentMethod={handleSelectPaymentMethod}
 			></SelectPaymentMethod>
@@ -39,24 +31,8 @@ const PaymentComponent = () => {
 				setVoucher={setVoucher}
 				handleApplyVoucher={handleApplyVoucher}
 			></VoucherForm>
-
-			<Button
-				onPress={() => {
-					router.push("/booking-review");
-				}}
-				title={"Next"}
-			/>
-		</ScrollView>
+		</BookingCommon>
 	);
 };
-
-import { theme } from "../../styles/theme";
-
-const styles = StyleSheet.create({
-	container: {
-		flexGrow: 1,
-		padding: theme.spacing.large,
-	},
-});
 
 export default PaymentComponent;

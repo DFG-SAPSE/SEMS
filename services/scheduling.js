@@ -22,9 +22,6 @@ export const finalizeBooking = (bookingData) => {
 			// Here we are simulating a successful API call
 			// In a real application, this would be replaced with an actual API call
 
-			// For demonstration, let's log the bookingData to the console
-			console.log("Finalizing booking with data:", bookingData);
-
 			// Simulate a successful response or an error based on some condition
 			const isSuccess = true;
 

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { View, Text, TextInput, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { BookingContext } from "../../../context/BookingContext";
 
 const QuestionList = () => {
@@ -15,38 +15,20 @@ const QuestionList = () => {
 	return (
 		<View>
 			{consultantData.questions.map((question, index) => (
-				<View key={index} style={styles.questionContainer}>
-					<Text style={styles.question}>{question}</Text>
-					<TextInput
-						style={styles.input}
-						value={bookingData.answers[index] || ""}
-						onChangeText={(text) => handleAnswerChange(text, index)}
-						placeholder="Type your answer here"
-					/>
-				</View>
+				<Question
+					key={index}
+					question={question}
+					answer={bookingData.answers[index]}
+					handleAnswerChange={handleAnswerChange}
+				/>
 			))}
 		</View>
 	);
 };
 
 import { theme } from "../../../styles/theme";
+import Question from "./Question";
 
-const styles = StyleSheet.create({
-	questionContainer: {
-		// Style for the question container
-		marginTop: theme.spacing.large,
-	},
-	question: {
-		...theme.typography.mediumBodyBold,
-	},
-	input: {
-		// Style for the TextInput
-		borderWidth: 1,
-		borderColor: "gray",
-		borderRadius: 5,
-		padding: 10,
-		marginTop: 5, // Space between question and input
-	},
-});
+const styles = StyleSheet.create({});
 
 export default QuestionList;

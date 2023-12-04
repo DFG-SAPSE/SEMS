@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { View, Text, Image, StyleSheet, Dimensions } from "react-native";
-import { BookingContext } from "../../context/BookingContext";
+import { BookingContext } from "../../../context/BookingContext";
 
 const ConsultantProfile = () => {
 	const { consultantData } = useContext(BookingContext);
@@ -18,7 +18,7 @@ const ConsultantProfile = () => {
 	);
 };
 
-import { theme } from "../../styles/theme";
+import { theme } from "../../../styles/theme";
 
 const windowHeight = Dimensions.get("window").height;
 

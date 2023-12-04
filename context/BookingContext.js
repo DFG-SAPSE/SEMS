@@ -27,6 +27,8 @@ const BookingProvider = ({ children }) => {
 		question: [],
 	});
 
+	const [modalVisible, setModalVisible] = useState(false);
+
 	/**
 	 * TODO
 	 * This is a dummy useEffect. In the future, the moment social entrepreneurs
@@ -41,11 +43,6 @@ const BookingProvider = ({ children }) => {
 
 	const chooseTimeSlot = (startTime, endTime) => {
 		setBookingData((prev) => ({ ...prev, startTime, endTime }));
-	};
-
-	const changeConsultant = async (consultantId) => {
-		const userProfile = await fetchUserProfile(consultantId);
-		setConsultantData(userProfile);
 	};
 
 	const updateAnswers = (answers) => {
@@ -77,16 +74,27 @@ const BookingProvider = ({ children }) => {
 		return res;
 	};
 
+	const changeConsultant = async (consultantId) => {
+		const userProfile = await fetchUserProfile(consultantId);
+		setConsultantData(userProfile);
+	};
+
+	const showModal = () => setModalVisible(true);
+	const hideModal = () => setModalVisible(false);
+
 	// The context value that will be supplied to any descendants of this provider
 	const contextValue = {
 		bookingData,
 		consultantData,
+		modalVisible,
 		chooseTimeSlot,
-		changeConsultant,
 		updateAnswers,
 		uploadFile,
 		updatePaymentMethod,
 		book,
+		changeConsultant,
+		showModal,
+		hideModal,
 	};
 
 	return (

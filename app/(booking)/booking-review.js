@@ -1,19 +1,16 @@
 import React, { useContext } from "react";
-import { View, Text, ScrollView, StyleSheet } from "react-native";
-import { Stack, useNavigation } from "expo-router";
-import { StackActions } from "@react-navigation/native";
+import { View, Text, StyleSheet } from "react-native";
 
 import { BookingContext } from "../../context/BookingContext";
-import ConsultantProfile from "../../components/booking/ConsultantProfile";
-import Button from "../../components/common/Button";
 import ConfirmBlock from "../../components/booking/review/ConfirmBlock";
+import BookingCommon from "../../components/booking/common/BookingCommon";
+import ConfirmButton from "../../components/booking/common/ConfirmButton";
 
 import { formatDateAndTime } from "../../utils/dateAndTime";
 import { camelCaseToNormalText } from "../../utils/stringFormat";
 
 const BookingReview = () => {
-	const { bookingData, consultantData, book } = useContext(BookingContext);
-	const navigation = useNavigation();
+	const { bookingData, consultantData } = useContext(BookingContext);
 
 	// Preparing data for date and time of booking
 	const { date: bookingDate, time: startTime } = formatDateAndTime(
@@ -25,61 +22,45 @@ const BookingReview = () => {
 		["Time and duration", `${startTime} - ${endTime}`],
 	];
 
-	const handleBookingConfirm = async () => {
-		const res = await book();
-		if (res.ok) {
-			navigation.dispatch(StackActions.popToTop());
-		}
-	};
-
 	return (
-		<ScrollView contentContainerStyle={styles.container}>
-			<Stack.Screen
-				options={{
-					title: `Booking with ${consultantData.name}`,
-				}}
-			/>
-
-			<ConsultantProfile />
-
+		<BookingCommon proceedButton={<ConfirmButton />}>
 			<View style={styles.divider} />
 
-			{dateAndTime.map((d, index) => (
-				<ConfirmBlock key={index} header={d[0]} body={d[1]} />
-			))}
-
-			<View style={styles.divider} />
-
-			{consultantData.questions.map((question, index) => (
-				<ConfirmBlock
-					key={index}
-					header={question}
-					body={bookingData.answers[index]}
-				/>
-			))}
-
-			{bookingData.fileAttachments.map((file, index) => (
-				<Text key={index}>{file}</Text>
-			))}
-
-			<View style={styles.divider} />
-
-			{Object.entries(bookingData.payment).map(([key, value], index) => (
-				<ConfirmBlock
-					key={index}
-					header={camelCaseToNormalText(key)}
-					body={value}
-				/>
-			))}
-
-			<View style={styles.footer}>
-				<Button
-					onPress={handleBookingConfirm}
-					title={"Confirm"}
-					customStyle={styles.button}
-				/>
+			<View style={styles.section}>
+				{dateAndTime.map((d, index) => (
+					<ConfirmBlock key={index} header={d[0]} body={d[1]} />
+				))}
 			</View>
-		</ScrollView>
+
+			<View style={styles.divider} />
+
+			<View style={styles.section}>
+				{consultantData.questions.map((question, index) => (
+					<ConfirmBlock
+						key={index}
+						header={question}
+						body={bookingData.answers[index]}
+					/>
+				))}
+			</View>
+
+			{/* file attachment */}
+			{/* {bookingData.fileAttachments.map((file, index) => (
+				<Text key={index}>{file}</Text>
+			))} */}
+
+			<View style={styles.divider} />
+
+			<View style={styles.section}>
+				{Object.entries(bookingData.payment).map(([key, value], index) => (
+					<ConfirmBlock
+						key={index}
+						header={camelCaseToNormalText(key)}
+						body={value}
+					/>
+				))}
+			</View>
+		</BookingCommon>
 	);
 };
 
@@ -91,38 +72,13 @@ const styles = StyleSheet.create({
 		padding: theme.spacing.large,
 	},
 	section: {
-		marginBottom: 20,
-	},
-	title: {
-		fontSize: 18,
-		fontWeight: "bold",
+		marginTop: theme.spacing.medium,
 	},
 	divider: {
 		height: 1,
 		backgroundColor: "#e1e1e1",
 		marginVertical: 10,
 	},
-	profileImage: {
-		width: 100,
-		height: 100,
-		borderRadius: 50,
-		marginBottom: 10,
-	},
-	footer: {
-		flexDirection: "row",
-		justifyContent: "space-between",
-	},
-	button: {
-		padding: 10,
-		borderWidth: 1,
-		borderColor: "#e1e1e1",
-		borderRadius: 5,
-	},
-	buttonText: {
-		fontSize: 16,
-		fontWeight: "bold",
-	},
-	// Add more styles as needed
 });
 
 export default BookingReview;
