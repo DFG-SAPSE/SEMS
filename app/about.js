@@ -1,6 +1,6 @@
-import { StatusBar } from 'expo-status-bar'
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
 
 export default function Home() {
 	return (
@@ -8,7 +8,7 @@ export default function Home() {
 			<Text>This is the about page</Text>
 			<StatusBar style="auto" />
 		</View>
-	)
+	);
 }
 
 const styles = StyleSheet.create({
@@ -18,4 +18,4 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
-})
+});

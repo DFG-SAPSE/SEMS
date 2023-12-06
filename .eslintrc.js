@@ -3,4 +3,4 @@ module.exports = {
 	rules: {
 		// Additional rules can be added here
 	},
-}
+};
