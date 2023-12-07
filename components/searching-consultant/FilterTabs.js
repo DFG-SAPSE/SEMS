@@ -8,7 +8,7 @@ import {
 	Text,
 } from 'react-native';
 import filterImage from '../../styles/bi_filter.png';
-
+import { useFonts } from 'expo-font';
 const filterCategories = [
 	'Speciality',
 	'Industry',
@@ -17,6 +17,14 @@ const filterCategories = [
 ];
 
 const FilterTabs = ({ activeTab, setActiveTab }) => {
+	const [fontsLoaded] = useFonts({
+		'Roboto-Bold': require('../../assets/fonts/Roboto-Bold.ttf'),
+		'Roboto-Regular': require('../../assets/fonts/Roboto-Regular.ttf'),
+	});
+
+	if (!fontsLoaded) {
+		return undefined;
+	}
 	const handleTabPress = (category) => {
 		setActiveTab(category);
 	};
@@ -54,6 +62,7 @@ import { theme } from '../../styles/theme';
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+		marginVertical: theme.spacing.small,
 	},
 	filterContainer: {
 		flexDirection: 'row',
@@ -62,8 +71,8 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 	},
 	filterImage: {
-		width: theme.spacing.xxlarge,
-		height: theme.spacing.xxlarge,
+		width: theme.spacing.xlarge,
+		height: theme.spacing.xlarge,
 		backgroundColor: theme.colors.primary.dark,
 		borderRadius: 100,
 	},
@@ -76,10 +85,10 @@ const styles = StyleSheet.create({
 	},
 	tabText: {
 		paddingVertical: theme.spacing.small,
-		paddingHorizontal: theme.spacing.small,
-		fontSize: theme.typography.mediumBodyBold.fontSize,
+		paddingHorizontal: theme.spacing.medium,
 		letterSpacing: 0.01,
 		color: theme.colors.white,
+		fontFamily: 'Roboto-Regular',
 	},
 });
 
