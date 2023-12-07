@@ -14,9 +14,6 @@ import { theme } from '../../../styles/theme';
 
 const styles = StyleSheet.create({
 	detailRow: {
-		marginBottom: 8,
-	},
-	detailRow: {
 		marginBottom: theme.spacing.large,
 	},
 	title: {

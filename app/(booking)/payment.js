@@ -14,8 +14,7 @@ import Pricing from '../../components/booking/payment/Pricing';
 
 const PaymentComponent = () => {
 	const [voucher, setVoucher] = useState('');
-	const { updatePaymentMethod, consultantData, bookingData } =
-		useContext(BookingContext);
+	const { updatePaymentMethod, consultantData } = useContext(BookingContext);
 
 	const handleApplyVoucher = () => {
 		// Logic to apply voucher
@@ -24,8 +23,6 @@ const PaymentComponent = () => {
 	const handleSelectPaymentMethod = (method) => {
 		updatePaymentMethod(method);
 	};
-
-	const service = consultantData.services[bookingData.service];
 
 	return (
 		<ScrollView style={styles.container}>

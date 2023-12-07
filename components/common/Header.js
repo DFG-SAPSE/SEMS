@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
 // You can use any icon library or image for the back arrow
 import Icon from 'react-native-vector-icons/Ionicons';
