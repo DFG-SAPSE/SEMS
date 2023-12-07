@@ -9,9 +9,23 @@ export const fetchUserProfile = (id) => {
 				avatar: 'https://picsum.photos/200/300',
 				title: 'Community Developer',
 				company: 'Eco Harvest',
-				questions: [
-					'What is your main goal for this consultation?',
-					'Do you have any specific questions or topics you want to cover?',
+				services: [
+					{
+						name: 'General consultation',
+						questions: [
+							'What is your main goal for this consultation?',
+							'Do you have any specific questions or topics you want to cover?',
+						],
+						price: 297.6, // per hour, in PHP
+					},
+					{
+						name: 'Special consultation',
+						questions: [
+							'Why do you need special consultation?',
+							'Do you have any specific questions or topics you want to cover?',
+						],
+						price: 2974.6, // per hour, in PHP
+					},
 				],
 			};
 			resolve(consultant);

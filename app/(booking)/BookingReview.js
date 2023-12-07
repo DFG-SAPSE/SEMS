@@ -25,6 +25,8 @@ const BookingReview = ({ pageTitle, children, footerComponent }) => {
 		['Time and duration', `${startTime} - ${endTime}`],
 	];
 
+	const service = consultantData.services[bookingData.service];
+
 	return (
 		<ScrollView style={styles.container}>
 			<CancelConfirmModal />
@@ -48,7 +50,7 @@ const BookingReview = ({ pageTitle, children, footerComponent }) => {
 			<View style={styles.divider} />
 
 			<View style={styles.section}>
-				{consultantData.questions.map((question, index) => (
+				{service.questions.map((question, index) => (
 					<ConfirmBlock
 						key={index}
 						header={question}

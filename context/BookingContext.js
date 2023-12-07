@@ -6,6 +6,7 @@ import { finalizeBooking } from '../services/scheduling';
 export const BookingContext = createContext(null);
 
 const DEFAULT_BOOKING_DATA = {
+	service: 0,
 	startTime: null,
 	endTime: null,
 	answers: [],
@@ -23,11 +24,7 @@ const DEFAULT_CONSULTANT_DATA = {
 	avatar: '',
 	title: '',
 	company: '',
-	questions: [],
-	price: 0,
-	// TODO: Waiting for Paul to answer my question on Slack
-	// If a consultant provide different services at different price
-	// we need to model the data carefully.
+	services: [],
 };
 
 const DEFAULT_MODAL_VISIBLE = false;
@@ -35,12 +32,15 @@ const DEFAULT_MODAL_VISIBLE = false;
 const BookingProvider = ({ children }) => {
 	// Booking information user provides
 	const [bookingData, setBookingData] = useState(DEFAULT_BOOKING_DATA);
+
 	// Information about the consultant that user is booking
 	const [consultantData, setConsultantData] = useState(
 		DEFAULT_CONSULTANT_DATA,
 	);
+
 	// Control the ConfirmCancelModal
 	const [modalVisible, setModalVisible] = useState(DEFAULT_MODAL_VISIBLE);
+
 	// After we book the meeting, we save the meeting id in case user wants to
 	// reschedule or cancel
 	const [recentlyBookedMeetingId, setRecentlyBookedMeetingId] =

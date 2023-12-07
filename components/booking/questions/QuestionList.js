@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import { BookingContext } from '../../../context/BookingContext';
+import Question from './Question';
 
 const QuestionList = () => {
 	const { bookingData, consultantData, updateAnswers } =
@@ -12,9 +13,11 @@ const QuestionList = () => {
 		updateAnswers(newAnswers);
 	};
 
+	const service = consultantData.services[bookingData.service];
+
 	return (
 		<View>
-			{consultantData.questions.map((question, index) => (
+			{service.questions.map((question, index) => (
 				<Question
 					key={index}
 					index={index}
@@ -26,10 +29,5 @@ const QuestionList = () => {
 		</View>
 	);
 };
-
-import { theme } from '../../../styles/theme';
-import Question from './Question';
-
-const styles = StyleSheet.create({});
 
 export default QuestionList;

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { ScrollView, StyleSheet, View, Text } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { Stack } from 'expo-router';
 
 import { BookingContext } from '../../context/BookingContext';
@@ -10,10 +10,12 @@ import SelectPaymentMethod from '../../components/booking/payment/SelectPaymentM
 import ConsultantProfile from '../../components/booking/common/ConsultantProfile';
 import CancelConfirmModal from '../../components/booking/common/CancelConfirmModal';
 import { theme } from '../../styles/theme';
+import Pricing from '../../components/booking/payment/Pricing';
 
 const PaymentComponent = () => {
 	const [voucher, setVoucher] = useState('');
-	const { updatePaymentMethod, consultantData } = useContext(BookingContext);
+	const { updatePaymentMethod, consultantData, bookingData } =
+		useContext(BookingContext);
 
 	const handleApplyVoucher = () => {
 		// Logic to apply voucher
@@ -22,6 +24,8 @@ const PaymentComponent = () => {
 	const handleSelectPaymentMethod = (method) => {
 		updatePaymentMethod(method);
 	};
+
+	const service = consultantData.services[bookingData.service];
 
 	return (
 		<ScrollView style={styles.container}>
@@ -42,19 +46,7 @@ const PaymentComponent = () => {
 				handleApplyVoucher={handleApplyVoucher}
 			/>
 
-			<View>
-				<View style={styles.priceContainer}>
-					<Text style={styles.priceContent}>Total</Text>
-					<Text style={styles.priceContent}>2974.60 PHP</Text>
-				</View>
-
-				<View style={styles.priceContainer}>
-					<Text style={styles.priceContent}>
-						After apply voucher(s)
-					</Text>
-					<Text style={styles.priceContent}>2974.60 PHP</Text>
-				</View>
-			</View>
+			<Pricing />
 
 			<View style={styles.footer}>
 				<CancelBookingButton />
@@ -74,14 +66,6 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		marginTop: theme.spacing.xlarge,
-	},
-	priceContainer: {
-		marginTop: theme.spacing.medium,
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-	},
-	priceContent: {
-		...theme.typography.mediumBodyBold,
 	},
 });
 
