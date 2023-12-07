@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View, StyleSheet, Image, Text } from 'react-native';
 
-const data = [1, 2, 3, 4, 5, 6];
+const data = [1, 2, 3, 4, 5, 6, 7, 8];
 
 const ConsultantCard = () => {
 	return (
@@ -17,18 +17,14 @@ const ConsultantCard = () => {
 							style={styles.consultantImage}
 						/>
 						<View style={styles.textContent}>
-							<Text style={styles.textSize}>
-								{' '}
-								Andrea Beatrice{' '}
-							</Text>
+							<Text style={styles.textSize}>Andrea Beatrice</Text>
 						</View>
 						<View style={styles.textContent}>
-							<Text style={styles.textSize}> GreenCycle </Text>
+							<Text style={styles.textSize}>GreenCycle</Text>
 						</View>
 						<View style={styles.textContent}>
 							<Text style={styles.colorText}>
-								{' '}
-								Healthcare and Wellbeing{' '}
+								Healthcare and Wellbeing
 							</Text>
 						</View>
 						<View style={styles.sessionAmount}>
@@ -95,8 +91,8 @@ const styles = StyleSheet.create({
 		letterSpacing: 0.1,
 	},
 	box: {
-		width: '48%', // Adjust as needed for spacing
-		marginBottom: theme.spacing.small,
+		width: '47%', // Adjust as needed for spacing
+		marginBottom: theme.spacing.medium,
 		borderWidth: 1,
 		borderRadius: theme.spacing.small,
 		borderColor: theme.colors.gray,
