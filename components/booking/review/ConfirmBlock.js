@@ -1,5 +1,5 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 
 const ConfirmBlock = ({ header, body }) => {
 	return (
@@ -10,7 +10,7 @@ const ConfirmBlock = ({ header, body }) => {
 	);
 };
 
-import { theme } from "../../../styles/theme";
+import { theme } from '../../../styles/theme';
 
 const styles = StyleSheet.create({
 	detailRow: {

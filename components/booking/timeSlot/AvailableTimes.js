@@ -1,7 +1,7 @@
-import React from "react";
-import { StyleSheet, View, Text } from "react-native";
-import Loading from "../../common/Loading";
-import TimeSlot from "./TimeSlot";
+import React from 'react';
+import { StyleSheet, View, Text } from 'react-native';
+import Loading from '../../common/Loading';
+import TimeSlot from './TimeSlot';
 
 const AvailableTimes = ({ availableTimes, handleTimePress, isLoading }) => {
 	return (
@@ -9,7 +9,7 @@ const AvailableTimes = ({ availableTimes, handleTimePress, isLoading }) => {
 			<Text style={styles.availabilityText}>Available times</Text>
 
 			{isLoading ? (
-				<Loading message={"Loading availability..."} />
+				<Loading message={'Loading availability...'} />
 			) : (
 				<View style={styles.timeSlotsContainer}>
 					{availableTimes.map((time, index) => (
@@ -25,7 +25,7 @@ const AvailableTimes = ({ availableTimes, handleTimePress, isLoading }) => {
 	);
 };
 
-import { theme } from "../../../styles/theme";
+import { theme } from '../../../styles/theme';
 
 const styles = StyleSheet.create({
 	availabilityContainer: {
@@ -36,21 +36,21 @@ const styles = StyleSheet.create({
 		marginBottom: theme.spacing.large,
 	},
 	timeSlotsContainer: {
-		flexDirection: "row",
-		flexWrap: "wrap",
-		justifyContent: "center",
+		flexDirection: 'row',
+		flexWrap: 'wrap',
+		justifyContent: 'center',
 	},
 	timeSlot: {
 		padding: theme.spacing.small,
 		borderWidth: 1,
-		borderColor: "black",
+		borderColor: 'black',
 		borderRadius: 8,
-		width: "30%",
+		width: '30%',
 		marginBottom: theme.spacing.medium,
 		marginRight: theme.spacing.small,
 	},
 	timeSlotText: {
-		textAlign: "center",
+		textAlign: 'center',
 	},
 });
 

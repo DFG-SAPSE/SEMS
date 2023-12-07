@@ -1,7 +1,7 @@
 export const typography = {
 	extraLargeBold: {
 		fontSize: 24,
-		fontWeight: "bold",
+		fontWeight: 'bold',
 	},
 	extraLarge: {
 		fontSize: 24,
@@ -14,7 +14,7 @@ export const typography = {
 	},
 	mediumBodyBold: {
 		fontSize: 16,
-		fontWeight: "bold",
+		fontWeight: 'bold',
 	},
 	smallBody: {
 		fontSize: 14,

@@ -1,10 +1,10 @@
-import React, { useContext } from "react";
-import { StyleSheet, ScrollView, View } from "react-native";
-import { Stack } from "expo-router";
+import React, { useContext } from 'react';
+import { StyleSheet, ScrollView, View } from 'react-native';
+import { Stack } from 'expo-router';
 
-import { BookingContext } from "../../../context/BookingContext";
-import CancelConfirmModal from "./CancelConfirmModal";
-import CancelBookingButton from "./CancelBookingButton";
+import { BookingContext } from '../../../context/BookingContext';
+import CancelConfirmModal from './CancelConfirmModal';
+import CancelBookingButton from './CancelBookingButton';
 
 const BookingCommon = ({ children, proceedButton, pageTitle }) => {
 	const { consultantData } = useContext(BookingContext);
@@ -32,7 +32,7 @@ const BookingCommon = ({ children, proceedButton, pageTitle }) => {
 	);
 };
 
-import { theme } from "../../../styles/theme";
+import { theme } from '../../../styles/theme';
 
 const styles = StyleSheet.create({
 	container: {
@@ -41,8 +41,8 @@ const styles = StyleSheet.create({
 		backgroundColor: theme.colors.background,
 	},
 	footer: {
-		flexDirection: "row",
-		justifyContent: "space-between",
+		flexDirection: 'row',
+		justifyContent: 'space-between',
 		marginTop: theme.spacing.xlarge,
 	},
 });

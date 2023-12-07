@@ -1,15 +1,15 @@
-import React, { useContext, useState } from "react";
-import { router, Stack } from "expo-router";
-import { StyleSheet, ScrollView } from "react-native";
+import React, { useContext, useState } from 'react';
+import { router, Stack } from 'expo-router';
+import { StyleSheet, ScrollView } from 'react-native';
 
-import { BookingContext } from "../../context/BookingContext";
-import CustomCalendar from "../../components/booking/timeSlot/CustomCalendar";
-import AvailableTimes from "../../components/booking/timeSlot/AvailableTimes";
-import { fetchAvailableTimes } from "../../services/scheduling";
-import { convertTo24HourFormat } from "../../utils/dateAndTime";
+import { BookingContext } from '../../context/BookingContext';
+import CustomCalendar from '../../components/booking/timeSlot/CustomCalendar';
+import AvailableTimes from '../../components/booking/timeSlot/AvailableTimes';
+import { fetchAvailableTimes } from '../../services/scheduling';
+import { convertTo24HourFormat } from '../../utils/dateAndTime';
 
 const BookTimeSlot = () => {
-	const [selectedDate, setSelectedDate] = useState("");
+	const [selectedDate, setSelectedDate] = useState('');
 	const [availableTimes, setAvailableTimes] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
 	const { chooseTimeSlot, consultantData } = useContext(BookingContext);
@@ -32,7 +32,9 @@ const BookTimeSlot = () => {
 	const handleTimePress = async (time) => {
 		// Conver time to 24-hour format, combine the date and time
 		// and parse into Date
-		const startDateString = `${selectedDate} ${convertTo24HourFormat(time)}`;
+		const startDateString = `${selectedDate} ${convertTo24HourFormat(
+			time,
+		)}`;
 		const startTime = new Date(startDateString);
 
 		// Dummy: Clone the Date object and add 45 minutes for the end time
@@ -47,7 +49,7 @@ const BookTimeSlot = () => {
 
 		await chooseTimeSlot(startTimeStamp, endTimeStamp);
 
-		router.push("/BookingQuestions");
+		router.push('/BookingQuestions');
 	};
 
 	return (
@@ -69,7 +71,7 @@ const BookTimeSlot = () => {
 	);
 };
 
-import { theme } from "../../styles/theme";
+import { theme } from '../../styles/theme';
 
 const styles = StyleSheet.create({
 	container: {

@@ -1,10 +1,10 @@
-import React from "react";
+import React from 'react';
 import {
 	Modal,
 	View,
 	StyleSheet,
 	TouchableWithoutFeedback,
-} from "react-native";
+} from 'react-native';
 
 const CustomModal = ({ isVisible, onDismiss, children }) => {
 	return (
@@ -25,22 +25,22 @@ const CustomModal = ({ isVisible, onDismiss, children }) => {
 	);
 };
 
-import { theme } from "../../styles/theme";
+import { theme } from '../../styles/theme';
 
 const styles = StyleSheet.create({
 	centeredView: {
 		flex: 1,
-		justifyContent: "center",
-		alignItems: "center",
-		backgroundColor: "rgba(0, 0, 0, 0.5)",
+		justifyContent: 'center',
+		alignItems: 'center',
+		backgroundColor: 'rgba(0, 0, 0, 0.5)',
 	},
 	modalView: {
 		margin: theme.spacing.small,
 		padding: theme.spacing.xlarge,
-		width: "90%",
+		width: '90%',
 		backgroundColor: theme.colors.white,
 		borderRadius: 16,
-		shadowColor: "#000",
+		shadowColor: '#000',
 		shadowOffset: {
 			width: 0,
 			height: 2,

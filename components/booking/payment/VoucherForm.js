@@ -1,5 +1,5 @@
-import React from "react";
-import { View, Text, TextInput, StyleSheet } from "react-native";
+import React from 'react';
+import { View, Text, TextInput, StyleSheet } from 'react-native';
 
 const VoucherForm = ({ voucher, setVoucher, handleApplyVoucher }) => {
 	return (
@@ -14,7 +14,10 @@ const VoucherForm = ({ voucher, setVoucher, handleApplyVoucher }) => {
 
 			<View style={styles.voucherInfoText}>
 				<Text>You have 2 vouchers available. </Text>
-				<Text onPress={handleApplyVoucher} style={styles.applyVoucherText}>
+				<Text
+					onPress={handleApplyVoucher}
+					style={styles.applyVoucherText}
+				>
 					Apply voucher
 				</Text>
 			</View>
@@ -22,7 +25,7 @@ const VoucherForm = ({ voucher, setVoucher, handleApplyVoucher }) => {
 	);
 };
 
-import { theme } from "../../../styles/theme";
+import { theme } from '../../../styles/theme';
 
 const styles = StyleSheet.create({
 	voucherContainer: {
@@ -34,17 +37,17 @@ const styles = StyleSheet.create({
 	},
 	voucherInput: {
 		borderWidth: 1,
-		borderColor: "#ccc",
+		borderColor: '#ccc',
 		borderRadius: 5,
 		padding: 10,
 		marginBottom: 10,
 	},
 	voucherInfoText: {
-		flexDirection: "row",
-		alignItems: "center",
+		flexDirection: 'row',
+		alignItems: 'center',
 	},
 	applyVoucherText: {
-		textDecorationLine: "underline",
+		textDecorationLine: 'underline',
 		color: theme.colors.primary.default,
 	},
 });

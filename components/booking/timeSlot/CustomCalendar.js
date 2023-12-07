@@ -1,6 +1,6 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
-import { Calendar } from "react-native-calendars";
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import { Calendar } from 'react-native-calendars';
 
 const CustomCalendar = ({ onDayPress, markedDates }) => {
 	return (
@@ -17,7 +17,7 @@ const CustomCalendar = ({ onDayPress, markedDates }) => {
 	);
 };
 
-import { theme } from "../../../styles/theme";
+import { theme } from '../../../styles/theme';
 
 const styles = StyleSheet.create({
 	chooseDateContainer: {

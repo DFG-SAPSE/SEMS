@@ -1,5 +1,5 @@
-import React from "react";
-import { Text, TextInput, StyleSheet, View } from "react-native";
+import React from 'react';
+import { Text, TextInput, StyleSheet, View } from 'react-native';
 
 const Question = ({ index, question, answer, handleAnswerChange }) => {
 	return (
@@ -7,7 +7,7 @@ const Question = ({ index, question, answer, handleAnswerChange }) => {
 			<Text style={styles.question}>{question}</Text>
 			<TextInput
 				style={styles.input}
-				value={answer || ""}
+				value={answer || ''}
 				onChangeText={(text) => handleAnswerChange(text, index)}
 				placeholder="Type your answer here"
 			/>
@@ -15,7 +15,7 @@ const Question = ({ index, question, answer, handleAnswerChange }) => {
 	);
 };
 
-import { theme } from "../../../styles/theme";
+import { theme } from '../../../styles/theme';
 
 const styles = StyleSheet.create({
 	questionContainer: {
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
 	input: {
 		// Style for the TextInput
 		borderWidth: 1,
-		borderColor: "gray",
+		borderColor: 'gray',
 		borderRadius: 5,
 		padding: 10,
 		marginTop: 5, // Space between question and input

@@ -1,7 +1,7 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useEffect, useState } from 'react';
 
-import { fetchUserProfile } from "../services/user";
-import { finalizeBooking } from "../services/scheduling";
+import { fetchUserProfile } from '../services/user';
+import { finalizeBooking } from '../services/scheduling';
 
 export const BookingContext = createContext(null);
 
@@ -11,18 +11,18 @@ const DEFAULT_BOOKING_DATA = {
 	answers: [],
 	fileAttachments: [],
 	payment: {
-		paymentMethod: "",
+		paymentMethod: '',
 		// other information TBD
 		// TODO: consult with payment team
 	},
 };
 
 const DEFAULT_CONSULTANT_DATA = {
-	consultantId: "",
-	name: "",
-	avatar: "",
-	title: "",
-	company: "",
+	consultantId: '',
+	name: '',
+	avatar: '',
+	title: '',
+	company: '',
 	questions: [],
 	price: 0,
 	// TODO: Waiting for Paul to answer my question on Slack
@@ -36,12 +36,15 @@ const BookingProvider = ({ children }) => {
 	// Booking information user provides
 	const [bookingData, setBookingData] = useState(DEFAULT_BOOKING_DATA);
 	// Information about the consultant that user is booking
-	const [consultantData, setConsultantData] = useState(DEFAULT_CONSULTANT_DATA);
+	const [consultantData, setConsultantData] = useState(
+		DEFAULT_CONSULTANT_DATA,
+	);
 	// Control the ConfirmCancelModal
 	const [modalVisible, setModalVisible] = useState(DEFAULT_MODAL_VISIBLE);
 	// After we book the meeting, we save the meeting id in case user wants to
 	// reschedule or cancel
-	const [recentlyBookedMeetingId, setRecentlyBookedMeetingId] = useState(null);
+	const [recentlyBookedMeetingId, setRecentlyBookedMeetingId] =
+		useState(null);
 
 	/**
 	 * TODO
@@ -52,7 +55,7 @@ const BookingProvider = ({ children }) => {
 	 * team has done so.
 	 */
 	useEffect(() => {
-		changeConsultant("123");
+		changeConsultant('123');
 	}, []);
 
 	const chooseTimeSlot = (startTime, endTime) => {
@@ -104,7 +107,7 @@ const BookingProvider = ({ children }) => {
 		setConsultantData(DEFAULT_CONSULTANT_DATA);
 		setModalVisible(DEFAULT_MODAL_VISIBLE);
 		// Dummy, delete once consultant filtering team implements their part
-		changeConsultant("123");
+		changeConsultant('123');
 	};
 
 	// The context value that will be supplied to any descendants of this provider

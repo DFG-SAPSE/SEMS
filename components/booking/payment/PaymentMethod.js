@@ -1,5 +1,5 @@
-import React from "react";
-import { Text, TouchableOpacity, StyleSheet } from "react-native";
+import React from 'react';
+import { Text, TouchableOpacity, StyleSheet } from 'react-native';
 
 const PaymentMethod = ({ handleSelectPaymentMethod, methodName }) => {
 	return (
@@ -12,14 +12,14 @@ const PaymentMethod = ({ handleSelectPaymentMethod, methodName }) => {
 	);
 };
 
-import { theme } from "../../../styles/theme";
+import { theme } from '../../../styles/theme';
 
 const styles = StyleSheet.create({
 	paymentOption: {
 		padding: theme.spacing.medium,
 		marginTop: theme.spacing.medium,
 		borderWidth: 1,
-		borderColor: "#ccc",
+		borderColor: '#ccc',
 		borderRadius: 5,
 	},
 });

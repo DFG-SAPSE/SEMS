@@ -4,12 +4,12 @@ export const fetchAvailableTimes = (id, date) => {
 	return new Promise((resolve) => {
 		setTimeout(() => {
 			const times = [
-				"9:00am",
-				"10:00am",
-				"11:00am",
-				"12:00pm",
-				"1:00pm",
-				"2:00pm",
+				'9:00am',
+				'10:00am',
+				'11:00am',
+				'12:00pm',
+				'1:00pm',
+				'2:00pm',
 			];
 			resolve(times);
 		}, 1000);
@@ -28,11 +28,11 @@ export const finalizeBooking = (bookingData) => {
 			if (isSuccess) {
 				resolve({
 					ok: true,
-					meetingId: "123",
-					message: "Booking finalized successfully.",
+					meetingId: '123',
+					message: 'Booking finalized successfully.',
 				});
 			} else {
-				reject({ ok: false, message: "Failed to finalize booking." });
+				reject({ ok: false, message: 'Failed to finalize booking.' });
 			}
 		}, 1000); // simulate a network delay
 	});

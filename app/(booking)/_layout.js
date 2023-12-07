@@ -1,6 +1,7 @@
-import { Stack } from "expo-router";
-import { theme } from "../../styles/theme";
-import BookingProvider from "../../context/BookingContext";
+import React from 'react';
+import { Stack } from 'expo-router';
+import { theme } from '../../styles/theme';
+import BookingProvider from '../../context/BookingContext';
 
 const Layout = () => {
 	return (

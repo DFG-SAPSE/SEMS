@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
-import { View, Text, Image, StyleSheet, Dimensions } from "react-native";
-import { BookingContext } from "../../../context/BookingContext";
+import React, { useContext } from 'react';
+import { View, Text, Image, StyleSheet, Dimensions } from 'react-native';
+import { BookingContext } from '../../../context/BookingContext';
 
 const ConsultantProfile = () => {
 	const { consultantData } = useContext(BookingContext);
@@ -13,24 +13,28 @@ const ConsultantProfile = () => {
 				<Text style={styles.company}>{company}</Text>
 				<Text style={styles.title}>{title}</Text>
 			</View>
-			<Image source={{ uri: avatar }} style={styles.image} resizeMode="cover" />
+			<Image
+				source={{ uri: avatar }}
+				style={styles.image}
+				resizeMode="cover"
+			/>
 		</View>
 	);
 };
 
-import { theme } from "../../../styles/theme";
+import { theme } from '../../../styles/theme';
 
-const windowHeight = Dimensions.get("window").height;
+const windowHeight = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
 	profileContainer: {
-		flexDirection: "row",
-		alignItems: "center",
+		flexDirection: 'row',
+		alignItems: 'center',
 		maxHeight: windowHeight * 0.15,
 	},
 	textContainer: {
 		flex: 1,
-		justifyContent: "center",
+		justifyContent: 'center',
 	},
 	name: {
 		...theme.typography.extraLargeBold,
@@ -40,14 +44,14 @@ const styles = StyleSheet.create({
 	company: {
 		...theme.typography.mediumBody,
 		marginBottom: theme.spacing.small,
-		fontWeight: "500",
+		fontWeight: '500',
 	},
 	title: {
 		...theme.typography.smallBody,
 		marginBottom: theme.spacing.small,
 	},
 	image: {
-		height: "90%",
+		height: '90%',
 		aspectRatio: 1,
 		borderRadius: 9999,
 	},

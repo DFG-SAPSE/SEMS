@@ -5,7 +5,7 @@ import React from 'react';
 export default function Home() {
 	return (
 		<View style={styles.container}>
-			<Text>Open up App.js to start working on your app!</Text>
+			<Text>This is the about page</Text>
 			<StatusBar style="auto" />
 		</View>
 	);
@@ -14,6 +14,7 @@ export default function Home() {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+		backgroundColor: '#fff',
 		alignItems: 'center',
 		justifyContent: 'center',
 	},

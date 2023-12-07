@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
-import { View, StyleSheet } from "react-native";
-import { BookingContext } from "../../../context/BookingContext";
+import React, { useContext } from 'react';
+import { View, StyleSheet } from 'react-native';
+import { BookingContext } from '../../../context/BookingContext';
 
 const QuestionList = () => {
 	const { bookingData, consultantData, updateAnswers } =
@@ -17,7 +17,7 @@ const QuestionList = () => {
 			{consultantData.questions.map((question, index) => (
 				<Question
 					key={index}
-                    index={index}
+					index={index}
 					question={question}
 					answer={bookingData.answers[index]}
 					handleAnswerChange={handleAnswerChange}
@@ -27,8 +27,8 @@ const QuestionList = () => {
 	);
 };
 
-import { theme } from "../../../styles/theme";
-import Question from "./Question";
+import { theme } from '../../../styles/theme';
+import Question from './Question';
 
 const styles = StyleSheet.create({});
 

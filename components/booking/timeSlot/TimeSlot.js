@@ -1,5 +1,5 @@
-import React from "react";
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import React from 'react';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 const TimeSlot = ({ index, time, handleTimePress }) => {
 	return (
@@ -13,20 +13,20 @@ const TimeSlot = ({ index, time, handleTimePress }) => {
 	);
 };
 
-import { theme } from "../../../styles/theme";
+import { theme } from '../../../styles/theme';
 
 const styles = StyleSheet.create({
 	timeSlot: {
 		padding: theme.spacing.small,
 		borderWidth: 1,
-		borderColor: "black",
+		borderColor: 'black',
 		borderRadius: 8,
-		width: "30%",
+		width: '30%',
 		marginBottom: theme.spacing.medium,
 		marginRight: theme.spacing.small,
 	},
 	timeSlotText: {
-		textAlign: "center",
+		textAlign: 'center',
 	},
 });
 

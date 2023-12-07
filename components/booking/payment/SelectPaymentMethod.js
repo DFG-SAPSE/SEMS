@@ -1,10 +1,10 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 
-import PaymentMethod from "./PaymentMethod";
+import PaymentMethod from './PaymentMethod';
 
 const SelectPaymentMethod = ({ handleSelectPaymentMethod }) => {
-	const paymentMethods = ["Credit/Debit card", "PayPal", "Maya", "GCash"];
+	const paymentMethods = ['Credit/Debit card', 'PayPal', 'Maya', 'GCash'];
 
 	return (
 		<View style={styles.paymentContainer}>
@@ -20,7 +20,7 @@ const SelectPaymentMethod = ({ handleSelectPaymentMethod }) => {
 	);
 };
 
-import { theme } from "../../../styles/theme";
+import { theme } from '../../../styles/theme';
 
 export const styles = StyleSheet.create({
 	paymentContainer: {

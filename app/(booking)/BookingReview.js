@@ -1,35 +1,37 @@
-import React, { useContext } from "react";
-import { Stack } from "expo-router";
-import { View, ScrollView, StyleSheet } from "react-native";
+import React, { useContext } from 'react';
+import { Stack } from 'expo-router';
+import { View, ScrollView, StyleSheet } from 'react-native';
 
-import { BookingContext } from "../../context/BookingContext";
-import ConfirmBlock from "../../components/booking/review/ConfirmBlock";
-import ConfirmButton from "../../components/booking/common/ConfirmButton";
-import ConsultantProfile from "../../components/booking/common/ConsultantProfile";
-import CancelConfirmModal from "../../components/booking/common/CancelConfirmModal";
-import CancelBookingButton from "../../components/booking/common/CancelBookingButton";
+import { BookingContext } from '../../context/BookingContext';
+import ConfirmBlock from '../../components/booking/review/ConfirmBlock';
+import ConfirmButton from '../../components/booking/common/ConfirmButton';
+import ConsultantProfile from '../../components/booking/common/ConsultantProfile';
+import CancelConfirmModal from '../../components/booking/common/CancelConfirmModal';
+import CancelBookingButton from '../../components/booking/common/CancelBookingButton';
 
-import { formatDateAndTime } from "../../utils/dateAndTime";
-import { camelCaseToNormalText } from "../../utils/stringFormat";
+import { formatDateAndTime } from '../../utils/dateAndTime';
+import { camelCaseToNormalText } from '../../utils/stringFormat';
 
 const BookingReview = ({ pageTitle, children, footerComponent }) => {
 	const { bookingData, consultantData } = useContext(BookingContext);
 
 	// Preparing data for date and time of booking
 	const { date: bookingDate, time: startTime } = formatDateAndTime(
-		bookingData.startTime
+		bookingData.startTime,
 	);
 	const { time: endTime } = formatDateAndTime(bookingData.endTime);
 	const dateAndTime = [
-		["Date", `${bookingDate} (YYYY-MM-DD)`],
-		["Time and duration", `${startTime} - ${endTime}`],
+		['Date', `${bookingDate} (YYYY-MM-DD)`],
+		['Time and duration', `${startTime} - ${endTime}`],
 	];
 
 	return (
 		<ScrollView style={styles.container}>
 			<CancelConfirmModal />
 
-			<Stack.Screen options={{ title: pageTitle ? pageTitle : "Review" }} />
+			<Stack.Screen
+				options={{ title: pageTitle ? pageTitle : 'Review' }}
+			/>
 
 			{children}
 
@@ -63,13 +65,15 @@ const BookingReview = ({ pageTitle, children, footerComponent }) => {
 			<View style={styles.divider} />
 
 			<View style={styles.section}>
-				{Object.entries(bookingData.payment).map(([key, value], index) => (
-					<ConfirmBlock
-						key={index}
-						header={camelCaseToNormalText(key)}
-						body={value}
-					/>
-				))}
+				{Object.entries(bookingData.payment).map(
+					([key, value], index) => (
+						<ConfirmBlock
+							key={index}
+							header={camelCaseToNormalText(key)}
+							body={value}
+						/>
+					),
+				)}
 			</View>
 
 			{footerComponent ? (
@@ -84,7 +88,7 @@ const BookingReview = ({ pageTitle, children, footerComponent }) => {
 	);
 };
 
-import { theme } from "../../styles/theme";
+import { theme } from '../../styles/theme';
 
 const styles = StyleSheet.create({
 	container: {
@@ -96,12 +100,12 @@ const styles = StyleSheet.create({
 	},
 	divider: {
 		height: 1,
-		backgroundColor: "#e1e1e1",
+		backgroundColor: '#e1e1e1',
 		marginVertical: 10,
 	},
 	footer: {
-		flexDirection: "row",
-		justifyContent: "space-between",
+		flexDirection: 'row',
+		justifyContent: 'space-between',
 		marginTop: theme.spacing.xlarge,
 	},
 });

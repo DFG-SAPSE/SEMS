@@ -1,11 +1,11 @@
-import React, { useContext } from "react";
-import { View, Text, StyleSheet } from "react-native";
-import { useNavigation } from "expo-router";
-import { StackActions } from "@react-navigation/native";
+import React, { useContext } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import { useNavigation } from 'expo-router';
+import { StackActions } from '@react-navigation/native';
 
-import CustomModal from "../../common/CustomModal";
-import { BookingContext } from "../../../context/BookingContext";
-import Button from "../../common/Button";
+import CustomModal from '../../common/CustomModal';
+import { BookingContext } from '../../../context/BookingContext';
+import Button from '../../common/Button';
 
 const CancelConfirmModal = () => {
 	const { consultantData, modalVisible, hideModal, resetBookingContext } =
@@ -24,13 +24,13 @@ const CancelConfirmModal = () => {
 			</Text>
 			<View style={styles.buttonContainer}>
 				<Button
-					title={"No"}
+					title={'No'}
 					onPress={hideModal}
 					customBtnStyle={styles.button}
 					customTextStyle={styles.buttonText}
 				/>
 				<Button
-					title={"Yes, cancel"}
+					title={'Yes, cancel'}
 					onPress={dropBooking}
 					customBtnStyle={styles.button}
 					customTextStyle={styles.buttonText}
@@ -40,15 +40,15 @@ const CancelConfirmModal = () => {
 	);
 };
 
-import { theme } from "../../../styles/theme";
+import { theme } from '../../../styles/theme';
 
 const styles = StyleSheet.create({
 	modalText: {
 		...theme.typography.large,
 	},
 	buttonContainer: {
-		flexDirection: "row",
-		justifyContent: "flex-end",
+		flexDirection: 'row',
+		justifyContent: 'flex-end',
 		marginTop: theme.spacing.medium,
 	},
 	button: {

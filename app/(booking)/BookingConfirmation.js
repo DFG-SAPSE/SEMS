@@ -1,9 +1,9 @@
-import React, { useContext } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { useContext } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 
-import BookingReview from "./BookingReview";
-import { BookingContext } from "../../context/BookingContext";
-import { cancelMeeting } from "../../services/scheduling";
+import BookingReview from './BookingReview';
+import { BookingContext } from '../../context/BookingContext';
+import { cancelMeeting } from '../../services/scheduling';
 
 const BookingConfirmation = () => {
 	const { consultantData, recentlyBookedMeetingId } =
@@ -17,7 +17,10 @@ const BookingConfirmation = () => {
 		<>
 			<View style={styles.divider} />
 			<View>
-				<Text style={styles.cancelMeetingLink} onPress={handleCancelMeeting}>
+				<Text
+					style={styles.cancelMeetingLink}
+					onPress={handleCancelMeeting}
+				>
 					Cancel meeting
 				</Text>
 			</View>
@@ -26,7 +29,7 @@ const BookingConfirmation = () => {
 
 	return (
 		<BookingReview
-			pageTitle={"Booking confirmation"}
+			pageTitle={'Booking confirmation'}
 			footerComponent={footerComponent}
 		>
 			<View style={styles.container}>
@@ -34,15 +37,15 @@ const BookingConfirmation = () => {
 					You're going to meet {consultantData.name}!
 				</Text>
 				<Text style={styles.adviceText}>
-					We've sent booking confirmation to your email. Please consider adding
-					this event to your calendar.
+					We've sent booking confirmation to your email. Please
+					consider adding this event to your calendar.
 				</Text>
 			</View>
 		</BookingReview>
 	);
 };
 
-import { theme } from "../../styles/theme";
+import { theme } from '../../styles/theme';
 
 const styles = StyleSheet.create({
 	container: {
@@ -61,13 +64,13 @@ const styles = StyleSheet.create({
 		...theme.typography.mediumBody,
 	},
 	cancelMeetingLink: {
-		textDecorationLine: "underline",
+		textDecorationLine: 'underline',
 		color: theme.colors.primary.default,
 		...theme.typography.mediumBody,
 	},
 	divider: {
 		height: 1,
-		backgroundColor: "#e1e1e1",
+		backgroundColor: '#e1e1e1',
 		marginVertical: 10,
 	},
 });

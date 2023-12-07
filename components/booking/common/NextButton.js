@@ -1,9 +1,9 @@
-import React from "react";
-import { StyleSheet } from "react-native";
-import { router } from "expo-router";
+import React from 'react';
+import { StyleSheet } from 'react-native';
+import { router } from 'expo-router';
 
-import Button from "../../common/Button";
-import { theme } from "../../../styles/theme";
+import Button from '../../common/Button';
+import { theme } from '../../../styles/theme';
 
 const NextButton = ({ nextRoute }) => {
 	return (
@@ -11,7 +11,7 @@ const NextButton = ({ nextRoute }) => {
 			onPress={() => {
 				router.push(nextRoute);
 			}}
-			title={"Next"}
+			title={'Next'}
 			customBtnStyle={styles.button}
 		/>
 	);
@@ -19,7 +19,7 @@ const NextButton = ({ nextRoute }) => {
 
 const styles = StyleSheet.create({
 	button: {
-		width: "46%",
+		width: '46%',
 		borderRadius: 32,
 		paddingVertical: theme.spacing.medium,
 	},
