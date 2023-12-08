@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { View, StyleSheet, Image, Text } from 'react-native';
 import { useFonts } from 'expo-font';
-const data = [1, 2, 3, 4, 5, 6, 7, 8];
+
+const consultantData = [1, 2, 3, 4, 5, 6, 7, 8];
 
 const ConsultantCard = () => {
 	const [fontsLoaded] = useFonts({
@@ -13,11 +14,12 @@ const ConsultantCard = () => {
 	if (!fontsLoaded) {
 		return undefined;
 	}
+
 	return (
 		<View style={styles.container}>
-			{data.map((item, index) => (
-				<View key={index} style={styles.box}>
-					<View style={styles.margin}>
+			{consultantData.map((consultant, index) => (
+				<View key={index} style={styles.cardContainer}>
+					<View style={styles.marginContainer}>
 						<Image
 							resizeMode="contain"
 							source={{
@@ -25,24 +27,26 @@ const ConsultantCard = () => {
 							}}
 							style={styles.consultantImage}
 						/>
-						<View style={styles.textContent}>
-							<Text style={styles.textSize}>Andrea Beatrice</Text>
+						<View style={styles.textContentContainer}>
+							<Text style={styles.nameText}>Andrea Beatrice</Text>
 						</View>
-						<View style={styles.textContent}>
-							<Text style={styles.textSizeCompany}>
-								GreenCycle
-							</Text>
+						<View style={styles.textContentContainer}>
+							<Text style={styles.companyText}>GreenCycle</Text>
 						</View>
-						<View style={styles.textContent}>
-							<Text style={styles.colorText}>
+						<View style={styles.textContentContainer}>
+							<Text style={styles.specializationText}>
 								Healthcare and Wellbeing
 							</Text>
 						</View>
-						<View style={styles.sessionAmount}>
+						<View style={styles.sessionInfoContainer}>
 							<View style={styles.borderTop} />
-							<View style={styles.textContainer}>
-								<Text style={styles.text}>13 sessions</Text>
-								<Text style={styles.text}>(9 reviews)</Text>
+							<View style={styles.sessionTextContainer}>
+								<Text style={styles.sessionText}>
+									13 sessions
+								</Text>
+								<Text style={styles.sessionText}>
+									(9 reviews)
+								</Text>
 							</View>
 						</View>
 					</View>
@@ -55,8 +59,8 @@ const ConsultantCard = () => {
 import { theme } from '../../styles/theme';
 
 const styles = StyleSheet.create({
-	sessionAmount: {
-		position: 'relative', // Required for absolute positioning of borderTop
+	sessionInfoContainer: {
+		position: 'relative',
 		marginTop: theme.spacing.small,
 	},
 	borderTop: {
@@ -67,13 +71,13 @@ const styles = StyleSheet.create({
 		borderBottomWidth: 1,
 		borderBottomColor: theme.colors.gray,
 	},
-	textContainer: {
+	sessionTextContainer: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
-		marginTop: theme.spacing.small, // Adjust as needed for spacing
+		marginTop: theme.spacing.small,
 	},
-	text: {
-		color: 'gray',
+	sessionText: {
+		color: theme.colors.gray,
 		fontSize: theme.typography.smallBody.fontSize,
 		fontFamily: 'Roboto-Bold',
 	},
@@ -82,34 +86,34 @@ const styles = StyleSheet.create({
 		flexWrap: 'wrap',
 		justifyContent: 'space-between',
 	},
-	margin: {
+	marginContainer: {
 		padding: theme.spacing.small,
 	},
 	consultantImage: {
 		width: '100%',
 		aspectRatio: 1,
 	},
-	textContent: {
+	textContentContainer: {
 		marginTop: theme.spacing.small,
 	},
-	textSize: {
-		fontSize: 14,
+	nameText: {
+		fontSize: theme.typography.mediumBody.fontSize,
 		letterSpacing: 0.1,
 		fontFamily: 'Roboto-Medium',
 	},
-	textSizeCompany: {
-		fontSize: 14,
+	companyText: {
+		fontSize: theme.typography.smallBody.fontSize,
 		letterSpacing: 0.1,
 		fontFamily: 'Roboto-Regular',
 	},
-	colorText: {
+	specializationText: {
 		color: theme.colors.gray,
 		fontSize: 13,
 		letterSpacing: 0.1,
 		fontFamily: 'Roboto-Regular',
 	},
-	box: {
-		width: '47%',
+	cardContainer: {
+		width: '46%',
 		marginVertical: theme.spacing.medium,
 		borderWidth: 1,
 		borderRadius: theme.spacing.small,

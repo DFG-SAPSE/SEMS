@@ -3,12 +3,12 @@ import {
 	View,
 	StyleSheet,
 	ScrollView,
-	Image,
 	TouchableOpacity,
 	Text,
 } from 'react-native';
-import filterImage from '../../styles/bi_filter.png';
 import { useFonts } from 'expo-font';
+import FilterIcon from '../../assets/svg/FilterIcon';
+
 const filterCategories = [
 	'Speciality',
 	'Industry',
@@ -33,7 +33,9 @@ const FilterTabs = ({ activeTab, setActiveTab }) => {
 		<View style={styles.container}>
 			<ScrollView horizontal showsHorizontalScrollIndicator={false}>
 				<View style={styles.filterContainer}>
-					<Image style={styles.filterImage} source={filterImage} />
+					<View style={styles.filterImage}>
+						<FilterIcon width={35} height={35} color="white" />
+					</View>
 					{filterCategories.map((category) => (
 						<TouchableOpacity
 							key={category}
@@ -71,8 +73,11 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 	},
 	filterImage: {
-		width: theme.spacing.xlarge,
-		height: theme.spacing.xlarge,
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+		width: theme.spacing.xxlarge,
+		height: theme.spacing.xxlarge,
 		backgroundColor: theme.colors.primary.dark,
 		borderRadius: 100,
 	},
@@ -89,6 +94,7 @@ const styles = StyleSheet.create({
 		letterSpacing: 0.01,
 		color: theme.colors.white,
 		fontFamily: 'Roboto-Regular',
+		fontSize: theme.typography.mediumBody.fontSize,
 	},
 });
 
