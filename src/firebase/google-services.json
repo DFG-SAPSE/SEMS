@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "140818285182",
+    "project_id": "dfg-sapse",
+    "storage_bucket": "dfg-sapse.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:140818285182:android:df84e271a0e794f67d4e2f",
+        "android_client_info": {
+          "package_name": "com.sapse.sems"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXXCOAHVLnmVNSS9Z19Qxc76VDu6e6GrU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
