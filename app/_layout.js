@@ -1,8 +1,8 @@
-import { Stack } from 'expo-router/stack';
 import React from 'react';
+import { Tabs } from 'expo-router';
 
 const Layout = () => {
-	return <Stack />;
+	return <Tabs screenOptions={{ headerShown: false }} />;
 };
 
 export default Layout;
