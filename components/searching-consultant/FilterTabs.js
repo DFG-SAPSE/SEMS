@@ -7,6 +7,7 @@ import {
 	Text,
 } from 'react-native';
 import { useFonts } from 'expo-font';
+
 import FilterIcon from '../../assets/svg/FilterIcon';
 
 const filterCategories = [
@@ -16,7 +17,7 @@ const filterCategories = [
 	'Consultations',
 ];
 
-const FilterTabs = ({ activeTab, setActiveTab }) => {
+const FilterTabs = ({ openModal, activeTab, setActiveTab }) => {
 	const [fontsLoaded] = useFonts({
 		'Roboto-Bold': require('../../assets/fonts/Roboto-Bold.ttf'),
 		'Roboto-Regular': require('../../assets/fonts/Roboto-Regular.ttf'),
@@ -27,6 +28,7 @@ const FilterTabs = ({ activeTab, setActiveTab }) => {
 	}
 	const handleTabPress = (category) => {
 		setActiveTab(category);
+		openModal();
 	};
 
 	return (
