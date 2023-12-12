@@ -33,13 +33,14 @@ const styles = StyleSheet.create({
 		display: 'flex',
 		flexDirection: 'row',
 		alignItems: 'center',
-		borderWidth: 1,
+		borderWidth: 0,
 		borderRadius: theme.spacing.xlarge,
 		padding: theme.spacing.tiny,
 		width: '100%',
 		height: 60,
 		position: 'relative',
 		gap: theme.spacing.tiny,
+		backgroundColor: theme.colors.gray.background,
 	},
 	searchInput: {
 		flex: 1,
@@ -47,6 +48,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		fontSize: theme.typography.mediumBody.fontSize,
 		letterSpacing: 0.1,
+		borderColor: theme.colors.gray.background,
 	},
 	searchIcon: {
 		position: 'absolute',

@@ -7,7 +7,7 @@ import {
 	Text,
 } from 'react-native';
 import { useFonts } from 'expo-font';
-
+import { fonts } from '../../styles/fonts';
 import FilterIcon from '../../assets/svg/FilterIcon';
 
 const filterCategories = [
@@ -18,10 +18,7 @@ const filterCategories = [
 ];
 
 const FilterTabs = ({ openModal, activeTab, setActiveTab }) => {
-	const [fontsLoaded] = useFonts({
-		'Roboto-Bold': require('../../assets/fonts/Roboto-Bold.ttf'),
-		'Roboto-Regular': require('../../assets/fonts/Roboto-Regular.ttf'),
-	});
+	const [fontsLoaded] = useFonts(fonts);
 
 	if (!fontsLoaded) {
 		return undefined;
@@ -48,7 +45,7 @@ const FilterTabs = ({ openModal, activeTab, setActiveTab }) => {
 									backgroundColor:
 										category === activeTab
 											? theme.colors.primary.dark
-											: theme.colors.gray,
+											: theme.colors.gray.text,
 								},
 							]}
 						>
@@ -66,22 +63,21 @@ import { theme } from '../../styles/theme';
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		marginVertical: theme.spacing.small,
 	},
 	filterContainer: {
 		flexDirection: 'row',
 		alignItems: 'center',
 		paddingVertical: theme.spacing.small,
 		justifyContent: 'center',
+		marginVertical: theme.spacing.small,
 	},
 	filterImage: {
 		display: 'flex',
 		alignItems: 'center',
 		justifyContent: 'center',
-		width: theme.spacing.xxlarge,
-		height: theme.spacing.xxlarge,
 		backgroundColor: theme.colors.primary.dark,
 		borderRadius: 100,
+		padding: theme.spacing.tiny,
 	},
 	tabButton: {
 		display: 'flex',
@@ -91,7 +87,7 @@ const styles = StyleSheet.create({
 		marginHorizontal: theme.spacing.tiny,
 	},
 	tabText: {
-		paddingVertical: theme.spacing.small,
+		paddingVertical: theme.spacing.mediumSmall,
 		paddingHorizontal: theme.spacing.medium,
 		letterSpacing: 0.01,
 		color: theme.colors.white,

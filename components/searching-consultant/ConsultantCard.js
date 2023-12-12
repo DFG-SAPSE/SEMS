@@ -1,15 +1,10 @@
 import * as React from 'react';
 import { View, StyleSheet, Image, Text } from 'react-native';
 import { useFonts } from 'expo-font';
+import { fonts } from '../../styles/fonts';
 
-const consultantData = [1, 2, 3, 4, 5, 6, 7, 8];
-
-const ConsultantCard = () => {
-	const [fontsLoaded] = useFonts({
-		'Roboto-Bold': require('../../assets/fonts/Roboto-Bold.ttf'),
-		'Roboto-Regular': require('../../assets/fonts/Roboto-Regular.ttf'),
-		'Roboto-Medium': require('../../assets/fonts/Roboto-Medium.ttf'),
-	});
+const ConsultantCard = ({ consultantData }) => {
+	const [fontsLoaded] = useFonts(fonts);
 
 	if (!fontsLoaded) {
 		return undefined;
@@ -22,20 +17,26 @@ const ConsultantCard = () => {
 					<View style={styles.marginContainer}>
 						<Image
 							resizeMode="contain"
-							source={{
-								uri: 'https://cdn.builder.io/api/v1/image/assets/TEMP/131bb728735b5613ad46152ae2fb8afe4ea761c73ca55bb4d43f36db7875ce9d?apiKey=978f41e0131a442f8daf873f3d5553aa&',
-							}}
+							source={{ uri: consultant.uri }}
 							style={styles.consultantImage}
 						/>
 						<View style={styles.textContentContainer}>
-							<Text style={styles.nameText}>Andrea Beatrice</Text>
+							<Text style={styles.nameText}>
+								{consultant.name}
+							</Text>
 						</View>
 						<View style={styles.textContentContainer}>
-							<Text style={styles.companyText}>GreenCycle</Text>
+							<Text style={styles.companyText}>
+								{consultant.companyName}
+							</Text>
 						</View>
 						<View style={styles.textContentContainer}>
-							<Text style={styles.specializationText}>
-								Healthcare and Wellbeing
+							<Text
+								style={styles.specializationText}
+								numberOfLines={1}
+								ellipsizeMode="tail"
+							>
+								{consultant.industry}
 							</Text>
 						</View>
 						<View style={styles.sessionInfoContainer}>
@@ -68,23 +69,25 @@ const styles = StyleSheet.create({
 		top: 0,
 		left: 0,
 		right: 0,
-		borderBottomWidth: 1,
-		borderBottomColor: theme.colors.gray,
+		borderBottomWidth: 0.5,
+		borderBottomColor: theme.colors.gray.border,
 	},
 	sessionTextContainer: {
 		flexDirection: 'row',
-		justifyContent: 'space-between',
 		marginTop: theme.spacing.small,
 	},
 	sessionText: {
-		color: theme.colors.gray,
-		fontSize: theme.typography.smallBody.fontSize,
+		color: theme.colors.gray.text,
+		fontSize: theme.typography.tinyBody.fontSize,
 		fontFamily: 'Roboto-Bold',
+		marginRight: theme.spacing.tiny,
+		marginBottom: theme.spacing.tiny,
 	},
 	container: {
 		flexDirection: 'row',
 		flexWrap: 'wrap',
 		justifyContent: 'space-between',
+		backgroundColor: theme.colors.background,
 	},
 	marginContainer: {
 		padding: theme.spacing.small,
@@ -107,18 +110,21 @@ const styles = StyleSheet.create({
 		fontFamily: 'Roboto-Regular',
 	},
 	specializationText: {
-		color: theme.colors.gray,
+		color: theme.colors.gray.text,
 		fontSize: 13,
 		letterSpacing: 0.1,
 		fontFamily: 'Roboto-Regular',
+		height: theme.spacing.medium,
+		overflow: 'hidden',
 	},
 	cardContainer: {
 		width: '46%',
 		marginVertical: theme.spacing.medium,
 		borderWidth: 1,
 		borderRadius: theme.spacing.small,
-		borderColor: theme.colors.gray,
+		borderColor: theme.colors.gray.border,
 		overflow: 'hidden',
+		backgroundColor: theme.colors.white,
 	},
 });
 
