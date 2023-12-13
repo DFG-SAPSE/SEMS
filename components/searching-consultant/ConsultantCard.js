@@ -3,14 +3,14 @@ import { View, StyleSheet, Image, Text } from 'react-native';
 import { useFonts } from 'expo-font';
 import { fonts } from '../../styles/fonts';
 
-const ConsultantCard = ({ consultantData }) => {
+const ConsultantCard = ({ consultantData, isLoading }) => {
 	const [fontsLoaded] = useFonts(fonts);
 
 	if (!fontsLoaded) {
 		return undefined;
 	}
 
-	return (
+	return isLoading ? null : (
 		<View style={styles.container}>
 			{consultantData.map((consultant, index) => (
 				<View key={index} style={styles.cardContainer}>

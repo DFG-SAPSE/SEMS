@@ -9,16 +9,11 @@ import {
 import { useFonts } from 'expo-font';
 import { fonts } from '../../styles/fonts';
 import FilterIcon from '../../assets/svg/FilterIcon';
+import FilterModal from './FilterModal';
 
-const filterCategories = [
-	'Speciality',
-	'Industry',
-	'Experience',
-	'Consultations',
-];
-
-const FilterTabs = ({ openModal, activeTab, setActiveTab }) => {
+const FilterTabs = ({ activeTab, setActiveTab, filterCategories }) => {
 	const [fontsLoaded] = useFonts(fonts);
+	const [modalVisible, setModalVisible] = React.useState(false);
 
 	if (!fontsLoaded) {
 		return undefined;
@@ -26,6 +21,14 @@ const FilterTabs = ({ openModal, activeTab, setActiveTab }) => {
 	const handleTabPress = (category) => {
 		setActiveTab(category);
 		openModal();
+	};
+
+	const openModal = () => {
+		setModalVisible(!false);
+	};
+
+	const closeModal = () => {
+		setModalVisible(false);
 	};
 
 	return (
@@ -54,6 +57,11 @@ const FilterTabs = ({ openModal, activeTab, setActiveTab }) => {
 					))}
 				</View>
 			</ScrollView>
+			<FilterModal
+				modalVisible={modalVisible}
+				closeModal={closeModal}
+				filterContent={activeTab}
+			/>
 		</View>
 	);
 };

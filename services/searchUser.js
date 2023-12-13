@@ -91,6 +91,6 @@ export const fetchUsers = () => {
 				},
 			];
 			resolve(consultant);
-		}, 1000);
+		}, 2000);
 	});
 };

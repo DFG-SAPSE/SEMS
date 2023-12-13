@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, Modal, View, Text, Button } from 'react-native';
-
+import { StyleSheet, Modal, View } from 'react-native';
+import FilterModalContent from './FilterModalContent/FilterModalMain';
 const FilterModal = ({ modalVisible, closeModal, filterContent }) => {
 	return (
 		<Modal
@@ -11,31 +11,20 @@ const FilterModal = ({ modalVisible, closeModal, filterContent }) => {
 		>
 			<View style={styles.overlay}>
 				<View style={styles.modalContainer}>
-					<View style={styles.modalContent}>
-						<Text>{filterContent}</Text>
-						<Button title="Close Modal" onPress={closeModal} />
-					</View>
+					<FilterModalContent
+						filterCategory={filterContent}
+						closeModal={closeModal}
+					/>
 				</View>
 			</View>
 		</Modal>
 	);
 };
 
-import { theme } from '../../styles/theme';
-
 const styles = StyleSheet.create({
 	modalContainer: {
 		flex: 1,
 		justifyContent: 'flex-end',
-	},
-	modalContent: {
-		position: 'absolute',
-		bottom: 0,
-		width: '100%',
-		height: '90%',
-		backgroundColor: 'white',
-		padding: theme.spacing.xxlarge,
-		borderRadius: theme.spacing.xlarge,
 	},
 	overlay: {
 		flex: 1,
