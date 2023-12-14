@@ -1,61 +1,68 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
-
+import { Text, StyleSheet, View, ScrollView } from 'react-native';
+import CheckBox from '../../../assets/svg/CheckIcon';
 import Button from '../../common/Button';
 import { useFonts } from 'expo-font';
 import { fonts } from '../../../styles/fonts';
-import CheckBox from '../../../assets/svg/CheckIcon';
 import { useSpecialities } from '../../../context/FilterConsultantsContext';
-const specialties = [
-	{ name: 'Community Organizing' },
-	{ name: 'Operations' },
-	{ name: 'Marketing' },
-	{ name: 'Finance' },
-	{ name: 'Human Resources' },
-	{ name: 'Product Design' },
-	{ name: 'Start-up' },
-];
 
-const SpecialityModalContent = ({ closeModal }) => {
-	const { selectedSpecialities, addSpeciality, removeSpeciality } =
-		useSpecialities();
+const philippineRegions = [
+	'National Capital Region (NCR)',
+	'Cordillera Administrative Region (CAR)',
+	'Region I (Ilocos Region)',
+	'Region II (Cagayan Valley)',
+	'Region III (Central Luzon)',
+	'Region IV-A (CALABARZON)',
+	'Region IV-B (MIMAROPA)',
+	'Region V (Bicol Region)',
+	'Region VI (Western Visayas)',
+	'Region VII (Central Visayas)',
+	'Region VIII (Eastern Visayas)',
+	'Region IX (Zamboanga Peninsula)',
+	'Region X (Northern Mindanao)',
+	'Region XI (Davao Region)',
+	'Region XII (SOCCSKSARGEN)',
+	'Region XIII (Caraga)',
+];
+//come back rename and refactor
+const RegionModalContent = ({ closeModal }) => {
+	const { addRegion, removeRegion, selectedRegions } = useSpecialities();
 	const [fontsLoaded] = useFonts(fonts);
 
 	if (!fontsLoaded) {
 		return undefined;
 	}
 
-	const isSpecialitySelected = (speciality) =>
-		selectedSpecialities.includes(speciality);
+	const isRegionSelected = (region) => selectedRegions.includes(region);
 
-	const toggleSpeciality = (speciality) => {
-		if (isSpecialitySelected(speciality)) {
-			removeSpeciality(speciality);
+	const toggleRegion = (speciality) => {
+		if (isRegionSelected(speciality)) {
+			removeRegion(speciality);
 		} else {
-			addSpeciality(speciality);
+			addRegion(speciality);
 		}
 	};
 
 	return (
 		<View style={styles.modalContent}>
 			<View style={styles.header}>
-				<Text style={styles.headerText}>Specialty</Text>
+				<Text style={styles.headerText}>Region</Text>
 			</View>
 			<View style={styles.divider} />
 			<ScrollView style={styles.scrollView}>
-				{specialties.map((specialty, index) => (
+				{philippineRegions.map((region, index) => (
 					<View key={index} style={styles.specialtyContainer}>
 						<Text
-							onPress={() => toggleSpeciality(specialty.name)}
+							onPress={() => toggleRegion(region)}
 							style={[
 								styles.specialtyText,
-								isSpecialitySelected(specialty.name) &&
-									styles.selectedSpecialtyText,
+								isRegionSelected(region) &&
+								styles.selectedSpecialtyText,
 							]}
 						>
-							{specialty.name}
+							{region}
 						</Text>
-						{isSpecialitySelected(specialty.name) && (
+						{isRegionSelected(region) && (
 							<CheckBox
 								width={35}
 								height={35}
@@ -104,6 +111,20 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		flex: 1,
 	},
+	scrollView: {
+		flex: 1,
+	},
+	sliderContainer: {
+		marginTop: theme.spacing.medium,
+	},
+	sliderLabel: {
+		fontSize: theme.spacing.medium,
+		fontFamily: 'Roboto-Medium',
+	},
+	slider: {
+		marginVertical: theme.spacing.medium,
+		width: '100%',
+	},
 	specialtyText: {
 		color: theme.colors.text.dark,
 		letterSpacing: 0.1,
@@ -115,9 +136,6 @@ const styles = StyleSheet.create({
 	selectedSpecialtyText: {
 		color: theme.colors.secondary.dark,
 	},
-	scrollView: {
-		flex: 1,
-	},
 });
 
-export default SpecialityModalContent;
+export default RegionModalContent;

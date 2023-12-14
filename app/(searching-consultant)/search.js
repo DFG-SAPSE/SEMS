@@ -1,24 +1,27 @@
 import React from 'react';
 import { StyleSheet, ScrollView } from 'react-native';
 
+import { theme } from '../../styles/theme';
+import { useSpecialities } from '../../context/FilterConsultantsContext';
+
 import SearchBar from '../../components/searching-consultant/SearchBar';
 import FilterTabs from '../../components/searching-consultant/FilterTabs';
 import ConsultantCard from '../../components/searching-consultant/ConsultantCard';
-import useConsultants from '../../services/hooks/useConsultants';
 import ErrorView from '../../components/searching-consultant/ErrorView';
 import LoadingView from '../../components/searching-consultant/LoadingView';
-const filterCategories = [
-	'Speciality',
-	'Industry',
-	'Experience',
-	'Consultations',
-];
+import useConsultants from '../../services/hooks/useConsultants';
+
+const filterCategories = ['Speciality', 'Experience', 'Region', 'Price Range'];
 
 export default function SearchConsultant() {
 	const [searchQuery, setSearchQuery] = React.useState('');
 	const [activeTab, setActiveTab] = React.useState('');
-	const { filteredConsultants, isLoading, fetchError } =
-		useConsultants(searchQuery);
+	const { selectedSpecialities, experience } = useSpecialities();
+	const { filteredConsultants, isLoading, fetchError } = useConsultants(
+		searchQuery,
+		selectedSpecialities,
+		experience,
+	);
 
 	const onSearch = (query) => {
 		setSearchQuery(query);
@@ -41,7 +44,6 @@ export default function SearchConsultant() {
 		</ScrollView>
 	);
 }
-import { theme } from '../../styles/theme';
 
 const styles = StyleSheet.create({
 	containerFull: {
