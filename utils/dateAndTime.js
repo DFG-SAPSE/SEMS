@@ -46,3 +46,35 @@ export const formatDateAndTime = (timestamp) => {
 
 	return { date: formattedDate, time: formattedTime };
 };
+
+export const convertMinutesToTime = (minutesSinceMidnight) => {
+	// First, calculate the hours and minutes
+	let hours = Math.floor(minutesSinceMidnight / 60);
+	let minutes = minutesSinceMidnight % 60;
+
+	// Format the minutes to always be two digits
+	minutes = minutes < 10 ? '0' + minutes : minutes;
+
+	// Determine whether it's AM or PM
+	const ampm = hours >= 12 ? 'pm' : 'am';
+
+	// Convert 24-hour time to 12-hour format
+	hours = hours % 12;
+
+	// 0 o'clock should be represented as 12 AM
+	hours = hours ? hours : 12;
+
+	// Return the formatted time string
+	return `${hours}:${minutes} ${ampm}`;
+};
+
+export const generate15MinuteIntervals = () => {
+	const intervals = [];
+	const totalMinutesInADay = 24 * 60;
+
+	for (let minute = 0; minute < totalMinutesInADay; minute += 15) {
+		intervals.push(minute);
+	}
+
+	return intervals;
+};

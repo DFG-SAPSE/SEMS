@@ -6,6 +6,10 @@ export const typography = {
 	extraLarge: {
 		fontSize: 24,
 	},
+	largeBold: {
+		fontSize: 20,
+		fontWeight: 'bold',
+	},
 	large: {
 		fontSize: 20,
 	},

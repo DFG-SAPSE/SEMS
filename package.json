@@ -12,6 +12,7 @@
 		"format": "prettier --write ."
 	},
 	"dependencies": {
+		"@react-native-picker/picker": "^2.6.1",
 		"@react-navigation/native": "^6.1.9",
 		"expo": "^49.0.3",
 		"expo-constants": "~14.4.2",

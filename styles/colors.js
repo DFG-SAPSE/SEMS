@@ -15,4 +15,5 @@ export const colors = {
 	},
 	white: 'rgb(255, 255, 255)',
 	background: 'rgba(250, 250, 250, 1)',
+	border: 'rgb(209, 209, 209)',
 };
