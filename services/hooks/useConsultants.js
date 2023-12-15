@@ -1,21 +1,31 @@
 import { useEffect, useState } from 'react';
 import { fetchUsers } from '../searchUser';
 
-const useConsultants = (searchQuery, selectedSpecialities, experience) => {
+const useConsultants = (
+	searchQuery,
+	selectedSpecialities,
+	experience,
+	selectedRegions,
+	price,
+) => {
 	const [filteredConsultants, setFilteredConsultants] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [fetchError, setFetchError] = useState(null);
+	console.log(
+		selectedRegions,
+		searchQuery,
+		experience,
+		selectedSpecialities,
+		price,
+	);
 
 	useEffect(() => {
+		let timeoutId;
+
 		const fetchData = async () => {
 			try {
 				const data = await fetchUsers();
-				const filteredData = filterConsultants(
-					data,
-					searchQuery,
-					selectedSpecialities,
-				);
-
+				const filteredData = filterConsultants(data, searchQuery);
 				setFilteredConsultants(filteredData);
 				setIsLoading(false);
 			} catch (error) {
@@ -24,8 +34,19 @@ const useConsultants = (searchQuery, selectedSpecialities, experience) => {
 			}
 		};
 
-		fetchData();
-	});
+		// Use a timeout to debounce the fetchData function
+		const debounceFetchData = () => {
+			clearTimeout(timeoutId);
+			timeoutId = setTimeout(fetchData, 500); // Adjust the delay as needed
+		};
+
+		debounceFetchData();
+
+		return () => {
+			clearTimeout(timeoutId); // Clear the timeout on component unmount
+		};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [searchQuery, selectedSpecialities, experience, selectedRegions, price]);
 
 	const filterConsultants = (data) => {
 		let filteredData = data;
@@ -38,7 +59,6 @@ const useConsultants = (searchQuery, selectedSpecialities, experience) => {
 					.includes(searchQuery.toLowerCase()),
 			);
 		}
-
 		// Filter by selected specialities
 		if (selectedSpecialities.length) {
 			filteredData = filteredData.filter((consultant) =>
@@ -49,6 +69,21 @@ const useConsultants = (searchQuery, selectedSpecialities, experience) => {
 		if (experience) {
 			filteredData = filteredData.filter(
 				(consultant) => consultant.experience >= experience,
+			);
+		}
+		//price
+		if (price) {
+			filteredData = filteredData.filter(
+				(consultant) => consultant.price >= price,
+			);
+		}
+		//Filter by Region
+
+		if (selectedRegions && selectedRegions.length > 0) {
+			filteredData = filteredData.filter((consultant) =>
+				selectedRegions.some((selectedRegion) =>
+					consultant.region.includes(selectedRegion),
+				),
 			);
 		}
 

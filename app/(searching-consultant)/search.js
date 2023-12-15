@@ -16,11 +16,14 @@ const filterCategories = ['Speciality', 'Experience', 'Region', 'Price Range'];
 export default function SearchConsultant() {
 	const [searchQuery, setSearchQuery] = React.useState('');
 	const [activeTab, setActiveTab] = React.useState('');
-	const { selectedSpecialities, experience } = useSpecialities();
+	const { selectedSpecialities, experience, selectedRegions, price } =
+		useSpecialities();
 	const { filteredConsultants, isLoading, fetchError } = useConsultants(
 		searchQuery,
 		selectedSpecialities,
 		experience,
+		selectedRegions,
+		price,
 	);
 
 	const onSearch = (query) => {

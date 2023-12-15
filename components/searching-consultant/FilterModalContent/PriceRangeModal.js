@@ -7,7 +7,7 @@ import { fonts } from '../../../styles/fonts';
 import { useSpecialities } from '../../../context/FilterConsultantsContext';
 
 const PriceRangeModalContent = ({ closeModal }) => {
-	const { experience, setExperience } = useSpecialities();
+	const { price, setPrice } = useSpecialities();
 	const [fontsLoaded] = useFonts(fonts);
 
 	if (!fontsLoaded) {
@@ -17,21 +17,19 @@ const PriceRangeModalContent = ({ closeModal }) => {
 	return (
 		<View style={styles.modalContent}>
 			<View style={styles.header}>
-				<Text style={styles.headerText}>Experience</Text>
+				<Text style={styles.headerText}>price</Text>
 			</View>
 			<View style={styles.divider} />
 			<ScrollView style={styles.scrollView}>
 				<View style={styles.sliderContainer}>
-					<Text style={styles.sliderLabel}>
-						{experience} or more Years of Experience
-					</Text>
+					<Text style={styles.sliderLabel}>$ {price}</Text>
 					<Slider
 						style={styles.slider}
 						minimumValue={0}
-						maximumValue={20}
+						maximumValue={30}
 						step={1}
-						value={experience}
-						onValueChange={(value) => setExperience(value)}
+						value={price}
+						onValueChange={(value) => setPrice(value)}
 					/>
 				</View>
 			</ScrollView>
@@ -47,10 +45,11 @@ const styles = StyleSheet.create({
 		position: 'absolute',
 		bottom: 0,
 		width: '100%',
-		height: '60%',
+		height: '30%',
 		backgroundColor: 'white',
 		padding: theme.spacing.xxlarge,
-		borderRadius: theme.spacing.xlarge,
+		borderTopEndRadius: theme.spacing.xlarge,
+		borderStartStartRadius: theme.spacing.xlarge,
 	},
 	header: {
 		flexDirection: 'row',

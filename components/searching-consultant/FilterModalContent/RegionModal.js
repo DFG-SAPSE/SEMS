@@ -88,7 +88,8 @@ const styles = StyleSheet.create({
 		height: '60%',
 		backgroundColor: 'white',
 		padding: theme.spacing.xxlarge,
-		borderRadius: theme.spacing.xlarge,
+		borderTopEndRadius: theme.spacing.xlarge,
+		borderStartStartRadius: theme.spacing.xlarge,
 	},
 	header: {
 		flexDirection: 'row',

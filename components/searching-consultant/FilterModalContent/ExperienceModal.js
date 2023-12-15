@@ -47,10 +47,11 @@ const styles = StyleSheet.create({
 		position: 'absolute',
 		bottom: 0,
 		width: '100%',
-		height: '60%',
+		height: '30%',
 		backgroundColor: 'white',
 		padding: theme.spacing.xxlarge,
-		borderRadius: theme.spacing.xlarge,
+		borderTopEndRadius: theme.spacing.xlarge,
+		borderStartStartRadius: theme.spacing.xlarge,
 	},
 	header: {
 		flexDirection: 'row',

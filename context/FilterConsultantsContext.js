@@ -4,9 +4,12 @@ const SpecialitiesContext = createContext();
 
 export const SpecialitiesProvider = ({ children }) => {
 	const [selectedSpecialities, setSelectedSpecialities] = useState([]);
+	//experience
 	const [experience, setExperience] = useState(0);
+	//price
+	const [price, setPrice] = useState(0);
 	const [selectedRegions, setSelectedRegions] = useState([]);
-	//Handling Specialitys
+	//Specialty
 	const addSpeciality = (speciality) => {
 		setSelectedSpecialities((prevSpecialities) => [
 			...prevSpecialities,
@@ -51,6 +54,8 @@ export const SpecialitiesProvider = ({ children }) => {
 				addRegion,
 				removeRegion,
 				clearRegions,
+				setPrice,
+				price,
 			}}
 		>
 			{children}
