@@ -4,12 +4,10 @@ const SpecialitiesContext = createContext();
 
 export const SpecialitiesProvider = ({ children }) => {
 	const [selectedSpecialities, setSelectedSpecialities] = useState([]);
-	//experience
 	const [experience, setExperience] = useState(0);
-	//price
 	const [price, setPrice] = useState(0);
 	const [selectedRegions, setSelectedRegions] = useState([]);
-	//Specialty
+
 	const addSpeciality = (speciality) => {
 		setSelectedSpecialities((prevSpecialities) => [
 			...prevSpecialities,
@@ -26,7 +24,7 @@ export const SpecialitiesProvider = ({ children }) => {
 	const clearSpecialities = () => {
 		setSelectedSpecialities([]);
 	};
-	//handling Regions
+
 	const addRegion = (region) => {
 		setSelectedRegions((prevRegions) => [...prevRegions, region]);
 	};
@@ -39,6 +37,13 @@ export const SpecialitiesProvider = ({ children }) => {
 
 	const clearRegions = () => {
 		setSelectedRegions([]);
+	};
+
+	const clearAllFilters = () => {
+		clearRegions();
+		clearSpecialities();
+		setExperience(0);
+		setPrice(0);
 	};
 
 	return (
@@ -56,6 +61,7 @@ export const SpecialitiesProvider = ({ children }) => {
 				clearRegions,
 				setPrice,
 				price,
+				clearAllFilters,
 			}}
 		>
 			{children}

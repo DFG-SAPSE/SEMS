@@ -5,7 +5,7 @@ import Button from '../../common/Button';
 import { useFonts } from 'expo-font';
 import { fonts } from '../../../styles/fonts';
 import { useSpecialities } from '../../../context/FilterConsultantsContext';
-
+import ModalHeader from './ModalContentComponents/ModalHeader';
 const philippineRegions = [
 	'National Capital Region (NCR)',
 	'Cordillera Administrative Region (CAR)',
@@ -26,7 +26,8 @@ const philippineRegions = [
 ];
 //come back rename and refactor
 const RegionModalContent = ({ closeModal }) => {
-	const { addRegion, removeRegion, selectedRegions } = useSpecialities();
+	const { addRegion, removeRegion, selectedRegions, clearRegions } =
+		useSpecialities();
 	const [fontsLoaded] = useFonts(fonts);
 
 	if (!fontsLoaded) {
@@ -45,9 +46,7 @@ const RegionModalContent = ({ closeModal }) => {
 
 	return (
 		<View style={styles.modalContent}>
-			<View style={styles.header}>
-				<Text style={styles.headerText}>Region</Text>
-			</View>
+			<ModalHeader filter={'Region'} onPress={clearRegions} />
 			<View style={styles.divider} />
 			<ScrollView style={styles.scrollView}>
 				{philippineRegions.map((region, index) => (
@@ -57,7 +56,7 @@ const RegionModalContent = ({ closeModal }) => {
 							style={[
 								styles.specialtyText,
 								isRegionSelected(region) &&
-								styles.selectedSpecialtyText,
+									styles.selectedSpecialtyText,
 							]}
 						>
 							{region}

@@ -35,9 +35,12 @@ const FilterTabs = ({ activeTab, setActiveTab, filterCategories }) => {
 		<View style={styles.container}>
 			<ScrollView horizontal showsHorizontalScrollIndicator={false}>
 				<View style={styles.filterContainer}>
-					<View style={styles.filterImage}>
+					<TouchableOpacity
+						onPress={() => handleTabPress('All')}
+						style={styles.filterImage}
+					>
 						<FilterIcon width={35} height={35} color="white" />
-					</View>
+					</TouchableOpacity>
 					{filterCategories.map((category) => (
 						<TouchableOpacity
 							key={category}

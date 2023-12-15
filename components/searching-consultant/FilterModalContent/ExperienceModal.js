@@ -5,6 +5,7 @@ import Button from '../../common/Button';
 import { useFonts } from 'expo-font';
 import { fonts } from '../../../styles/fonts';
 import { useSpecialities } from '../../../context/FilterConsultantsContext';
+import ModalHeader from './ModalContentComponents/ModalHeader';
 
 const ExperienceModalContent = ({ closeModal }) => {
 	const { experience, setExperience } = useSpecialities();
@@ -16,9 +17,10 @@ const ExperienceModalContent = ({ closeModal }) => {
 
 	return (
 		<View style={styles.modalContent}>
-			<View style={styles.header}>
-				<Text style={styles.headerText}>Experience</Text>
-			</View>
+			<ModalHeader
+				filter={'Experience'}
+				onPress={() => setExperience(0)}
+			/>
 			<View style={styles.divider} />
 			<ScrollView style={styles.scrollView}>
 				<View style={styles.sliderContainer}>

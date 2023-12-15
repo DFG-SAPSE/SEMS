@@ -6,6 +6,7 @@ import { useFonts } from 'expo-font';
 import { fonts } from '../../../styles/fonts';
 import CheckBox from '../../../assets/svg/CheckIcon';
 import { useSpecialities } from '../../../context/FilterConsultantsContext';
+import ModalHeader from './ModalContentComponents/ModalHeader';
 const specialties = [
 	{ name: 'Community Organizing' },
 	{ name: 'Operations' },
@@ -17,13 +18,21 @@ const specialties = [
 ];
 
 const SpecialityModalContent = ({ closeModal }) => {
-	const { selectedSpecialities, addSpeciality, removeSpeciality } =
-		useSpecialities();
+	const {
+		selectedSpecialities,
+		addSpeciality,
+		removeSpeciality,
+		clearSpecialities,
+	} = useSpecialities();
 	const [fontsLoaded] = useFonts(fonts);
 
 	if (!fontsLoaded) {
 		return undefined;
 	}
+
+	const clearAll = () => {
+		clearSpecialities();
+	};
 
 	const isSpecialitySelected = (speciality) =>
 		selectedSpecialities.includes(speciality);
@@ -38,9 +47,7 @@ const SpecialityModalContent = ({ closeModal }) => {
 
 	return (
 		<View style={styles.modalContent}>
-			<View style={styles.header}>
-				<Text style={styles.headerText}>Specialty</Text>
-			</View>
+			<ModalHeader onPress={clearAll} filter={'Specialty'} />
 			<View style={styles.divider} />
 			<ScrollView style={styles.scrollView}>
 				{specialties.map((specialty, index) => (
@@ -50,7 +57,7 @@ const SpecialityModalContent = ({ closeModal }) => {
 							style={[
 								styles.specialtyText,
 								isSpecialitySelected(specialty.name) &&
-								styles.selectedSpecialtyText,
+									styles.selectedSpecialtyText,
 							]}
 						>
 							{specialty.name}
@@ -83,17 +90,6 @@ const styles = StyleSheet.create({
 		padding: theme.spacing.xxlarge,
 		borderTopEndRadius: theme.spacing.xlarge,
 		borderStartStartRadius: theme.spacing.xlarge,
-	},
-	header: {
-		flexDirection: 'row',
-		alignItems: 'center',
-		justifyContent: 'space-between',
-	},
-	headerText: {
-		color: '#000',
-		letterSpacing: 0.1,
-		fontFamily: 'Roboto-Bold',
-		fontSize: theme.typography.large.fontSize,
 	},
 	divider: {
 		backgroundColor: theme.colors.gray.border,

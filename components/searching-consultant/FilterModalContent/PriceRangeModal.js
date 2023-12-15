@@ -5,7 +5,7 @@ import Button from '../../common/Button';
 import { useFonts } from 'expo-font';
 import { fonts } from '../../../styles/fonts';
 import { useSpecialities } from '../../../context/FilterConsultantsContext';
-
+import ModalHeader from './ModalContentComponents/ModalHeader';
 const PriceRangeModalContent = ({ closeModal }) => {
 	const { price, setPrice } = useSpecialities();
 	const [fontsLoaded] = useFonts(fonts);
@@ -16,9 +16,7 @@ const PriceRangeModalContent = ({ closeModal }) => {
 
 	return (
 		<View style={styles.modalContent}>
-			<View style={styles.header}>
-				<Text style={styles.headerText}>price</Text>
-			</View>
+			<ModalHeader filter={'Price Range'} onPress={() => setPrice(0)} />
 			<View style={styles.divider} />
 			<ScrollView style={styles.scrollView}>
 				<View style={styles.sliderContainer}>

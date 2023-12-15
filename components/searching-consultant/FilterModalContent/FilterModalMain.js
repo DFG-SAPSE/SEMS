@@ -4,6 +4,7 @@ import SpecialityModalContent from './SpecialityModal';
 import ExperienceModalContent from './ExperienceModal';
 import RegionModalContent from './RegionModal';
 import PriceRangeModalContent from './PriceRangeModal';
+import AllFiltersModal from './AllFiltersModal';
 
 const FilterModalContent = ({ filterCategory, closeModal }) => {
 	switch (filterCategory) {
@@ -15,6 +16,8 @@ const FilterModalContent = ({ filterCategory, closeModal }) => {
 			return <PriceRangeModalContent closeModal={closeModal} />;
 		case 'Region':
 			return <RegionModalContent closeModal={closeModal} />;
+		case 'All':
+			return <AllFiltersModal closeModal={closeModal} />;
 		default:
 			return <Text>No content for this category</Text>;
 	}

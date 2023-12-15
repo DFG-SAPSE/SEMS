@@ -10,6 +10,18 @@ const ConsultantCard = ({ consultantData, isLoading }) => {
 		return undefined;
 	}
 
+	const ConsultantMessage = consultantData[0];
+
+	if (ConsultantMessage?.message) {
+		return isLoading ? null : (
+			<View style={styles.errorContainer}>
+				<Text style={styles.errorText}>
+					{ConsultantMessage.message}
+				</Text>
+			</View>
+		);
+	}
+
 	return isLoading ? null : (
 		<View style={styles.container}>
 			{consultantData.map((consultant, index) => (
@@ -60,6 +72,22 @@ const ConsultantCard = ({ consultantData, isLoading }) => {
 import { theme } from '../../styles/theme';
 
 const styles = StyleSheet.create({
+	errorContainer: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		padding: 16,
+		backgroundColor: '#ff5252',
+		borderRadius: 8,
+		borderWidth: 1,
+		borderColor: '#ff0000',
+		marginTop: '50%',
+	},
+	errorText: {
+		color: 'white',
+		fontSize: 16,
+		fontWeight: 'bold',
+	},
 	sessionInfoContainer: {
 		position: 'relative',
 		marginTop: theme.spacing.small,

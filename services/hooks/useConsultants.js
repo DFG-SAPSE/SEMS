@@ -11,13 +11,6 @@ const useConsultants = (
 	const [filteredConsultants, setFilteredConsultants] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [fetchError, setFetchError] = useState(null);
-	console.log(
-		selectedRegions,
-		searchQuery,
-		experience,
-		selectedSpecialities,
-		price,
-	);
 
 	useEffect(() => {
 		let timeoutId;
@@ -37,6 +30,7 @@ const useConsultants = (
 		// Use a timeout to debounce the fetchData function
 		const debounceFetchData = () => {
 			clearTimeout(timeoutId);
+			setIsLoading(true);
 			timeoutId = setTimeout(fetchData, 500); // Adjust the delay as needed
 		};
 
@@ -78,13 +72,21 @@ const useConsultants = (
 			);
 		}
 		//Filter by Region
-
 		if (selectedRegions && selectedRegions.length > 0) {
 			filteredData = filteredData.filter((consultant) =>
 				selectedRegions.some((selectedRegion) =>
 					consultant.region.includes(selectedRegion),
 				),
 			);
+		}
+		// if the filter results in no consultants we display the error message
+		if (filteredData.length === 0) {
+			filteredData = [
+				{
+					message:
+						'No consultants match the specified criteria. Please adjust your filters.',
+				},
+			];
 		}
 
 		return filteredData;

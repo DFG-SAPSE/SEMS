@@ -39,11 +39,11 @@ export default function SearchConsultant() {
 				filterCategories={filterCategories}
 			/>
 			<ErrorView fetchError={fetchError} />
-			<LoadingView isLoading={isLoading} />
 			<ConsultantCard
 				consultantData={filteredConsultants}
 				isLoading={isLoading}
 			/>
+			<LoadingView isLoading={isLoading} />
 		</ScrollView>
 	);
 }
