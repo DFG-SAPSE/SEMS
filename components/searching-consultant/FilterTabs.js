@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import {
 	View,
 	StyleSheet,
@@ -7,26 +7,56 @@ import {
 	Text,
 } from 'react-native';
 import { useFonts } from 'expo-font';
+
+import { theme } from '../../styles/theme';
 import { fonts } from '../../styles/fonts';
+
 import FilterIcon from '../../assets/svg/FilterIcon';
 import FilterModal from './FilterModal';
+import filteringOptions from '../../defaultdata/Filtering-Tabs.json';
 
-const FilterTabs = ({ activeTab, setActiveTab, filterCategories }) => {
+// Custom reusable button component for filtering tabs
+const TabButton = ({ onPress, children, active }) => (
+	<TouchableOpacity
+		onPress={onPress}
+		style={[
+			styles.tabButton,
+			{
+				backgroundColor: active
+					? theme.colors.primary.dark
+					: theme.colors.gray.text,
+			},
+		]}
+	>
+		{children}
+	</TouchableOpacity>
+);
+
+const FilterTabs = () => {
+	// State for controlling modal visibility and active filtering tab
+	const [modalVisible, setModalVisible] = useState(false);
+	const [activeTab, setActiveTab] = useState('');
+
+	// Loading fonts using the useFonts hook
 	const [fontsLoaded] = useFonts(fonts);
-	const [modalVisible, setModalVisible] = React.useState(false);
 
+	// If fonts are not yet loaded, return null (render nothing)
 	if (!fontsLoaded) {
-		return undefined;
+		return null;
 	}
+
+	// Handler for tab press, sets the active tab and opens the modal
 	const handleTabPress = (category) => {
 		setActiveTab(category);
 		openModal();
 	};
 
+	// Opens the modal
 	const openModal = () => {
-		setModalVisible(!false);
+		setModalVisible(true);
 	};
 
+	// Closes the modal
 	const closeModal = () => {
 		setModalVisible(false);
 	};
@@ -35,31 +65,32 @@ const FilterTabs = ({ activeTab, setActiveTab, filterCategories }) => {
 		<View style={styles.container}>
 			<ScrollView horizontal showsHorizontalScrollIndicator={false}>
 				<View style={styles.filterContainer}>
+					{/* Special case for the "All" tab with FilterIcon */}
 					<TouchableOpacity
+						style={styles.svgContainer}
 						onPress={() => handleTabPress('All')}
-						style={styles.filterImage}
 					>
-						<FilterIcon width={35} height={35} color="white" />
+						<FilterIcon
+							width={theme.spacing.xlarge}
+							height={theme.spacing.xlarge}
+							color={theme.colors.white}
+						/>
 					</TouchableOpacity>
-					{filterCategories.map((category) => (
-						<TouchableOpacity
+
+					{/* Mapping through filtering options and rendering TabButtons */}
+					{filteringOptions.map((category) => (
+						<TabButton
 							key={category}
 							onPress={() => handleTabPress(category)}
-							style={[
-								styles.tabButton,
-								{
-									backgroundColor:
-										category === activeTab
-											? theme.colors.primary.dark
-											: theme.colors.gray.text,
-								},
-							]}
+							active={category === activeTab}
 						>
 							<Text style={styles.tabText}>{category}</Text>
-						</TouchableOpacity>
+						</TabButton>
 					))}
 				</View>
 			</ScrollView>
+
+			{/* FilterModal component for displaying additional filtering options */}
 			<FilterModal
 				modalVisible={modalVisible}
 				closeModal={closeModal}
@@ -68,8 +99,6 @@ const FilterTabs = ({ activeTab, setActiveTab, filterCategories }) => {
 		</View>
 	);
 };
-
-import { theme } from '../../styles/theme';
 
 const styles = StyleSheet.create({
 	container: {
@@ -81,14 +110,6 @@ const styles = StyleSheet.create({
 		paddingVertical: theme.spacing.small,
 		justifyContent: 'center',
 		marginVertical: theme.spacing.small,
-	},
-	filterImage: {
-		display: 'flex',
-		alignItems: 'center',
-		justifyContent: 'center',
-		backgroundColor: theme.colors.primary.dark,
-		borderRadius: 100,
-		padding: theme.spacing.tiny,
 	},
 	tabButton: {
 		display: 'flex',
@@ -104,6 +125,14 @@ const styles = StyleSheet.create({
 		color: theme.colors.white,
 		fontFamily: 'Roboto-Regular',
 		fontSize: theme.typography.mediumBody.fontSize,
+	},
+	svgContainer: {
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+		backgroundColor: theme.colors.primary.dark,
+		borderRadius: 100,
+		padding: theme.spacing.tiny,
 	},
 });
 

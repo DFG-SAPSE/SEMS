@@ -1,14 +1,12 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const ErrorView = ({ fetchError }) => {
-	return fetchError ? (
+const ErrorMessage = ({ fetchError }) => {
+	return (
 		<View style={styles.errorContainer}>
-			<Text style={styles.errorText}>
-				Couldn't fetch consultants. Please try again. {fetchError}
-			</Text>
+			<Text style={styles.errorText}>{fetchError}</Text>
 		</View>
-	) : null;
+	);
 };
 
 const styles = StyleSheet.create({
@@ -22,4 +20,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default ErrorView;
+export default ErrorMessage;

@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { fetchUsers } from '../searchUser';
 
+import errorMessage from '../../locales/en/ErrorMessages.json';
+
 const useConsultants = (
 	searchQuery,
 	selectedSpecialities,
@@ -81,12 +83,7 @@ const useConsultants = (
 		}
 		// if the filter results in no consultants we display the error message
 		if (filteredData.length === 0) {
-			filteredData = [
-				{
-					message:
-						'No consultants match the specified criteria. Please adjust your filters.',
-				},
-			];
+			setFilteredConsultants([]);
 		}
 
 		return filteredData;

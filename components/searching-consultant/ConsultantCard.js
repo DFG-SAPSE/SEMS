@@ -2,27 +2,41 @@ import * as React from 'react';
 import { View, StyleSheet, Image, Text } from 'react-native';
 import { useFonts } from 'expo-font';
 import { fonts } from '../../styles/fonts';
+import Loading from '../common/Loading';
+import ErrorMessage from './ErrorView';
+import errorMessages from '../../locales/en/ErrorMessages.json';
 
-const ConsultantCard = ({ consultantData, isLoading }) => {
+const ConsultantCard = ({ consultantData, isLoading, errorMessage }) => {
 	const [fontsLoaded] = useFonts(fonts);
 
 	if (!fontsLoaded) {
 		return undefined;
 	}
 
-	const ConsultantMessage = consultantData[0];
-
-	if (ConsultantMessage?.message) {
-		return isLoading ? null : (
+	if (consultantData.length === 0) {
+		return (
 			<View style={styles.errorContainer}>
 				<Text style={styles.errorText}>
-					{ConsultantMessage.message}
+					{errorMessages.errorConsultingSearching}
 				</Text>
 			</View>
 		);
 	}
 
-	return isLoading ? null : (
+	if (errorMessage) {
+		return (
+			<ErrorMessage
+				fetchError={errorMessage}
+				errorMessage={errorMessage}
+			/>
+		);
+	}
+
+	return isLoading ? (
+		<View style={styles.center}>
+			<Loading />
+		</View>
+	) : (
 		<View style={styles.container}>
 			{consultantData.map((consultant, index) => (
 				<View key={index} style={styles.cardContainer}>
@@ -153,6 +167,12 @@ const styles = StyleSheet.create({
 		borderColor: theme.colors.gray.border,
 		overflow: 'hidden',
 		backgroundColor: theme.colors.white,
+	},
+	center: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		marginVertical: '50%',
 	},
 });
 

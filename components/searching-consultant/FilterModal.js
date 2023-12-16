@@ -1,6 +1,14 @@
 import React from 'react';
 import { StyleSheet, Modal, View } from 'react-native';
+// * This component displays a modal with filtering options.
+// * It utilizes the Modal component from React Native for the overlay effect.
+// * Props:
+// * - modalVisible: Boolean indicating whether the modal is visible or not.
+// * - closeModal: Function to close the modal.
+// * - filterContent: String indicating the category of filtering options to display.
+
 import FilterModalContent from './FilterModalContent/FilterModalMain';
+
 const FilterModal = ({ modalVisible, closeModal, filterContent }) => {
 	return (
 		<Modal

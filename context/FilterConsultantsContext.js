@@ -1,13 +1,24 @@
 import React, { createContext, useContext, useState } from 'react';
+import defaultValues from '../defaultdata/DefaultFilterSettings.json';
 
+// Create a context
 const SpecialitiesContext = createContext();
 
+// Create a provider component
 export const SpecialitiesProvider = ({ children }) => {
-	const [selectedSpecialities, setSelectedSpecialities] = useState([]);
-	const [experience, setExperience] = useState(0);
-	const [price, setPrice] = useState(0);
-	const [selectedRegions, setSelectedRegions] = useState([]);
+	// State variables using default values
+	const [selectedSpecialities, setSelectedSpecialities] = useState(
+		defaultValues.DEFAULT_SELECTED_SPECIALTIES,
+	);
+	const [experience, setExperience] = useState(
+		defaultValues.DEFAULT_EXPERIENCE_LEVEL,
+	);
+	const [price, setPrice] = useState(defaultValues.DEFAULT_PRICE_RANGE);
+	const [selectedRegions, setSelectedRegions] = useState(
+		defaultValues.DEFAULT_SELECTED_REGIONS,
+	);
 
+	// Functions to manipulate state
 	const addSpeciality = (speciality) => {
 		setSelectedSpecialities((prevSpecialities) => [
 			...prevSpecialities,
@@ -22,7 +33,7 @@ export const SpecialitiesProvider = ({ children }) => {
 	};
 
 	const clearSpecialities = () => {
-		setSelectedSpecialities([]);
+		setSelectedSpecialities(defaultValues.DEFAULT_SELECTED_SPECIALTIES);
 	};
 
 	const addRegion = (region) => {
@@ -36,16 +47,17 @@ export const SpecialitiesProvider = ({ children }) => {
 	};
 
 	const clearRegions = () => {
-		setSelectedRegions([]);
+		setSelectedRegions(defaultValues.DEFAULT_SELECTED_REGIONS);
 	};
 
 	const clearAllFilters = () => {
 		clearRegions();
 		clearSpecialities();
-		setExperience(0);
-		setPrice(0);
+		setExperience(defaultValues.DEFAULT_EXPERIENCE_LEVEL);
+		setPrice(defaultValues.DEFAULT_PRICE_RANGE);
 	};
 
+	// Provide the context values to the components
 	return (
 		<SpecialitiesContext.Provider
 			value={{
@@ -69,6 +81,7 @@ export const SpecialitiesProvider = ({ children }) => {
 	);
 };
 
+// Create a hook to use the context values
 export const useSpecialities = () => {
 	return useContext(SpecialitiesContext);
 };
