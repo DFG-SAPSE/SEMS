@@ -4,14 +4,18 @@
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+
 import * as firebase from 'firebase';
 import '@firebase/auth';
 import '@firebase/firestore';
-import { getAnalytics } from "firebase/analytics";
+
+
+require('dotenv').config();
+
 
 const firebaseConfig = {
-    apiKey: "AIzaSyA-1dM8YRzPFo3jeIoJtj6g4VFhzPvDyQg",
-    authDomain: "dfg-sapse.firebaseapp.com",
+    apiKey: process.env.API_KEY,
+    authDomain: process.env.AUTH_DOMAIN,
     projectId: "dfg-sapse",
     storageBucket: "dfg-sapse.appspot.com",
     messagingSenderId: "140818285182",
@@ -21,7 +25,6 @@ const firebaseConfig = {
 
 if (!firebase.apps.length) {
     const app = firebase.initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
 }
 
 export { firebase };
