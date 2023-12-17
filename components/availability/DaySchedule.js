@@ -1,21 +1,15 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { theme } from '../../styles/theme';
 import TimeSlot from './TimeSlot';
-import { UserContext } from '../../context/UserContext';
 
-const DaySchedule = ({ dayIndex, openTimePickerModal }) => {
-	const { userData, updateAvailability } = useContext(UserContext);
-	const todayTimeSlots = userData.availability[dayIndex];
-
-	const addTimeSlot = () => {
-		const newTimeSlots = [
-			...todayTimeSlots,
-			[0, 0], // Add default time slot
-		];
-		updateAvailability(dayIndex, newTimeSlots);
-	};
-
+const DaySchedule = ({
+	dayIndex,
+	todayTimeSlots,
+	addTimeSlot,
+	deleteTimeSlot,
+	openTimePickerModal,
+}) => {
 	const daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
 	return (
@@ -23,20 +17,21 @@ const DaySchedule = ({ dayIndex, openTimePickerModal }) => {
 			<Text style={styles.dayText}>{daysOfWeek[dayIndex]}</Text>
 			<View style={styles.timeSlotsContainer}>
 				<View>
-					{todayTimeSlots.map((slot, index) => (
+					{todayTimeSlots.map((timeSlot, timeSlotIndex) => (
 						<TimeSlot
-							key={index}
+							key={timeSlotIndex}
 							dayIndex={dayIndex}
-							timeSlot={slot}
-							timeSlotIndex={index}
+							timeSlot={timeSlot}
+							timeSlotIndex={timeSlotIndex}
 							openTimePickerModal={openTimePickerModal}
+							deleteTimeSlot={deleteTimeSlot}
 						/>
 					))}
 				</View>
 
 				<TouchableOpacity
 					style={styles.addButton}
-					onPress={addTimeSlot}
+					onPress={() => addTimeSlot(dayIndex)}
 				>
 					<Text style={styles.addButtonText}>+</Text>
 				</TouchableOpacity>
@@ -52,7 +47,7 @@ const styles = StyleSheet.create({
 		paddingVertical: theme.spacing.small,
 	},
 	dayText: {
-		...theme.typography.large,
+		...theme.typography.mediumHeader,
 		marginTop: theme.spacing.small,
 	},
 	timeSlotsContainer: {

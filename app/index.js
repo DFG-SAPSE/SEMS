@@ -2,5 +2,5 @@ import { Redirect } from 'expo-router';
 import React from 'react';
 
 export default function Index() {
-	return <Redirect href="/EditAvailability" />;
+	return <Redirect href="/MeetingDashboard" />;
 }

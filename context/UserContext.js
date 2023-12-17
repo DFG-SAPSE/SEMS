@@ -38,22 +38,25 @@ const UserProvider = ({ children }) => {
 		setUserData(res);
 	};
 
-	const updateAvailability = (dayIndex, newTimeSlots) => {
-		setUserData((prevUserData) => {
-			const updatedAvailability = [...prevUserData.availability];
-			updatedAvailability[dayIndex] = newTimeSlots;
+	const updateAvailability = (newAvailability) => {
+		setUserData((prevUserData) => ({
+			...prevUserData,
+			availability: newAvailability,
+		}));
+	};
 
-			return {
-				...prevUserData,
-				availability: updatedAvailability,
-			};
-		});
+	const updateTimeIncrement = (newTimeIncrement) => {
+		setUserData((prevUserData) => ({
+			...prevUserData,
+			startTimeIncrement: newTimeIncrement,
+		}));
 	};
 
 	const contextValue = {
 		userData,
 		login,
 		updateAvailability,
+		updateTimeIncrement,
 	};
 
 	return (

@@ -9,7 +9,6 @@ const Layout = () => {
 				headerStyle: {
 					backgroundColor: theme.colors.secondary.light,
 				},
-				headerBackTitleVisible: false,
 			}}
 		/>
 	);

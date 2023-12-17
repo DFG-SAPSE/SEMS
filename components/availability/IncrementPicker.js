@@ -1,35 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Button, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { theme } from '../../styles/theme';
-import {
-	convertMinutesToTime,
-	generate15MinuteIntervals,
-} from '../../utils/dateAndTime';
 
-const TimePicker = ({ onConfirm, onCancel, selectedTime, setSelectedTime }) => {
-	const timeOptions = generate15MinuteIntervals();
+const IncrementPicker = ({ onConfirm, onCancel, defaultInc }) => {
+	const incrementOptions = [15, 30, 45, 60, 90];
+	const [inc, setInc] = useState(defaultInc);
 
 	return (
 		<View style={styles.pickerContainer}>
 			<Picker
 				style={styles.picker}
-				selectedValue={selectedTime}
-				onValueChange={(itemValue) =>
-					setSelectedTime(Number(itemValue))
-				}
+				selectedValue={inc}
+				onValueChange={(itemValue) => setInc(Number(itemValue))}
 			>
-				{timeOptions.map((option) => (
-					<Picker.Item
-						key={option}
-						label={convertMinutesToTime(option)}
-						value={option}
-					/>
+				{incrementOptions.map((option) => (
+					<Picker.Item key={option} label={option} value={option} />
 				))}
 			</Picker>
 			<View style={styles.buttonContainer}>
 				<Button title="Cancel" onPress={onCancel} />
-				<Button title="Confirm" onPress={onConfirm} />
+				<Button title="Confirm" onPress={() => onConfirm(inc)} />
 			</View>
 		</View>
 	);
@@ -53,4 +44,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default TimePicker;
+export default IncrementPicker;

@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
-import { Stack, router } from 'expo-router';
+import { Stack } from 'expo-router';
 import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
-import { UserContext } from '../../context/UserContext';
-import Button from '../../components/common/Button';
-import { theme } from '../../styles/theme';
-import { convertMinutesToTime } from '../../utils/dateAndTime';
+import { UserContext } from '../context/UserContext';
+import Button from '../components/common/Button';
+import { theme } from '../styles/theme';
+import { convertMinutesToTime } from '../utils/dateAndTime';
 
 const MeetinDashboard = () => {
 	const { userData } = useContext(UserContext);
@@ -35,12 +35,7 @@ const MeetinDashboard = () => {
 			<View style={styles.container}>
 				<Stack.Screen options={{ headerShown: false }} />
 
-				<Text style={styles.welcomeText}>
-					Welcome, {userData.name}!
-				</Text>
-				<Text style={styles.upcomingMeetingsText}>
-					Upcoming meetings
-				</Text>
+				<Text style={styles.welcomeText}>Upcoming meetings</Text>
 
 				<View style={styles.meetingListContainer}>
 					{userData.bookedMeetings.map((meeting, index) =>
@@ -48,26 +43,16 @@ const MeetinDashboard = () => {
 					)}
 				</View>
 
-				<View>
-					<Text style={styles.viewAllMeetingsLink}>
-						View all meetings
-					</Text>
-				</View>
-
-				{userData.isConsultant ? (
-					<Button
-						title={'Update availability'}
-						customBtnStyle={styles.scheduleButton}
-						onPress={() => {
-							router.push('/EditAvailability');
-						}}
-					/>
-				) : (
-					<Button
-						title={'Schedule New Meeting'}
-						customBtnStyle={styles.scheduleButton}
-					/>
-				)}
+				{/* {userData.isConsultant ? null : ( */}
+				<Button
+					title={'Schedule New Meeting'}
+					customBtnStyle={styles.scheduleButton}
+					onPress={() => {
+						// Push to the consultant profile page
+						// router.push('/EditAvailability');
+					}}
+				/>
+				{/* )} */}
 			</View>
 		</SafeAreaView>
 	);
@@ -120,12 +105,6 @@ const styles = StyleSheet.create({
 		paddingVertical: theme.spacing.mediumSmall,
 		backgroundColor: theme.colors.primary.light,
 		borderRadius: 24,
-	},
-	viewAllMeetingsLink: {
-		textDecorationLine: 'underline',
-		color: theme.colors.primary.default,
-		...theme.typography.mediumBody,
-		marginBottom: theme.spacing.xlarge,
 	},
 });
 
