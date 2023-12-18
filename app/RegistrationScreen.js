@@ -1,20 +1,22 @@
 /* eslint-disable no-alert */
 import React, { useState } from 'react';
 import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { StyleSheet } from 'react-native';
 import { firestore, auth } from '../services/firebase/config';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 
-export default function RegistrationScreen({ navigation }) {
+export default function RegistrationScreen() {
 	const [fullName, setFullName] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
+	const navigation = useNavigation();
 
 	const onFooterLinkPress = () => {
-		navigation.navigate('Login');
+		navigation.navigate('LoginScreen');
 	};
 
 	const onRegisterPress = () => {
@@ -31,18 +33,15 @@ export default function RegistrationScreen({ navigation }) {
 					fullName,
 				};
 				const usersRef = doc(firestore, 'users', uid);
-				await setDoc(usersRef, data);
-				/*const usersRef = firestore.collection('users');
-				usersRef
-					.doc(uid)
-					.set(data)
+				await setDoc(usersRef, data)
 					.then(() => {
 						alert('Registration successful');
-						navigation.navigate('Home', { user: data });
+						//change this later on because it should ask for email confirmation
+						navigation.navigate('HomeScreen', { user: data });
 					})
 					.catch((error) => {
 						alert(error);
-					});*/
+					});
 			})
 			.catch((error) => {
 				alert(error);

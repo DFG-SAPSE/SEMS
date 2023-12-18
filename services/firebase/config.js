@@ -5,9 +5,9 @@
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 
 import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
-import '@firebase/firestore';
-import { getFirestore} from 'firebase/firestore';
+import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
+import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
+import { getFirestore } from 'firebase/firestore';
 import { API_KEY, AUTH_DOMAIN } from '@env';
 
 const firebaseConfig = {
@@ -22,7 +22,6 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 export const firestore = getFirestore(app);
-export const auth = getAuth();
-
-//const app = initializeApp(firebaseConfig);
-//const auth = getAuth(app);
+export const auth = initializeAuth(app, {
+	persistence: getReactNativePersistence(ReactNativeAsyncStorage),
+});

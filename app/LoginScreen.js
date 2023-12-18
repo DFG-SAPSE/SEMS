@@ -1,18 +1,20 @@
 /* eslint-disable no-alert */
 import React, { useState } from 'react';
 import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { StyleSheet } from 'react-native';
 import { firestore, auth } from '../services/firebase/config';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 
-export default function LoginScreen({ navigation }) {
+export default function LoginScreen() {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
+	const navigation = useNavigation();
 
 	const onFooterLinkPress = () => {
-		navigation.navigate('Registration');
+		navigation.navigate('RegistrationScreen');
 	};
 
 	const onLoginPress = () => {
@@ -23,8 +25,7 @@ export default function LoginScreen({ navigation }) {
 				const userSnap = await getDoc(usersRef);
 				if (userSnap.exists()) {
 					const user = userSnap.data();
-					console.log('Document data:', user);
-					navigation.navigate('Home', { user });
+					navigation.navigate('HomeScreen', { user });
 				} else {
 					// docSnap.data() will be undefined in this case
 					alert('User does not exist anymore.');
