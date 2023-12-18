@@ -4,11 +4,14 @@ import { View, Text, StyleSheet } from 'react-native';
 import { useFonts } from 'expo-font';
 import { fonts } from '../../../styles/fonts';
 import Loading from '../../common/Loading';
-import ErrorMessage from '../ErrorView';
+import ErrorMessage from '../common/ErrorView';
 import ConsultantItem from './ConsultantItem';
 
 import errorMessages from '../../../locales/en/ErrorMessages.json';
-
+//This is the consultant card component that renders one of 3 things.
+//1.An error message if there is no consultants that match that criteria,
+//2.another error message that is when a fetch request fails.
+//3.he last return statement just returns the card that shows the consultant
 const ConsultantCard = ({ consultantData, isLoading, errorMessage }) => {
 	const [fontsLoaded] = useFonts(fonts);
 

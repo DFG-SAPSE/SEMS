@@ -19,16 +19,16 @@ export const SpecialitiesProvider = ({ children }) => {
 	);
 
 	// Functions to manipulate state
-	const addSpeciality = (speciality) => {
+	const addSpecialty = (Specialty) => {
 		setSelectedSpecialities((prevSpecialities) => [
 			...prevSpecialities,
-			speciality,
+			Specialty,
 		]);
 	};
 
-	const removeSpeciality = (speciality) => {
+	const removeSpecialty = (Specialty) => {
 		setSelectedSpecialities((prevSpecialities) =>
-			prevSpecialities.filter((sp) => sp !== speciality),
+			prevSpecialities.filter((sp) => sp !== Specialty),
 		);
 	};
 
@@ -62,8 +62,8 @@ export const SpecialitiesProvider = ({ children }) => {
 		<SpecialitiesContext.Provider
 			value={{
 				selectedSpecialities,
-				addSpeciality,
-				removeSpeciality,
+				addSpecialty,
+				removeSpecialty,
 				clearSpecialities,
 				experience,
 				setExperience,

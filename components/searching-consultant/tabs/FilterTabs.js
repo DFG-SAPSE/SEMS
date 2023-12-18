@@ -8,12 +8,12 @@ import {
 } from 'react-native';
 import { useFonts } from 'expo-font';
 
-import { theme } from '../../styles/theme';
-import { fonts } from '../../styles/fonts';
+import { theme } from '../../../styles/theme';
+import { fonts } from '../../../styles/fonts';
 
-import FilterIcon from '../../assets/svg/FilterIcon';
-import FilterModal from './FilterModal';
-import filteringOptions from '../../defaultdata/Filtering-Tabs.json';
+import FilterIcon from '../../../assets/svg/FilterIcon';
+import FilterModal from '../common/FilterModal';
+import filteringOptions from '../../../defaultdata/Filtering-Tabs.json';
 
 // Custom reusable button component for filtering tabs
 const TabButton = ({ onPress, children, active }) => (
@@ -31,7 +31,7 @@ const TabButton = ({ onPress, children, active }) => (
 		{children}
 	</TouchableOpacity>
 );
-
+//This is for part of the main search UI where we display multiple tabs.
 const FilterTabs = () => {
 	// State for controlling modal visibility and active filtering tab
 	const [modalVisible, setModalVisible] = useState(false);

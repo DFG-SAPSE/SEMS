@@ -1,46 +1,47 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-import CheckBox from '../../../assets/svg/CheckIcon';
-import { useSpecialities } from '../../../context/FilterConsultantsContext';
-import specialties from '../../../defaultdata/Specialties.json';
-import ModalContent from './ModalContent';
+import CheckBox from '../../../../assets/svg/CheckIcon';
+import { useSpecialities } from '../../../../context/FilterConsultantsContext';
+import specialties from '../../../../defaultdata/Specialties.json';
+import ModalContent from '../ModalContent';
+import tabs from '../../../../locales/en/Tabs.json';
 
-const SpecialityModalContent = ({ closeModal }) => {
+const SpecialtyModalContent = ({ closeModal }) => {
 	const {
 		selectedSpecialities,
-		addSpeciality,
-		removeSpeciality,
+		addSpecialty,
+		removeSpecialty,
 		clearSpecialities,
 	} = useSpecialities();
 
-	const isSpecialitySelected = (speciality) =>
-		selectedSpecialities.includes(speciality);
+	const isSpecialtySelected = (Specialty) =>
+		selectedSpecialities.includes(Specialty);
 
-	const toggleSpeciality = (speciality) => {
-		if (isSpecialitySelected(speciality)) {
-			removeSpeciality(speciality);
+	const toggleSpecialty = (Specialty) => {
+		if (isSpecialtySelected(Specialty)) {
+			removeSpecialty(Specialty);
 		} else {
-			addSpeciality(speciality);
+			addSpecialty(Specialty);
 		}
 	};
 
 	const scrollViewContent = specialties.map((specialty, index) => (
 		<View key={index} style={styles.specialtyContainer}>
 			<Text
-				onPress={() => toggleSpeciality(specialty)}
+				onPress={() => toggleSpecialty(specialty)}
 				style={[
 					styles.specialtyText,
-					isSpecialitySelected(specialty) &&
+					isSpecialtySelected(specialty) &&
 						styles.selectedSpecialtyText,
 				]}
 			>
 				{specialty}
 			</Text>
-			{isSpecialitySelected(specialty) && (
+			{isSpecialtySelected(specialty) && (
 				<CheckBox
-					width={35}
-					height={35}
+					width={theme.spacing.xlarge}
+					height={theme.spacing.xlarge}
 					color={theme.colors.text.dark}
 					isChecked={true}
 				/>
@@ -51,14 +52,14 @@ const SpecialityModalContent = ({ closeModal }) => {
 	return (
 		<ModalContent
 			closeModal={closeModal}
-			headerFilter={'Specialty'}
+			headerFilter={tabs.Specialty}
 			headerAction={clearSpecialities}
 			scrollViewContent={scrollViewContent}
 		/>
 	);
 };
 
-import { theme } from '../../../styles/theme';
+import { theme } from '../../../../styles/theme';
 
 const styles = StyleSheet.create({
 	modalContent: {
@@ -97,4 +98,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default SpecialityModalContent;
+export default SpecialtyModalContent;

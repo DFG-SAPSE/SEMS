@@ -1,0 +1,15 @@
+{
+    "Specialty": "Specialty",
+    "Experience": {
+        "label": "Experience",
+        "text": "or more Years of Experience"
+    },
+    "PriceRange": {
+        "label": "Price Range",
+        "text": "No more than $"
+    },
+    "Region": "Region",
+    "All": "All",
+    "None": "No content for this category",
+    "ClearAll": "CLEAR ALL"
+}

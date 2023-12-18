@@ -2,16 +2,22 @@ import React from 'react';
 import { Text, StyleSheet, View } from 'react-native';
 
 import Slider from '@react-native-community/slider';
-import { useSpecialities } from '../../../context/FilterConsultantsContext';
-import ModalContent from './ModalContent';
+import { useSpecialities } from '../../../../context/FilterConsultantsContext';
+import ModalContent from '../ModalContent';
+import tabs from '../../../../locales/en/Tabs.json';
 
 const ExperienceModalContent = ({ closeModal }) => {
 	const { experience, setExperience } = useSpecialities();
 
+	// Use onSlidingComplete to trigger the update after the user has finished sliding
+	const handleSliderValueChange = (value) => {
+		setExperience(value);
+	};
+
 	const scrollViewContent = (
 		<View style={styles.sliderContainer}>
 			<Text style={styles.sliderLabel}>
-				{experience} or more Years of Experience
+				{experience} {tabs.Experience.text}
 			</Text>
 			<Slider
 				style={styles.slider}
@@ -19,7 +25,8 @@ const ExperienceModalContent = ({ closeModal }) => {
 				maximumValue={20}
 				step={1}
 				value={experience}
-				onValueChange={(value) => setExperience(value)}
+				onValueChange={handleSliderValueChange}
+				onSlidingComplete={handleSliderValueChange}
 			/>
 		</View>
 	);
@@ -28,13 +35,13 @@ const ExperienceModalContent = ({ closeModal }) => {
 		<ModalContent
 			closeModal={closeModal}
 			headerAction={() => setExperience(0)}
-			headerFilter={'Experience'}
+			headerFilter={tabs.Experience.label}
 			scrollViewContent={scrollViewContent}
 		/>
 	);
 };
 
-import { theme } from '../../../styles/theme';
+import { theme } from '../../../../styles/theme';
 
 const styles = StyleSheet.create({
 	sliderContainer: {

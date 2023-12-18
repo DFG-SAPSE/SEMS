@@ -23,4 +23,5 @@ export const colors = {
 		delete: 'rgba(207, 49, 38, 1)',
 	},
 	background: 'rgba(250, 250, 250, 1)',
+	transparentBackground: 'rgba(0, 0, 0, 0.5)',
 };

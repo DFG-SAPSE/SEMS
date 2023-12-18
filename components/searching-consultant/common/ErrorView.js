@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-//error is for fetch request errors
+//errorMessage is for fetch request errors
 const ErrorMessage = ({ fetchError }) => {
 	return (
 		<View style={styles.errorContainer}>
@@ -9,14 +9,16 @@ const ErrorMessage = ({ fetchError }) => {
 	);
 };
 
+import { theme } from '../../../styles/theme';
+
 const styles = StyleSheet.create({
 	errorContainer: {
-		padding: 10,
-		backgroundColor: 'red',
+		padding: theme.spacing.medium,
+		backgroundColor: theme.colors.red,
 		alignItems: 'center',
 	},
 	errorText: {
-		color: 'white',
+		color: theme.colors.white,
 	},
 });
 

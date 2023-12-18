@@ -1,7 +1,7 @@
 // ConsultantItem.js
 import React from 'react';
 import { View, Image, Text, StyleSheet } from 'react-native';
-//This is just responsible for the consunltants card that displays their information
+//This is just responsible for the consunltants card that displays their information. This is just a UI to be filled with data
 const ConsultantItem = ({ consultant }) => (
 	<View style={styles.consultantCardContainer}>
 		<View style={styles.consultantInfoContainer}>

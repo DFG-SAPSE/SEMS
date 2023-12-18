@@ -3,7 +3,7 @@ import { View, StyleSheet, ScrollView } from 'react-native';
 import { useFonts } from 'expo-font';
 import { fonts } from '../../../styles/fonts';
 import Button from '../../common/Button';
-import ModalHeader from './ModalContentComponents/ModalHeader';
+import ModalHeader from '../common/ModalHeader';
 
 const ModalContent = ({
 	closeModal,
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
 		bottom: 0,
 		width: '100%',
 		height: '60%',
-		backgroundColor: 'white',
+		backgroundColor: theme.colors.white,
 		padding: theme.spacing.xxlarge,
 		borderTopEndRadius: theme.spacing.xlarge,
 		borderStartStartRadius: theme.spacing.xlarge,
