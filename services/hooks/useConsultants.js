@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 import { fetchUsers } from '../searchUser';
 
-import errorMessage from '../../locales/en/ErrorMessages.json';
-
 const useConsultants = (
 	searchQuery,
 	selectedSpecialities,
@@ -33,7 +31,7 @@ const useConsultants = (
 		const debounceFetchData = () => {
 			clearTimeout(timeoutId);
 			setIsLoading(true);
-			timeoutId = setTimeout(fetchData, 500); // Adjust the delay as needed
+			timeoutId = setTimeout(fetchData, 600); // Adjust the delay as needed
 		};
 
 		debounceFetchData();

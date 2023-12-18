@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-
+//error is for fetch request errors
 const ErrorMessage = ({ fetchError }) => {
 	return (
 		<View style={styles.errorContainer}>

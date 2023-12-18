@@ -5,7 +5,7 @@ import { theme } from '../../styles/theme';
 import { useSpecialities } from '../../context/FilterConsultantsContext';
 import SearchBar from '../../components/common/SearchBar';
 import FilterTabs from '../../components/searching-consultant/FilterTabs';
-import ConsultantCard from '../../components/searching-consultant/ConsultantCard';
+import ConsultantCard from '../../components/searching-consultant/consultant-card/ConsultantCard';
 import useConsultants from '../../services/hooks/useConsultants';
 import placeHolder from '../../locales/en/SearchBar.json';
 

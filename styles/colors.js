@@ -19,5 +19,8 @@ export const colors = {
 		border: 'rgba(204, 204, 204, 1)',
 		background: 'rgba(235, 235, 235, 1)',
 	},
+	red: {
+		delete: 'rgba(207, 49, 38, 1)',
+	},
 	background: 'rgba(250, 250, 250, 1)',
 };

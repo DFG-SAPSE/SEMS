@@ -1,21 +1,10 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 
-import Button from '../../common/Button';
-import { useFonts } from 'expo-font';
-import { fonts } from '../../../styles/fonts';
 import CheckBox from '../../../assets/svg/CheckIcon';
 import { useSpecialities } from '../../../context/FilterConsultantsContext';
-import ModalHeader from './ModalContentComponents/ModalHeader';
-const specialties = [
-	{ name: 'Community Organizing' },
-	{ name: 'Operations' },
-	{ name: 'Marketing' },
-	{ name: 'Finance' },
-	{ name: 'Human Resources' },
-	{ name: 'Product Design' },
-	{ name: 'Start-up' },
-];
+import specialties from '../../../defaultdata/Specialties.json';
+import ModalContent from './ModalContent';
 
 const SpecialityModalContent = ({ closeModal }) => {
 	const {
@@ -24,15 +13,6 @@ const SpecialityModalContent = ({ closeModal }) => {
 		removeSpeciality,
 		clearSpecialities,
 	} = useSpecialities();
-	const [fontsLoaded] = useFonts(fonts);
-
-	if (!fontsLoaded) {
-		return undefined;
-	}
-
-	const clearAll = () => {
-		clearSpecialities();
-	};
 
 	const isSpecialitySelected = (speciality) =>
 		selectedSpecialities.includes(speciality);
@@ -45,36 +25,36 @@ const SpecialityModalContent = ({ closeModal }) => {
 		}
 	};
 
-	return (
-		<View style={styles.modalContent}>
-			<ModalHeader onPress={clearAll} filter={'Specialty'} />
-			<View style={styles.divider} />
-			<ScrollView style={styles.scrollView}>
-				{specialties.map((specialty, index) => (
-					<View key={index} style={styles.specialtyContainer}>
-						<Text
-							onPress={() => toggleSpeciality(specialty.name)}
-							style={[
-								styles.specialtyText,
-								isSpecialitySelected(specialty.name) &&
-									styles.selectedSpecialtyText,
-							]}
-						>
-							{specialty.name}
-						</Text>
-						{isSpecialitySelected(specialty.name) && (
-							<CheckBox
-								width={35}
-								height={35}
-								color={theme.colors.text.dark}
-								isChecked={true}
-							/>
-						)}
-					</View>
-				))}
-			</ScrollView>
-			<Button title="Done" onPress={closeModal} />
+	const scrollViewContent = specialties.map((specialty, index) => (
+		<View key={index} style={styles.specialtyContainer}>
+			<Text
+				onPress={() => toggleSpeciality(specialty)}
+				style={[
+					styles.specialtyText,
+					isSpecialitySelected(specialty) &&
+						styles.selectedSpecialtyText,
+				]}
+			>
+				{specialty}
+			</Text>
+			{isSpecialitySelected(specialty) && (
+				<CheckBox
+					width={35}
+					height={35}
+					color={theme.colors.text.dark}
+					isChecked={true}
+				/>
+			)}
 		</View>
+	));
+
+	return (
+		<ModalContent
+			closeModal={closeModal}
+			headerFilter={'Specialty'}
+			headerAction={clearSpecialities}
+			scrollViewContent={scrollViewContent}
+		/>
 	);
 };
 

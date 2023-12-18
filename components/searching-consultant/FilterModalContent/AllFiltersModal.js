@@ -15,35 +15,9 @@ import { fonts } from '../../../styles/fonts';
 import { useSpecialities } from '../../../context/FilterConsultantsContext';
 import ModalHeader from './ModalContentComponents/ModalHeader';
 import DropDownIcon from '../../../assets/svg/DropDownIcon';
-
-const specialties = [
-	{ id: '1', name: 'Community Organizing' },
-	{ id: '2', name: 'Operations' },
-	{ id: '3', name: 'Marketing' },
-	{ id: '4', name: 'Finance' },
-	{ id: '5', name: 'Human Resources' },
-	{ id: '6', name: 'Product Design' },
-	{ id: '7', name: 'Start-up' },
-];
-
-const philippineRegions = [
-	'National Capital Region (NCR)',
-	'Cordillera Administrative Region (CAR)',
-	'Region I (Ilocos Region)',
-	'Region II (Cagayan Valley)',
-	'Region III (Central Luzon)',
-	'Region IV-A (CALABARZON)',
-	'Region IV-B (MIMAROPA)',
-	'Region V (Bicol Region)',
-	'Region VI (Western Visayas)',
-	'Region VII (Central Visayas)',
-	'Region VIII (Eastern Visayas)',
-	'Region IX (Zamboanga Peninsula)',
-	'Region X (Northern Mindanao)',
-	'Region XI (Davao Region)',
-	'Region XII (SOCCSKSARGEN)',
-	'Region XIII (Caraga)',
-];
+import specialties from '../../../defaultdata/Specialties.json';
+import philippineRegions from '../../../defaultdata/Philippines-Region.json';
+import ModalContent from './ModalContent';
 
 const AllFiltersModal = ({ closeModal }) => {
 	const {
@@ -59,6 +33,7 @@ const AllFiltersModal = ({ closeModal }) => {
 		removeRegion,
 		selectedRegions,
 	} = useSpecialities();
+
 	const [fontsLoaded] = useFonts(fonts);
 	const [isSpecialityDropdownOpen, setIsSpecialityDropdownOpen] =
 		useState(false);
