@@ -55,7 +55,7 @@ const RegionModalContent = ({ closeModal }) => {
 		<ModalContent
 			closeModal={closeModal}
 			headerAction={clearRegions}
-			headerFilter={tabs.Region}
+			headerFilter={tabs.Region.text}
 			scrollViewContent={
 				<RegionList
 					regions={philippineRegions}

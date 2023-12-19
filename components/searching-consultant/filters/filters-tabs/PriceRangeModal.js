@@ -22,7 +22,7 @@ const PriceRangeModalContent = ({ closeModal }) => {
 			<Slider
 				style={styles.slider}
 				minimumValue={0}
-				maximumValue={30}
+				maximumValue={3000}
 				step={1}
 				value={price}
 				onValueChange={handleSliderValueChange}

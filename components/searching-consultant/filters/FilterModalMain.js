@@ -9,13 +9,13 @@ import tabs from '../../../locales/en/Tabs.json';
 //Depending on the filterCategory This component is used to render a specific modal.
 const FilterModalContent = ({ filterCategory, closeModal }) => {
 	switch (filterCategory) {
-		case tabs.Specialty:
+		case tabs.Specialty.label:
 			return <SpecialtyModalContent closeModal={closeModal} />;
 		case tabs.Experience.label:
 			return <ExperienceModalContent closeModal={closeModal} />;
 		case tabs.PriceRange.label:
 			return <PriceRangeModalContent closeModal={closeModal} />;
-		case tabs.Region:
+		case tabs.Region.label:
 			return <RegionModalContent closeModal={closeModal} />;
 		case tabs.All:
 			return <AllFiltersModal closeModal={closeModal} />;

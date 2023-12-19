@@ -33,7 +33,7 @@ const SpecialtyModalContent = ({ closeModal }) => {
 				style={[
 					styles.specialtyText,
 					isSpecialtySelected(specialty) &&
-						styles.selectedSpecialtyText,
+					styles.selectedSpecialtyText,
 				]}
 			>
 				{specialty}
@@ -52,7 +52,7 @@ const SpecialtyModalContent = ({ closeModal }) => {
 	return (
 		<ModalContent
 			closeModal={closeModal}
-			headerFilter={tabs.Specialty}
+			headerFilter={tabs.Specialty.label}
 			headerAction={clearSpecialities}
 			scrollViewContent={scrollViewContent}
 		/>
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
 		bottom: 0,
 		width: '100%',
 		height: '60%',
-		backgroundColor: 'white',
+		backgroundColor: theme.colors.white,
 		padding: theme.spacing.xxlarge,
 		borderTopEndRadius: theme.spacing.xlarge,
 		borderStartStartRadius: theme.spacing.xlarge,

@@ -27,13 +27,13 @@ const AllFiltersModal = ({ closeModal }) => {
 		removeRegion,
 		selectedRegions,
 	} = useSpecialities();
+
 	const [fontsLoaded] = useFonts(fonts);
 
 	// If fonts are not loaded, return undefined
 	if (!fontsLoaded) {
 		return undefined;
 	}
-
 	// Function to clear all filters and close the modal
 	const clearAllFiltersAndCloseModal = () => {
 		clearAllFilters();
@@ -70,15 +70,15 @@ const AllFiltersModal = ({ closeModal }) => {
 	);
 };
 
-// Styles
 import { theme } from '../../../styles/theme';
+
 const styles = StyleSheet.create({
 	modalContent: {
 		position: 'absolute',
 		bottom: 0,
 		width: '100%',
 		height: '90%',
-		backgroundColor: 'white',
+		backgroundColor: theme.colors.white,
 		padding: theme.spacing.xxlarge,
 		borderTopEndRadius: theme.spacing.xlarge,
 		borderStartStartRadius: theme.spacing.xlarge,

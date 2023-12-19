@@ -3,7 +3,7 @@ import { Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 import CheckBox from '../../../../assets/svg/CheckIcon';
 import DropDownIcon from '../../../../assets/svg/DropDownIcon';
 import specialties from '../../../../defaultdata/Specialties.json';
-
+import tabs from '../../../../locales/en/Tabs.json';
 // SpecialtyComponent is a reusable component for handling Specialty filters
 const SpecialtyComponent = ({
 	selectedSpecialities,
@@ -38,9 +38,13 @@ const SpecialtyComponent = ({
 				}
 			>
 				<Text style={styles.dropdownButtonText}>
-					{selectedSpecialty || 'Select a Specialty'}
+					{selectedSpecialty || tabs.Specialty.text}
 				</Text>
-				<DropDownIcon width={24} height={24} color={'black'} />
+				<DropDownIcon
+					width={theme.spacing.xlarge}
+					height={theme.spacing.xlarge}
+					color={theme.colors.text.dark}
+				/>
 			</TouchableOpacity>
 
 			{/* Specialty dropdown content */}
@@ -58,8 +62,8 @@ const SpecialtyComponent = ({
 							<Text>{specialty}</Text>
 							{isSpecialtySelected(specialty) && (
 								<CheckBox
-									width={20}
-									height={20}
+									width={theme.spacing.medium}
+									height={theme.spacing.medium}
 									color={theme.colors.text.dark}
 									isChecked={true}
 								/>
@@ -76,7 +80,7 @@ import { theme } from '../../../../styles/theme';
 const styles = StyleSheet.create({
 	dropdownButton: {
 		borderWidth: 1,
-		borderColor: 'white',
+		borderColor: theme.colors.white,
 		borderRadius: theme.spacing.small,
 		marginBottom: theme.spacing.medium,
 		flexDirection: 'row',

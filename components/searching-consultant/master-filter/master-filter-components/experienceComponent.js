@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, StyleSheet, View } from 'react-native';
 import Slider from '@react-native-community/slider';
+import tabs from '../../../../locales/en/Tabs.json';
 
 // ExperienceModal is a component for handling the experience range filter
 const ExperienceModal = ({ experience, setExperience }) => {
@@ -8,7 +9,7 @@ const ExperienceModal = ({ experience, setExperience }) => {
 		<View style={styles.sliderContainer}>
 			{/* Display the selected experience value */}
 			<Text style={styles.sliderLabel}>
-				{experience} or more Years of Experience
+				{experience} {tabs.Experience.text}
 			</Text>
 
 			{/* Slider component for selecting the experience range */}

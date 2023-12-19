@@ -8,9 +8,7 @@ import {
 } from 'react-native';
 import { useFonts } from 'expo-font';
 
-import { theme } from '../../../styles/theme';
 import { fonts } from '../../../styles/fonts';
-
 import FilterIcon from '../../../assets/svg/FilterIcon';
 import FilterModal from '../common/FilterModal';
 import filteringOptions from '../../../defaultdata/Filtering-Tabs.json';
@@ -99,6 +97,8 @@ const FilterTabs = () => {
 		</View>
 	);
 };
+
+import { theme } from '../../../styles/theme';
 
 const styles = StyleSheet.create({
 	container: {

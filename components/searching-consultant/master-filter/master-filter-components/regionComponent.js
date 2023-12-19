@@ -4,6 +4,7 @@ import { Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import CheckBox from '../../../../assets/svg/CheckIcon';
 import DropDownIcon from '../../../../assets/svg/DropDownIcon';
 import philippineRegions from '../../../../defaultdata/Philippines-Region.json';
+import tabs from '../../../../locales/en/Tabs.json';
 
 // RegionComponent is a reusable component for handling region filters
 const RegionComponent = ({ selectedRegions, removeRegion, addRegion }) => {
@@ -26,7 +27,7 @@ const RegionComponent = ({ selectedRegions, removeRegion, addRegion }) => {
 	return (
 		<>
 			{/* Heading for the region filter */}
-			<Text style={styles.experience}>Region</Text>
+			<Text style={styles.experience}>{tabs.Region.label}</Text>
 
 			{/* Dropdown button to open/close the region dropdown */}
 			<TouchableOpacity
@@ -34,12 +35,12 @@ const RegionComponent = ({ selectedRegions, removeRegion, addRegion }) => {
 				onPress={() => setIsRegionDropdownOpen(!isRegionDropdownOpen)}
 			>
 				<Text style={styles.dropdownButtonText}>
-					{selectedRegion || 'Select a region'}
+					{selectedRegion || tabs.Region.text}
 				</Text>
 				<DropDownIcon
 					width={theme.spacing.xlarge}
 					height={theme.spacing.xlarge}
-					color={'black'}
+					color={theme.colors.text.dark}
 				/>
 			</TouchableOpacity>
 
@@ -58,8 +59,8 @@ const RegionComponent = ({ selectedRegions, removeRegion, addRegion }) => {
 							<Text>{region}</Text>
 							{isRegionSelected(region) && (
 								<CheckBox
-									width={20}
-									height={20}
+									width={theme.spacing.medium}
+									height={theme.spacing.medium}
 									color={theme.colors.text.dark}
 									isChecked={true}
 								/>
@@ -72,8 +73,8 @@ const RegionComponent = ({ selectedRegions, removeRegion, addRegion }) => {
 	);
 };
 
-// Styles
 import { theme } from '../../../../styles/theme';
+
 const styles = StyleSheet.create({
 	dropdownButton: {
 		borderWidth: 1,
