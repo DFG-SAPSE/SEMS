@@ -4,7 +4,7 @@ import { useFonts } from 'expo-font';
 import { fonts } from '../../../styles/fonts';
 import Button from '../../common/Button';
 import ModalHeader from '../common/ModalHeader';
-
+//Higher Order Component that is responsible for wrapping all the modals
 const ModalContent = ({
 	closeModal,
 	headerFilter,
