@@ -12,7 +12,7 @@ import errorMessages from '../../../locales/en/ErrorMessages.json';
 //1.An error message if there is no consultants that match that criteria,
 //2.another error message that is when a fetch request fails.
 //3.he last return statement just returns the card that shows the consultant
-const ConsultantCard = ({ consultantData, isLoading, errorMessage }) => {
+const ConsultantList = ({ consultantData, isLoading, errorMessage }) => {
 	const [fontsLoaded] = useFonts(fonts);
 
 	if (!fontsLoaded) {
@@ -52,8 +52,8 @@ const ConsultantCard = ({ consultantData, isLoading, errorMessage }) => {
 		</View>
 	) : (
 		<View style={styles.container}>
-			{consultantData.map((consultant) => (
-				<ConsultantItem key={consultant.id} consultant={consultant} />
+			{consultantData.map((consultant, index) => (
+				<ConsultantItem key={index} consultant={consultant} />
 			))}
 		</View>
 	);
@@ -92,4 +92,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default ConsultantCard;
+export default ConsultantList;

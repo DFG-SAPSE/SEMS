@@ -5,7 +5,7 @@ import { theme } from '../../styles/theme';
 import { useSpecialities } from '../../context/FilterConsultantsContext';
 import SearchBar from '../../components/common/SearchBar';
 import FilterTabs from '../../components/searching-consultant/tabs/FilterTabs';
-import ConsultantCard from '../../components/searching-consultant/consultant-card/ConsultantCard';
+import ConsultantList from '../../components/searching-consultant/consultant-card/ConsultantList';
 import useConsultants from '../../hooks/useConsultants';
 import placeHolder from '../../locales/en/SearchBar.json';
 
@@ -39,7 +39,7 @@ export default function SearchConsultant() {
 				/>
 			</View>
 			<FilterTabs />
-			<ConsultantCard
+			<ConsultantList
 				consultantData={filteredConsultants}
 				isLoading={isLoading}
 				errorMessage={fetchError}

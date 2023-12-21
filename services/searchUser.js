@@ -1,4 +1,4 @@
-export const fetchUsers = () => {
+export const fetchConsultants = () => {
 	// This is a dummy function that mimics fetching data from a server
 	// Replace this with actual API call logic when backend is ready
 	return new Promise((resolve) => {

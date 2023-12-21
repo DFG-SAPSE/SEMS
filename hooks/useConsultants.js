@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { fetchUsers } from '../services/searchUser';
-
+import { fetchConsultants } from '../services/searchUser';
+import { filterConsultants } from '../utils/filterConsultantUtil';
 const useConsultants = (
 	searchQuery,
 	selectedSpecialities,
@@ -17,8 +17,15 @@ const useConsultants = (
 
 		const fetchData = async () => {
 			try {
-				const data = await fetchUsers();
-				const filteredData = filterConsultants(data, searchQuery);
+				const data = await fetchConsultants();
+				const filters = {
+					searchQuery,
+					selectedSpecialities,
+					experience,
+					price,
+					selectedRegions,
+				};
+				const filteredData = filterConsultants(data, filters);
 				setFilteredConsultants(filteredData);
 				setIsLoading(false);
 			} catch (error) {
@@ -39,53 +46,7 @@ const useConsultants = (
 		return () => {
 			clearTimeout(timeoutId); // Clear the timeout on component unmount
 		};
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [searchQuery, selectedSpecialities, experience, selectedRegions, price]);
-
-	const filterConsultants = (data) => {
-		let filteredData = data;
-
-		// Filter by search query
-		if (searchQuery) {
-			filteredData = filteredData.filter((consultant) =>
-				consultant.name
-					.toLowerCase()
-					.includes(searchQuery.toLowerCase()),
-			);
-		}
-		// Filter by selected specialities
-		if (selectedSpecialities.length) {
-			filteredData = filteredData.filter((consultant) =>
-				selectedSpecialities.includes(consultant.specialty),
-			);
-		}
-		//Filter by Experience
-		if (experience) {
-			filteredData = filteredData.filter(
-				(consultant) => consultant.experience >= experience,
-			);
-		}
-		//price
-		if (price) {
-			filteredData = filteredData.filter(
-				(consultant) => consultant.price >= price,
-			);
-		}
-		//Filter by Region
-		if (selectedRegions && selectedRegions.length > 0) {
-			filteredData = filteredData.filter((consultant) =>
-				selectedRegions.some((selectedRegion) =>
-					consultant.region.includes(selectedRegion),
-				),
-			);
-		}
-		// if the filter results in no consultants we display the error message
-		if (filteredData.length === 0) {
-			setFilteredConsultants([]);
-		}
-
-		return filteredData;
-	};
 
 	return { filteredConsultants, isLoading, fetchError };
 };
