@@ -10,7 +10,7 @@
 		"lint": "eslint .",
 		"lint:fix": "eslint --fix .",
 		"format": "prettier --write .",
-		"linter": "npm run lint && npm run lint:fix && npm run format"
+		"linter": "eslint . && eslint --fix . && prettier --write . && echo 'Linting and formatting completed successfully!'"
 	},
 	"dependencies": {
 		"@react-native-community/slider": "4.4.2",
