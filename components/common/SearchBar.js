@@ -2,44 +2,36 @@ import * as React from 'react';
 import { View, StyleSheet, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-const SearchBar = ({ searchQuery, onSearch }) => {
+const SearchBar = ({ searchQuery, onSearch, placeHolder }) => {
 	return (
-		<View style={styles.container}>
-			<View style={styles.searchInputContainer}>
-				<TextInput
-					style={styles.searchInput}
-					onChangeText={onSearch}
-					value={searchQuery}
-					placeholder="Search consultant"
-					placeholderTextColor={theme.colors.text.dark}
-				/>
-				<Ionicons
-					style={styles.searchIcon}
-					name="ios-search"
-					size={24}
-					color={theme.colors.text.dark}
-				/>
-			</View>
+		<View style={styles.searchInputContainer}>
+			<TextInput
+				style={styles.searchInput}
+				onChangeText={onSearch}
+				value={searchQuery}
+				placeholder={placeHolder}
+				placeholderTextColor={theme.colors.text.dark}
+			/>
+			<Ionicons
+				style={styles.searchIcon}
+				name="ios-search"
+				size={theme.spacing.large}
+				color={theme.colors.text.dark}
+			/>
 		</View>
 	);
 };
 import { theme } from '../../styles/theme';
 
 const styles = StyleSheet.create({
-	container: {
-		marginTop: theme.spacing.medium,
-	},
 	searchInputContainer: {
-		display: 'flex',
 		flexDirection: 'row',
 		alignItems: 'center',
 		borderWidth: 0,
 		borderRadius: theme.spacing.xlarge,
 		padding: theme.spacing.tiny,
-		width: '100%',
 		height: 60,
 		position: 'relative',
-		gap: theme.spacing.tiny,
 		backgroundColor: theme.colors.gray.background,
 	},
 	searchInput: {

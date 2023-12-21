@@ -1,0 +1,21 @@
+{
+    "Specialty": {
+        "label": "Specialty",
+        "text": "Select a Specialty"
+    },
+    "Experience": {
+        "label": "Experience",
+        "text": "or more Years of Experience"
+    },
+    "PriceRange": {
+        "label": "Price Range",
+        "text": "No more than ₱"
+    },
+    "Region": {
+        "label": "Region",
+        "text": "Select a region"
+    },
+    "All": "All",
+    "None": "No content for this category",
+    "ClearAll": "CLEAR ALL"
+}

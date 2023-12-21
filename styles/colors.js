@@ -13,11 +13,15 @@ export const colors = {
 		dark: 'rgba(46, 46, 46, 1)',
 		light: 'rgba(255, 255, 255, 1)',
 	},
-	white: 'rgb(255, 255, 255)',
 	gray: {
 		text: 'rgba(153, 153, 153, 1)',
 		border: 'rgba(204, 204, 204, 1)',
 		background: 'rgba(235, 235, 235, 1)',
 	},
+	white: 'rgb(255, 255, 255)',
+	red: {
+		delete: 'rgba(207, 49, 38, 1)',
+	},
 	background: 'rgba(250, 250, 250, 1)',
+	transparentBackground: 'rgba(0, 0, 0, 0.5)',
 };

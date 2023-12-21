@@ -1,52 +1,60 @@
 import React from 'react';
-import { StyleSheet, ScrollView } from 'react-native';
+import { StyleSheet, ScrollView, View } from 'react-native';
 
-import SearchBar from '../../components/searching-consultant/SearchBar';
-import FilterTabs from '../../components/searching-consultant/FilterTabs';
-import ConsultantCard from '../../components/searching-consultant/ConsultantCard';
-import useConsultants from '../../services/hooks/useConsultants';
-import ErrorView from '../../components/searching-consultant/ErrorView';
-import LoadingView from '../../components/searching-consultant/LoadingView';
-const filterCategories = [
-	'Speciality',
-	'Industry',
-	'Experience',
-	'Consultations',
-];
+import { theme } from '../../styles/theme';
+import { useSpecialities } from '../../context/FilterConsultantsContext';
+import SearchBar from '../../components/common/SearchBar';
+import FilterTabs from '../../components/searching-consultant/tabs/FilterTabs';
+import ConsultantList from '../../components/searching-consultant/consultant-card/ConsultantList';
+import useConsultants from '../../hooks/useConsultants';
+import placeHolder from '../../locales/en/SearchBar.json';
+
+const { consultingSearching } = placeHolder;
 
 export default function SearchConsultant() {
-	const [searchQuery, setSearchQuery] = React.useState('');
-	const [activeTab, setActiveTab] = React.useState('');
-	const { filteredConsultants, isLoading, fetchError } =
-		useConsultants(searchQuery);
+	const [searchQuery, setSearchQuery] = React.useState(''); // holds the state for the search Query
+
+	const { selectedSpecialities, experience, selectedRegions, price } =
+		useSpecialities(); // Context that holds all current filtering states
+
+	const { filteredConsultants, isLoading, fetchError } = useConsultants(
+		searchQuery,
+		selectedSpecialities,
+		experience,
+		selectedRegions,
+		price,
+	); //Loads in the data and filters the data through a customHook
 
 	const onSearch = (query) => {
 		setSearchQuery(query);
-	};
+	}; //search Query that allows us to search for consultants
 
 	return (
 		<ScrollView style={styles.containerFull}>
-			<SearchBar searchQuery={searchQuery} onSearch={onSearch} />
-			<FilterTabs
-				activeTab={activeTab}
-				setActiveTab={setActiveTab}
-				filterCategories={filterCategories}
-			/>
-			<ErrorView fetchError={fetchError} />
-			<LoadingView isLoading={isLoading} />
-			<ConsultantCard
+			<View style={styles.container}>
+				<SearchBar
+					searchQuery={searchQuery}
+					onSearch={onSearch}
+					placeHolder={consultingSearching}
+				/>
+			</View>
+			<FilterTabs />
+			<ConsultantList
 				consultantData={filteredConsultants}
 				isLoading={isLoading}
+				errorMessage={fetchError}
 			/>
 		</ScrollView>
 	);
 }
-import { theme } from '../../styles/theme';
 
 const styles = StyleSheet.create({
 	containerFull: {
 		flex: 1,
 		paddingHorizontal: theme.spacing.large,
 		backgroundColor: theme.colors.background,
+	},
+	container: {
+		marginTop: theme.spacing.medium,
 	},
 });
