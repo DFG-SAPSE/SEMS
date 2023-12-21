@@ -42,21 +42,23 @@ async function filterConsultants(
 ) {
 	try {
 		let results = [];
-		let query = db.collection('people');
 
-		if (specialities.length > 0) {
-			for (let speciality of specialities) {
-				query = query.where('speciality', '==', speciality);
-			}
+		for (let speciality of specialities) {
+			let query = db
+				.collection('people')
+				.where('speciality', '==', speciality);
+
+			// run the query
+			const snapshot = await query.get();
+
+			// process the results
+			snapshot.forEach((doc) => {
+				// we add consultants if they are not already in the results
+				if (!results.find((result) => result.id === doc.id)) {
+					results.push(doc.data());
+				}
+			});
 		}
-
-		// run the query
-		const snapshot = await query.get();
-
-		// process the results
-		snapshot.forEach((doc) => {
-			results.push(doc.data());
-		});
 
 		return results;
 	} catch (error) {
