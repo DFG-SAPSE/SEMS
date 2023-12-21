@@ -12,18 +12,20 @@ import { BookingContext } from '../../context/BookingContext';
 const BookingQuestions = () => {
 	const { consultantData } = useContext(BookingContext);
 	return (
-		<ScrollView style={styles.container}>
-			<CancelConfirmModal />
-			<Stack.Screen
-				options={{ title: `Booking with ${consultantData.name}` }}
-			/>
-			<ConsultantProfile />
-			<QuestionList />
+		<ScrollView style={styles.wrapper}>
+			<ScrollView style={styles.container}>
+				<CancelConfirmModal />
+				<Stack.Screen
+					options={{ title: `Booking with ${consultantData.name}` }}
+				/>
+				<ConsultantProfile />
+				<QuestionList />
 
-			<View style={styles.footer}>
-				<CancelBookingButton />
-				<NextButton nextRoute={'/Payment'} />
-			</View>
+				<View style={styles.footer}>
+					<CancelBookingButton />
+					<NextButton nextRoute={'/Payment'} />
+				</View>
+			</ScrollView>
 		</ScrollView>
 	);
 };
@@ -31,6 +33,9 @@ const BookingQuestions = () => {
 import { theme } from '../../styles/theme';
 
 const styles = StyleSheet.create({
+	wrapper: {
+		backgroundColor: theme.colors.background,
+	},
 	container: {
 		flex: 1,
 		padding: theme.spacing.large,
