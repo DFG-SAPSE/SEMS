@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
 import CheckBox from '../../../../assets/svg/CheckIcon';
-import { useSpecialities } from '../../../../context/FilterConsultantsContext';
+import { useConsultantFilters } from '../../../../context/ConsultantFilterContext';
 import specialties from '../../../../defaultdata/Specialties.json';
 import ModalContent from '../ModalContent';
 import tabs from '../../../../locales/en/Tabs.json';
@@ -13,7 +13,7 @@ const SpecialtyModalContent = ({ closeModal }) => {
 		addSpecialty,
 		removeSpecialty,
 		clearSpecialities,
-	} = useSpecialities();
+	} = useConsultantFilters();
 
 	const isSpecialtySelected = (Specialty) =>
 		selectedSpecialities.includes(Specialty);

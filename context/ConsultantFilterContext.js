@@ -2,10 +2,10 @@ import React, { createContext, useContext, useState } from 'react';
 import defaultValues from '../defaultdata/DefaultFilterSettings.json';
 
 // Create a context
-const SpecialitiesContext = createContext();
+const ConsultantFiltersContext = createContext();
 
 // Create a provider component
-export const SpecialitiesProvider = ({ children }) => {
+export const ConsultantFiltersProvider = ({ children }) => {
 	// State variables using default values
 	const [selectedSpecialities, setSelectedSpecialities] = useState(
 		defaultValues.DEFAULT_SELECTED_SPECIALTIES,
@@ -19,16 +19,16 @@ export const SpecialitiesProvider = ({ children }) => {
 	);
 
 	// Functions to manipulate state
-	const addSpecialty = (Specialty) => {
+	const addSpecialty = (specialty) => {
 		setSelectedSpecialities((prevSpecialities) => [
 			...prevSpecialities,
-			Specialty,
+			specialty,
 		]);
 	};
 
-	const removeSpecialty = (Specialty) => {
+	const removeSpecialty = (specialty) => {
 		setSelectedSpecialities((prevSpecialities) =>
-			prevSpecialities.filter((sp) => sp !== Specialty),
+			prevSpecialities.filter((sp) => sp !== specialty),
 		);
 	};
 
@@ -59,7 +59,7 @@ export const SpecialitiesProvider = ({ children }) => {
 
 	// Provide the context values to the components
 	return (
-		<SpecialitiesContext.Provider
+		<ConsultantFiltersContext.Provider
 			value={{
 				selectedSpecialities,
 				addSpecialty,
@@ -77,11 +77,11 @@ export const SpecialitiesProvider = ({ children }) => {
 			}}
 		>
 			{children}
-		</SpecialitiesContext.Provider>
+		</ConsultantFiltersContext.Provider>
 	);
 };
 
 // Create a hook to use the context values
-export const useSpecialities = () => {
-	return useContext(SpecialitiesContext);
+export const useConsultantFilters = () => {
+	return useContext(ConsultantFiltersContext);
 };

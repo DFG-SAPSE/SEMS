@@ -2,12 +2,12 @@ import React from 'react';
 import { Stack } from 'expo-router';
 
 import { theme } from '../../styles/theme';
-import { SpecialitiesProvider } from '../../context/FilterConsultantsContext';
+import { ConsultantFiltersProvider } from '../../context/ConsultantFilterContext';
 
 const Layout = () => {
 	return (
 		<>
-			<SpecialitiesProvider>
+			<ConsultantFiltersProvider>
 				<Stack
 					screenOptions={{
 						headerStyle: {
@@ -16,7 +16,7 @@ const Layout = () => {
 						headerBackTitleVisible: false,
 					}}
 				/>
-			</SpecialitiesProvider>
+			</ConsultantFiltersProvider>
 		</>
 	);
 };

@@ -2,12 +2,12 @@ import React from 'react';
 import { Text, StyleSheet, View } from 'react-native';
 import Slider from '@react-native-community/slider';
 
-import { useSpecialities } from '../../../../context/FilterConsultantsContext';
+import { useConsultantFilters } from '../../../../context/ConsultantFilterContext';
 import ModalContent from '../ModalContent';
 import tabs from '../../../../locales/en/Tabs.json';
 
 const ExperienceModalContent = ({ closeModal }) => {
-	const { experience, setExperience } = useSpecialities();
+	const { experience, setExperience } = useConsultantFilters();
 
 	// Use onSlidingComplete to trigger the update after the user has finished sliding
 	const handleSliderValueChange = (value) => {

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { fetchConsultants } from '../services/searchUser';
+import { fetchConsultants } from '../services/user';
 import { filterConsultants } from '../utils/filterConsultantUtil';
 const useConsultants = (
 	searchQuery,

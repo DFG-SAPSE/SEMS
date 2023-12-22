@@ -4,7 +4,7 @@ import Button from '../../common/Button';
 import { useFonts } from 'expo-font';
 
 import { fonts } from '../../../styles/fonts';
-import { useSpecialities } from '../../../context/FilterConsultantsContext';
+import { useConsultantFilters } from '../../../context/ConsultantFilterContext';
 import ModalHeader from '../common/ModalHeader';
 import RegionComponent from './master-filter-components/regionComponent';
 import PriceModal from './master-filter-components/priceRangeComponent';
@@ -26,7 +26,7 @@ const AllFiltersModal = ({ closeModal }) => {
 		addRegion,
 		removeRegion,
 		selectedRegions,
-	} = useSpecialities();
+	} = useConsultantFilters();
 
 	const [fontsLoaded] = useFonts(fonts);
 
