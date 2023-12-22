@@ -42,7 +42,10 @@ export default function LoginScreen() {
 				style={{ flex: 1, width: '100%' }}
 				keyboardShouldPersistTaps="always"
 			>
-				<Image style={styles.logo} />
+				<Image
+					style={styles.logo}
+					source={require('../styles/logo.avif')}
+				/>
 				<TextInput
 					style={styles.input}
 					placeholder="E-mail"
@@ -92,10 +95,12 @@ const styles = StyleSheet.create({
 	title: {},
 	logo: {
 		flex: 1,
-		height: 120,
-		width: 90,
+		height: 200,
+		width: 400,
 		alignSelf: 'center',
 		margin: 30,
+		marginTop: 80,
+		resizeMode: 'contain',
 	},
 	input: {
 		height: 48,
