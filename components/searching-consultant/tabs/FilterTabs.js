@@ -1,34 +1,13 @@
 import React, { useState } from 'react';
-import {
-	View,
-	StyleSheet,
-	ScrollView,
-	TouchableOpacity,
-	Text,
-} from 'react-native';
+import { View, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { useFonts } from 'expo-font';
 
 import { fonts } from '../../../styles/fonts';
 import FilterIcon from '../../../assets/svg/FilterIcon';
-import FilterModal from '../common/FilterModal';
+import FilterModal from '../filters/FilterModal';
 import filteringOptions from '../../../defaultdata/Filtering-Tabs.json';
+import Button from '../../common/Button';
 
-// Custom reusable button component for filtering tabs
-const TabButton = ({ onPress, children, active }) => (
-	<TouchableOpacity
-		onPress={onPress}
-		style={[
-			styles.tabButton,
-			{
-				backgroundColor: active
-					? theme.colors.primary.dark
-					: theme.colors.gray.text,
-			},
-		]}
-	>
-		{children}
-	</TouchableOpacity>
-);
 //This is for part of the main search UI where we display multiple tabs.
 const FilterTabs = () => {
 	// State for controlling modal visibility and active filtering tab
@@ -77,13 +56,21 @@ const FilterTabs = () => {
 
 					{/* Mapping through filtering options and rendering TabButtons */}
 					{filteringOptions.map((category) => (
-						<TabButton
+						<Button
 							key={category}
 							onPress={() => handleTabPress(category)}
-							active={category === activeTab}
-						>
-							<Text style={styles.tabText}>{category}</Text>
-						</TabButton>
+							customBtnStyle={[
+								styles.tabButton,
+								{
+									backgroundColor:
+										category === activeTab
+											? theme.colors.primary.dark
+											: theme.colors.text.gray,
+								},
+							]}
+							customTextStyle={styles.tabText}
+							title={category}
+						/>
 					))}
 				</View>
 			</ScrollView>
@@ -119,12 +106,11 @@ const styles = StyleSheet.create({
 		marginHorizontal: theme.spacing.tiny,
 	},
 	tabText: {
-		paddingVertical: theme.spacing.mediumSmall,
-		paddingHorizontal: theme.spacing.medium,
 		letterSpacing: 0.01,
 		color: theme.colors.white,
 		fontFamily: 'Roboto-Regular',
 		fontSize: theme.typography.mediumBody.fontSize,
+		fontWeight: 'normal',
 	},
 	svgContainer: {
 		display: 'flex',

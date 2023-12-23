@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, StyleSheet, View } from 'react-native';
 
-import { useConsultantFilters } from '../../../../context/ConsultantFilterContext';
+import { useConsultantFiltersContext } from '../../../../context/ConsultantFilterContext';
 import philippineRegions from '../../../../defaultdata/Philippines-Region.json';
 import CheckBox from '../../../../assets/svg/CheckIcon';
 import ModalContent from '../ModalContent';
@@ -41,7 +41,7 @@ const RegionList = ({ regions, onRegionPress, selectedRegions }) => (
 
 const RegionModalContent = ({ closeModal }) => {
 	const { addRegion, removeRegion, selectedRegions, clearRegions } =
-		useConsultantFilters();
+		useConsultantFiltersContext();
 
 	const toggleRegion = (region) => {
 		if (selectedRegions.includes(region)) {

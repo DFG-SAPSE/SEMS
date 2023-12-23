@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
 		padding: theme.spacing.tiny,
 		height: 60,
 		position: 'relative',
-		backgroundColor: theme.colors.gray.background,
+		backgroundColor: theme.colors.background.gray,
 	},
 	searchInput: {
 		flex: 1,
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		fontSize: theme.typography.mediumBody.fontSize,
 		letterSpacing: 0.1,
-		borderColor: theme.colors.gray.background,
+		borderColor: theme.colors.background.gray,
 	},
 	searchIcon: {
 		position: 'absolute',

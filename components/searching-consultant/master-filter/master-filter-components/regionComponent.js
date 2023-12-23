@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		padding: theme.spacing.small,
 		borderBottomWidth: 1,
-		borderBottomColor: theme.colors.gray.border,
+		borderBottomColor: theme.colors.border,
 	},
 	experience: {
 		color: theme.colors.text.dark,

@@ -82,6 +82,6 @@ export const ConsultantFiltersProvider = ({ children }) => {
 };
 
 // Create a hook to use the context values
-export const useConsultantFilters = () => {
+export const useConsultantFiltersContext = () => {
 	return useContext(ConsultantFiltersContext);
 };

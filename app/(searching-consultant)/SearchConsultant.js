@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, ScrollView, View } from 'react-native';
 
 import { theme } from '../../styles/theme';
-import { useConsultantFilters } from '../../context/ConsultantFilterContext';
+import { useConsultantFiltersContext } from '../../context/ConsultantFilterContext';
 import SearchBar from '../../components/common/SearchBar';
 import FilterTabs from '../../components/searching-consultant/tabs/FilterTabs';
 import ConsultantList from '../../components/searching-consultant/consultant-card/ConsultantList';
@@ -15,7 +15,7 @@ export default function SearchConsultant() {
 	const [searchQuery, setSearchQuery] = React.useState(''); // holds the state for the search Query
 
 	const { selectedSpecialities, experience, selectedRegions, price } =
-		useConsultantFilters(); // Context that holds all current filtering states
+		useConsultantFiltersContext(); // Context that holds all current filtering states
 
 	const { filteredConsultants, isLoading, fetchError } = useConsultants(
 		searchQuery,
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
 	containerFull: {
 		flex: 1,
 		paddingHorizontal: theme.spacing.large,
-		backgroundColor: theme.colors.background,
+		backgroundColor: theme.colors.background.white,
 	},
 	container: {
 		marginTop: theme.spacing.medium,

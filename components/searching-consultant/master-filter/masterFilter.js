@@ -4,7 +4,7 @@ import Button from '../../common/Button';
 import { useFonts } from 'expo-font';
 
 import { fonts } from '../../../styles/fonts';
-import { useConsultantFilters } from '../../../context/ConsultantFilterContext';
+import { useConsultantFiltersContext } from '../../../context/ConsultantFilterContext';
 import ModalHeader from '../common/ModalHeader';
 import RegionComponent from './master-filter-components/regionComponent';
 import PriceModal from './master-filter-components/priceRangeComponent';
@@ -26,7 +26,7 @@ const AllFiltersModal = ({ closeModal }) => {
 		addRegion,
 		removeRegion,
 		selectedRegions,
-	} = useConsultantFilters();
+	} = useConsultantFiltersContext();
 
 	const [fontsLoaded] = useFonts(fonts);
 
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
 		borderStartStartRadius: theme.spacing.xlarge,
 	},
 	divider: {
-		backgroundColor: theme.colors.gray.border,
+		backgroundColor: theme.colors.border,
 		marginVertical: theme.spacing.medium,
 		height: 1,
 	},

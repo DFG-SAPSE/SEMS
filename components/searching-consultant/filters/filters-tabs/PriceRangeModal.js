@@ -2,12 +2,12 @@ import React from 'react';
 import { Text, StyleSheet, View } from 'react-native';
 import Slider from '@react-native-community/slider';
 
-import { useConsultantFilters } from '../../../../context/ConsultantFilterContext';
+import { useConsultantFiltersContext } from '../../../../context/ConsultantFilterContext';
 import ModalContent from '../ModalContent';
 import tabs from '../../../../locales/en/Tabs.json';
 
 const PriceRangeModalContent = ({ closeModal }) => {
-	const { price, setPrice } = useConsultantFilters();
+	const { price, setPrice } = useConsultantFiltersContext();
 
 	const handleSliderValueChange = (value) => {
 		setPrice(value);

@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Modal, View } from 'react-native';
 
-import FilterModalContent from '../filters/FilterModalMain';
+import FilterModalContent from './FilterModalContent';
 
 // FilterModal Component: Renders a modal for filtering content
 const FilterModal = ({ modalVisible, closeModal, filterContent }) => {
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
 	},
 	overlay: {
 		flex: 1,
-		backgroundColor: theme.colors.transparentBackground,
+		backgroundColor: theme.colors.background.transparent,
 	},
 });
 

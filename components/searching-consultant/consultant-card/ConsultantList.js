@@ -67,10 +67,10 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		padding: theme.spacing.medium,
-		backgroundColor: theme.colors.red.delete,
+		backgroundColor: theme.colors.delete,
 		borderRadius: theme.spacing.small,
 		borderWidth: 1,
-		borderColor: theme.colors.red.delete,
+		borderColor: theme.colors.delete,
 		marginTop: '50%',
 	},
 	errorMessageText: {
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		flexWrap: 'wrap',
 		justifyContent: 'space-between',
-		backgroundColor: theme.colors.background,
+		backgroundColor: theme.colors.background.white,
 	},
 	centeredContainer: {
 		flex: 1,

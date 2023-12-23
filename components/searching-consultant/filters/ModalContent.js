@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
 		borderStartStartRadius: theme.spacing.xlarge,
 	},
 	divider: {
-		backgroundColor: theme.colors.gray.border,
+		backgroundColor: theme.colors.border,
 		marginTop: theme.spacing.medium,
 		height: 1,
 	},
