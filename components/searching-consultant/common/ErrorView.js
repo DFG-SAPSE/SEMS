@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 //errorMessage is for fetch request errors
-const ErrorMessage = ({ fetchError }) => {
+const ErrorView = ({ fetchError }) => {
 	return (
 		<View style={styles.errorContainer}>
 			<Text style={styles.errorText}>{fetchError}</Text>
@@ -22,4 +22,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default ErrorMessage;
+export default ErrorView;

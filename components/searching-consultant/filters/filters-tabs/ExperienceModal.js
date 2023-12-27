@@ -6,7 +6,7 @@ import { useConsultantFiltersContext } from '../../../../context/ConsultantFilte
 import ModalContent from '../ModalContent';
 import tabs from '../../../../locales/en/Tabs.json';
 
-const ExperienceModalContent = ({ closeModal }) => {
+const ExperienceModal = ({ closeModal }) => {
 	const { experience, setExperience } = useConsultantFiltersContext();
 
 	// Use onSlidingComplete to trigger the update after the user has finished sliding
@@ -57,4 +57,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default ExperienceModalContent;
+export default ExperienceModal;

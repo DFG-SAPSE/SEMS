@@ -7,7 +7,7 @@ import specialties from '../../../../defaultdata/Specialties.json';
 import ModalContent from '../ModalContent';
 import tabs from '../../../../locales/en/Tabs.json';
 
-const SpecialtyModalContent = ({ closeModal }) => {
+const SpecialtyModal = ({ closeModal }) => {
 	const {
 		selectedSpecialities,
 		addSpecialty,
@@ -33,7 +33,7 @@ const SpecialtyModalContent = ({ closeModal }) => {
 				style={[
 					styles.specialtyText,
 					isSpecialtySelected(specialty) &&
-						styles.selectedSpecialtyText,
+					styles.selectedSpecialtyText,
 				]}
 			>
 				{specialty}
@@ -98,4 +98,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default SpecialtyModalContent;
+export default SpecialtyModal;

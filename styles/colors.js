@@ -20,6 +20,6 @@ export const colors = {
 		gray: 'rgba(235, 235, 235, 1)',
 	},
 	white: 'rgb(255, 255, 255)',
-	delete: 'rgb(255, 255, 255)',
+	delete: 'rgba(207, 49, 38, 1)',
 	border: 'rgba(204, 204, 204, 1)',
 };

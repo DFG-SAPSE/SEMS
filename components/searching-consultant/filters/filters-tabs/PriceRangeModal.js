@@ -6,7 +6,7 @@ import { useConsultantFiltersContext } from '../../../../context/ConsultantFilte
 import ModalContent from '../ModalContent';
 import tabs from '../../../../locales/en/Tabs.json';
 
-const PriceRangeModalContent = ({ closeModal }) => {
+const PriceRangeModal = ({ closeModal }) => {
 	const { price, setPrice } = useConsultantFiltersContext();
 
 	const handleSliderValueChange = (value) => {
@@ -57,4 +57,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default PriceRangeModalContent;
+export default PriceRangeModal;

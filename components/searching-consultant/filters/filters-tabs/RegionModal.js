@@ -39,7 +39,7 @@ const RegionList = ({ regions, onRegionPress, selectedRegions }) => (
 	</>
 );
 
-const RegionModalContent = ({ closeModal }) => {
+const RegionModal = ({ closeModal }) => {
 	const { addRegion, removeRegion, selectedRegions, clearRegions } =
 		useConsultantFiltersContext();
 
@@ -88,4 +88,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default RegionModalContent;
+export default RegionModal;
