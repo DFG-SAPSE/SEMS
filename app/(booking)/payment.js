@@ -57,12 +57,12 @@ const PaymentComponent = () => {
 
 const styles = StyleSheet.create({
 	wrapper: {
-		backgroundColor: theme.colors.background.white,
+		backgroundColor: theme.colors.background,
 	},
 	container: {
 		flex: 1,
 		padding: theme.spacing.large,
-		backgroundColor: theme.colors.background.white,
+		backgroundColor: theme.colors.background,
 	},
 	footer: {
 		flexDirection: 'row',

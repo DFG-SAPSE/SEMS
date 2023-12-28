@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
-import tabs from '../../../locales/en/Tabs.json';
+import tabs from '../../../../locales/en/Tabs.json';
 //This component is in every modal. It is header with a description of what is for and a clear all button.
 //Onpress is usually the Clear all button, and filter is the label of the Modal.
 const ModalHeader = ({ onPress, filter }) => {
@@ -14,7 +14,7 @@ const ModalHeader = ({ onPress, filter }) => {
 	);
 };
 
-import { theme } from '../../../styles/theme';
+import { theme } from '../../../../styles/theme';
 
 const styles = StyleSheet.create({
 	header: {

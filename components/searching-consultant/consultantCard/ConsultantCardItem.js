@@ -2,7 +2,7 @@
 import React from 'react';
 import { View, Image, Text, StyleSheet } from 'react-native';
 //This is just responsible for the consunltants card that displays their information. This is just a UI to be filled with data
-const ConsultantItem = ({ consultant }) => (
+const ConsultantCardItem = ({ consultant }) => (
 	<View style={styles.consultantCardContainer}>
 		<View style={styles.consultantInfoContainer}>
 			<Image
@@ -41,8 +41,6 @@ const ConsultantItem = ({ consultant }) => (
 		</View>
 	</View>
 );
-
-export default ConsultantItem;
 
 import { theme } from '../../../styles/theme';
 
@@ -108,3 +106,5 @@ const styles = StyleSheet.create({
 		backgroundColor: theme.colors.white,
 	},
 });
+
+export default ConsultantCardItem;

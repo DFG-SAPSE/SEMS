@@ -3,28 +3,28 @@ import { Text, StyleSheet, View } from 'react-native';
 import Slider from '@react-native-community/slider';
 
 import { useConsultantFiltersContext } from '../../../../context/ConsultantFilterContext';
-import ModalContent from '../ModalContent';
+import ModalContent from './FilterModalContainer';
 import tabs from '../../../../locales/en/Tabs.json';
 
-const PriceRangeModal = ({ closeModal }) => {
-	const { price, setPrice } = useConsultantFiltersContext();
+const ExperienceModal = ({ closeModal }) => {
+	const { experience, setExperience } = useConsultantFiltersContext();
 
+	// Use onSlidingComplete to trigger the update after the user has finished sliding
 	const handleSliderValueChange = (value) => {
-		setPrice(value);
+		setExperience(value);
 	};
 
 	const scrollViewContent = (
 		<View style={styles.sliderContainer}>
 			<Text style={styles.sliderLabel}>
-				{tabs.PriceRange.text}
-				{price}
+				{experience} {tabs.Experience.text}
 			</Text>
 			<Slider
 				style={styles.slider}
 				minimumValue={0}
-				maximumValue={3000}
+				maximumValue={20}
 				step={1}
-				value={price}
+				value={experience}
 				onValueChange={handleSliderValueChange}
 				onSlidingComplete={handleSliderValueChange}
 			/>
@@ -34,8 +34,8 @@ const PriceRangeModal = ({ closeModal }) => {
 	return (
 		<ModalContent
 			closeModal={closeModal}
-			headerAction={() => setPrice(0)}
-			headerFilter={tabs.PriceRange.label}
+			headerAction={() => setExperience(0)}
+			headerFilter={tabs.Experience.label}
 			scrollViewContent={scrollViewContent}
 		/>
 	);
@@ -57,4 +57,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default PriceRangeModal;
+export default ExperienceModal;

@@ -1,11 +1,11 @@
 import React from 'react';
 import { Text } from 'react-native';
-import SpecialtyModalContent from './filters-tabs/SpecialtyModal';
-import ExperienceModalContent from './filters-tabs/ExperienceModal';
-import RegionModalContent from './filters-tabs/RegionModal';
-import PriceRangeModalContent from './filters-tabs/PriceRangeModal';
-import MasterFilter from '../master-filter/MasterFilter';
-import tabs from '../../../locales/en/Tabs.json';
+import SpecialtyModalContent from '../filterCategories/SpecialtyModal';
+import ExperienceModalContent from '../filterCategories/ExperienceModal';
+import RegionModalContent from '../filterCategories/RegionModal';
+import PriceRangeModalContent from '../filterCategories/PriceRangeModal';
+import MasterFilter from '../../master-filter/MasterFilter';
+import tabs from '../../../../locales/en/Tabs.json';
 //Depending on the filterCategory This component is used to render a specific modal.
 const FilterModalContent = ({ filterCategory, closeModal }) => {
 	switch (filterCategory) {

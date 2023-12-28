@@ -1,11 +1,11 @@
 import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { useFonts } from 'expo-font';
-import { fonts } from '../../../styles/fonts';
-import Button from '../../common/Button';
-import ModalHeader from '../common/ModalHeader';
+import { fonts } from '../../../../styles/fonts';
+import Button from '../../../common/Button';
+import ModalHeader from '../filterModalComponents/ModalHeader';
 //Higher Order Component that is responsible for wrapping all the modals
-const ModalContent = ({
+const FilterModalContainer = ({
 	closeModal,
 	headerFilter,
 	headerAction,
@@ -28,7 +28,7 @@ const ModalContent = ({
 		</View>
 	);
 };
-import { theme } from '../../../styles/theme';
+import { theme } from '../../../../styles/theme';
 
 const styles = StyleSheet.create({
 	modalContent: {
@@ -51,4 +51,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default ModalContent;
+export default FilterModalContainer;

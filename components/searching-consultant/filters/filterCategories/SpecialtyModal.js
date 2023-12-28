@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import CheckBox from '../../../../assets/svg/CheckIcon';
 import { useConsultantFiltersContext } from '../../../../context/ConsultantFilterContext';
 import specialties from '../../../../defaultdata/Specialties.json';
-import ModalContent from '../ModalContent';
+import ModalContent from './FilterModalContainer';
 import tabs from '../../../../locales/en/Tabs.json';
 
 const SpecialtyModal = ({ closeModal }) => {

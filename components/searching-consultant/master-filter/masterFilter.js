@@ -5,12 +5,11 @@ import { useFonts } from 'expo-font';
 
 import { fonts } from '../../../styles/fonts';
 import { useConsultantFiltersContext } from '../../../context/ConsultantFilterContext';
-import ModalHeader from '../common/ModalHeader';
-import RegionComponent from './master-filter-components/RegionComponent';
-import PriceModal from './master-filter-components/PriceRangeComponent';
-import ExperienceModal from './master-filter-components/ExperienceComponent';
-import SpecialtyComponent from './master-filter-components/SpecialtyComponent';
-
+import ModalHeader from '../filters/filterModalComponents/ModalHeader';
+import RegionComponent from './masterFilterComponents/RegionComponent';
+import PriceModal from './masterFilterComponents/PriceRangeComponent';
+import ExperienceModal from './masterFilterComponents/ExperienceComponent';
+import SpecialtyComponent from './masterFilterComponents/SpecialtyComponent';
 // This is the main UI for the master filters.
 // Inside the 'master-filter-components' folder is where you would add a new filter if needed.
 const MasterFilter = ({ closeModal }) => {

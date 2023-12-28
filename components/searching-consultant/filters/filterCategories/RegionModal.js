@@ -4,7 +4,7 @@ import { Text, StyleSheet, View } from 'react-native';
 import { useConsultantFiltersContext } from '../../../../context/ConsultantFilterContext';
 import philippineRegions from '../../../../defaultdata/Philippines-Region.json';
 import CheckBox from '../../../../assets/svg/CheckIcon';
-import ModalContent from '../ModalContent';
+import ModalContent from './FilterModalContainer';
 import tabs from '../../../../locales/en/Tabs.json';
 
 const RegionItem = ({ region, onPress, isSelected }) => (
