@@ -4,7 +4,7 @@ import { useFonts } from 'expo-font';
 
 import { fonts } from '../../../styles/fonts';
 import FilterIcon from '../../../assets/svg/FilterIcon';
-import FilterModal from '../filters/filterModalComponents/FilterModal';
+import FilterContainer from '../filters/FilterContainer';
 import filteringOptions from '../../../defaultdata/Filtering-Tabs.json';
 import Button from '../../common/Button';
 
@@ -76,7 +76,7 @@ const FilterTabs = () => {
 			</ScrollView>
 
 			{/* FilterModal component for displaying additional filtering options */}
-			<FilterModal
+			<FilterContainer
 				modalVisible={modalVisible}
 				closeModal={closeModal}
 				filterContent={activeTab}

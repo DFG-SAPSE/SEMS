@@ -1,15 +1,15 @@
 import React from 'react';
-import { Text, StyleSheet, View, ScrollView } from 'react-native';
+import { Text, StyleSheet, View, ScrollView, Pressable } from 'react-native';
 import Button from '../../common/Button';
 import { useFonts } from 'expo-font';
 
 import { fonts } from '../../../styles/fonts';
 import { useConsultantFiltersContext } from '../../../context/ConsultantFilterContext';
-import ModalHeader from '../filters/filterModalComponents/ModalHeader';
 import RegionComponent from './masterFilterComponents/RegionComponent';
 import PriceModal from './masterFilterComponents/PriceRangeComponent';
 import ExperienceModal from './masterFilterComponents/ExperienceComponent';
 import SpecialtyComponent from './masterFilterComponents/SpecialtyComponent';
+import tabs from '../../../locales/en/Tabs.json';
 // This is the main UI for the master filters.
 // Inside the 'master-filter-components' folder is where you would add a new filter if needed.
 const MasterFilter = ({ closeModal }) => {
@@ -41,10 +41,12 @@ const MasterFilter = ({ closeModal }) => {
 
 	return (
 		<ScrollView style={styles.modalContent}>
-			<ModalHeader
-				filter={'Filter by'}
-				onPress={clearAllFiltersAndCloseModal}
-			/>
+			<View style={styles.header}>
+				<Text style={styles.headerText}>{'Filter by'}</Text>
+				<Pressable onPress={clearAllFiltersAndCloseModal}>
+					<Text style={styles.clearAllText}>{tabs.ClearAll}</Text>
+				</Pressable>
+			</View>
 			<View style={styles.divider} />
 			<Text style={styles.experience}>Experience</Text>
 			<SpecialtyComponent
@@ -93,6 +95,21 @@ const styles = StyleSheet.create({
 		fontFamily: 'Roboto-Bold',
 		fontSize: theme.typography.mediumBody.fontSize,
 		paddingVertical: theme.spacing.medium,
+	},
+	header: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'space-between',
+	},
+	headerText: {
+		letterSpacing: 0.1,
+		fontFamily: 'Roboto-Bold',
+		fontSize: theme.typography.large.fontSize,
+	},
+	clearAllText: {
+		color: theme.colors.primary.dark,
+		fontFamily: 'Roboto-Bold',
+		fontSize: theme.typography.smallBody.fontSize,
 	},
 });
 

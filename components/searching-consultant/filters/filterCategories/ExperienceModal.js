@@ -3,7 +3,7 @@ import { Text, StyleSheet, View } from 'react-native';
 import Slider from '@react-native-community/slider';
 
 import { useConsultantFiltersContext } from '../../../../context/ConsultantFilterContext';
-import ModalContent from './FilterModalContainer';
+import FilterCommonContent from '../FilterCommonContent';
 import tabs from '../../../../locales/en/Tabs.json';
 
 const ExperienceModal = ({ closeModal }) => {
@@ -32,7 +32,7 @@ const ExperienceModal = ({ closeModal }) => {
 	);
 
 	return (
-		<ModalContent
+		<FilterCommonContent
 			closeModal={closeModal}
 			headerAction={() => setExperience(0)}
 			headerFilter={tabs.Experience.label}

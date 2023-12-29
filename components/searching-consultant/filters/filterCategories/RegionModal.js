@@ -4,7 +4,7 @@ import { Text, StyleSheet, View } from 'react-native';
 import { useConsultantFiltersContext } from '../../../../context/ConsultantFilterContext';
 import philippineRegions from '../../../../defaultdata/Philippines-Region.json';
 import CheckBox from '../../../../assets/svg/CheckIcon';
-import ModalContent from './FilterModalContainer';
+import FilterCommonContent from '../FilterCommonContent';
 import tabs from '../../../../locales/en/Tabs.json';
 
 const RegionItem = ({ region, onPress, isSelected }) => (
@@ -52,7 +52,7 @@ const RegionModal = ({ closeModal }) => {
 	};
 
 	return (
-		<ModalContent
+		<FilterCommonContent
 			closeModal={closeModal}
 			headerAction={clearRegions}
 			headerFilter={tabs.Region.text}
