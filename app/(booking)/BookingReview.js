@@ -96,7 +96,7 @@ import { theme } from '../../styles/theme';
 
 const styles = StyleSheet.create({
 	wrapper: {
-		backgroundColor: theme.colors.background,
+		backgroundColor: theme.colors.background.white,
 	},
 	container: {
 		flexGrow: 1,
