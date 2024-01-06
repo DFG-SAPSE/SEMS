@@ -1,20 +1,27 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import React from 'react';
-
+import Dashboard from '../components/dashboard/dashboard';
+import { useFonts } from 'expo-font';
+import { fonts } from '../styles/fonts';
 export default function Home() {
+	const [fontsLoaded] = useFonts(fonts);
+
+	if (!fontsLoaded) {
+		return null;
+	}
 	return (
 		<View style={styles.container}>
-			<Text>Open up App.js to start working on your app!</Text>
-			<StatusBar style="auto" />
+			<Dashboard />
 		</View>
 	);
 }
 
+import { theme } from '../styles/theme';
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		alignItems: 'center',
 		justifyContent: 'center',
+		backgroundColor: theme.colors.white,
 	},
 });
