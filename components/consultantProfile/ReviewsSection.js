@@ -21,23 +21,25 @@ const ReviewSection = () => {
 	return (
 		<>
 			<View style={styles.commentSection}>
-				<View style={styles.view48}>
-					<Text style={styles.title}>Highlighted reviews</Text>
-				</View>
+				<Text style={styles.highlightedReviewsTitle}>
+					Highlighted reviews
+				</Text>
 				{comments.map((comment, index) => (
 					<View key={index}>
-						<View style={styles.view49}>
-							<Text style={styles.names}>{comment.name}</Text>
-						</View>
-						<View style={styles.view50}>
-							<Text style={styles.namesComment}>
+						<View style={styles.commenterNameContainer}>
+							<Text style={styles.commenterName}>
+								{comment.name}
+							</Text>
+							<Text style={styles.commentText}>
 								{comment.text}
 							</Text>
 						</View>
 					</View>
 				))}
-				<View style={styles.view55}>
-					<Text style={styles.names}>View all reviews (28)</Text>
+				<View style={styles.viewAllReviewsContainer}>
+					<Text style={styles.viewAllReviewsText}>
+						View all reviews (28)
+					</Text>
 				</View>
 			</View>
 		</>
@@ -54,48 +56,33 @@ const styles = StyleSheet.create({
 		marginTop: theme.spacing.large,
 		padding: theme.spacing.large,
 	},
-	view48: {
-		color: '#999',
-		letterSpacing: 0.1,
-		whiteSpace: 'nowrap',
-		font: '500 12px/167% Roboto, sans-serif ',
-	},
-	title: {
+	highlightedReviewsTitle: {
 		color: theme.colors.text.gray,
-		fontFamily: 'Roboto-Bold',
+		fontFamily: 'Roboto-Medium',
 		fontSize: theme.typography.tinyBody.fontSize,
 		marginVertical: theme.spacing.tiny,
 	},
-	view49: {
-		color: '#00367C',
-		letterSpacing: 0.1,
-		marginTop: 16,
-		whiteSpace: 'nowrap',
-		font: '700 12px/167% Roboto, sans-serif ',
+	commenterNameContainer: {
+		marginTop: theme.spacing.medium,
 	},
-	names: {
+	commenterName: {
 		color: theme.colors.primary.dark,
 		fontFamily: 'Roboto-Bold',
 		fontSize: theme.typography.tinyBody.fontSize,
 		marginVertical: theme.spacing.tiny,
 	},
-	view50: {
-		color: '#000',
-		letterSpacing: 0.1,
-		font: '400 12px/20px Roboto, sans-serif ',
-	},
-	namesComment: {
+	commentText: {
 		fontFamily: 'Roboto-Regular',
 		fontSize: theme.typography.tinyBody.fontSize,
 		letterSpacing: 0.1,
 	},
-	view55: {
-		color: '#00367C',
-		letterSpacing: 0.1,
-		marginTop: 16,
-
-		whiteSpace: 'nowrap',
-		font: '700 12px/167% Roboto, sans-serif ',
+	viewAllReviewsContainer: {
+		marginVertical: theme.spacing.medium,
+	},
+	viewAllReviewsText: {
+		fontFamily: 'Roboto-Bold',
+		fontSize: theme.typography.tinyBody.fontSize,
+		color: theme.colors.primary.dark,
 	},
 });
 

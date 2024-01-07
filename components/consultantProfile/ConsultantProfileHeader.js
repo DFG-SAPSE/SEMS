@@ -21,10 +21,7 @@ import { theme } from '../../styles/theme';
 
 const styles = StyleSheet.create({
 	image: {
-		overflow: 'hidden',
 		alignSelf: 'center',
-		position: 'relative',
-		marginTop: theme.spacing.large,
 		width: '100%',
 		aspectRatio: '1',
 		borderRadius: theme.spacing.small,

@@ -1,5 +1,12 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+	View,
+	Text,
+	Image,
+	StyleSheet,
+	TouchableOpacity,
+	ScrollView,
+} from 'react-native';
 import { useFonts } from 'expo-font';
 import { fonts } from '../../styles/fonts';
 import { router } from 'expo-router';
@@ -11,7 +18,7 @@ const Dashboard = () => {
 		return null;
 	}
 	return (
-		<View style={styles.dashboard}>
+		<ScrollView style={styles.dashboard}>
 			<View style={styles.header}>
 				<Text style={styles.headerText}>Welcome,</Text>
 				<Text style={styles.headerName}>John</Text>
@@ -23,21 +30,19 @@ const Dashboard = () => {
 					onPress={() => {
 						router.push('SearchConsultant');
 					}}
-					style={styles.view16}
+					style={styles.iconContainer}
 				>
-					<View style={styles.iconContainer}>
-						<View style={styles.iconWrapper}>
-							<Image
-								resizeMode="contain"
-								source={{
-									uri: 'https://cdn.builder.io/api/v1/image/assets/TEMP/9f8bf2982f8064a65b6a6aa3fed7a3cf66503161fac70fe52c8eed7b144991f7?apiKey=978f41e0131a442f8daf873f3d5553aa',
-								}}
-								style={styles.icon}
-							/>
-						</View>
-
-						<Text style={styles.iconText}>Meeting Dashboard</Text>
+					<View style={styles.iconWrapper}>
+						<Image
+							resizeMode="contain"
+							source={{
+								uri: 'https://cdn.builder.io/api/v1/image/assets/TEMP/9f8bf2982f8064a65b6a6aa3fed7a3cf66503161fac70fe52c8eed7b144991f7?apiKey=978f41e0131a442f8daf873f3d5553aa',
+							}}
+							style={styles.icon}
+						/>
 					</View>
+
+					<Text style={styles.iconText}>Meeting Dashboard</Text>
 				</TouchableOpacity>
 
 				<View style={styles.iconContainer}>
@@ -119,7 +124,7 @@ const Dashboard = () => {
 					</Text>
 				</View>
 			</View>
-		</View>
+		</ScrollView>
 	);
 };
 import { theme } from '../../styles/theme';
@@ -132,7 +137,7 @@ const styles = StyleSheet.create({
 		backgroundColor: theme.colors.white,
 	},
 	header: {
-		padding: 20,
+		padding: theme.spacing.medium,
 		alignItems: 'left',
 		flexDirection: 'row',
 		backgroundColor: theme.colors.white,
@@ -140,14 +145,14 @@ const styles = StyleSheet.create({
 	},
 	headerText: {
 		color: theme.colors.text.dark,
-		fontSize: 24,
+		fontSize: theme.typography.extraLarge.fontSize,
 		fontFamily: 'Roboto-Bold',
 		letterSpacing: 0.1,
 		marginRight: 2,
 	},
 	headerName: {
 		color: theme.colors.primary.default,
-		fontSize: 24,
+		fontSize: theme.typography.extraLarge.fontSize,
 		fontFamily: 'Roboto-Bold',
 		letterSpacing: 0.1,
 	},
@@ -162,16 +167,13 @@ const styles = StyleSheet.create({
 		flexGrow: 1,
 		flex: 1,
 		justifyContent: 'center',
+		height: 'auto',
+		flexDirection: 'column',
 	},
 	icon: {
 		width: 60,
-		height: 60,
-		borderRadius: 25,
-		marginBottom: 10,
-		shadowColor: '#000',
-		shadowOffset: { width: 0, height: 4 },
-		shadowOpacity: 0.25,
-		shadowRadius: 4,
+		borderRadius: 50,
+		flex: 1,
 	},
 	iconWrapper: {
 		backgroundColor: 'rgba(202, 223, 244, 1)',
@@ -190,8 +192,9 @@ const styles = StyleSheet.create({
 		fontFamily: 'Roboto-Bold',
 		fontSize: theme.spacing.medium,
 		textAlign: 'center',
-		marginTop: 5,
+		marginTop: theme.spacing.small,
 		padding: theme.spacing.small,
+		height: 75,
 	},
 	otherServicesText: {
 		marginVertical: theme.spacing.small,

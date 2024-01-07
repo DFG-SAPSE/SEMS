@@ -11,9 +11,9 @@ import { router } from 'expo-router';
 const AvailabilitySchedule = () => {
 	return (
 		<>
-			<View style={styles.availibilityTitle}>
-				<View style={styles.view15}>
-					<Text style={styles.avalibilityText}>
+			<View style={styles.availabilityTitle}>
+				<View>
+					<Text style={styles.availabilityText}>
 						Availability this week
 					</Text>
 				</View>
@@ -21,66 +21,75 @@ const AvailabilitySchedule = () => {
 					onPress={() => {
 						router.push('BookingTimeSlot');
 					}}
-					style={styles.view16}
 				>
-					<Text style={styles.viewCalendar}>View calendar</Text>
+					<Text style={styles.viewCalendarText}>View calendar</Text>
 				</TouchableOpacity>
 			</View>
 			<ScrollView horizontal showsHorizontalScrollIndicator={false}>
-				<View style={styles.availibilitySchedule}>
-					<View style={styles.timeBox}>
+				<View style={styles.availabilitySchedule}>
+					<View style={styles.timeSlot}>
 						<View>
 							<Text style={styles.dayOfTheWeek}>Sun</Text>
 						</View>
-						<View style={styles.view20}>
-							<Text style={styles.dayOfWeek}>13 Aug</Text>
+						<View style={styles.dateContainer}>
+							<Text style={styles.date}>13 Aug</Text>
 						</View>
-						<View style={styles.dayAvailable}>
-							<Text style={styles.dayAvailable}>6 available</Text>
+						<View style={styles.availableSlots}>
+							<Text style={styles.availableSlotsText}>
+								6 available
+							</Text>
 						</View>
 					</View>
-					<View style={styles.timeBox}>
-						<View style={styles.view23}>
+					<View style={styles.timeSlot}>
+						<View>
 							<Text style={styles.dayOfTheWeek}>Tue</Text>
 						</View>
-						<View style={styles.view24}>
-							<Text style={styles.dayOfWeek}>15 Aug</Text>
+						<View style={styles.dateContainer}>
+							<Text style={styles.date}>15 Aug</Text>
 						</View>
-						<View style={styles.dayAvailable}>
-							<Text style={styles.dayAvailable}>3 available</Text>
+						<View style={styles.availableSlots}>
+							<Text style={styles.availableSlotsText}>
+								3 available
+							</Text>
 						</View>
 					</View>
-					<View style={styles.timeBox}>
-						<View style={styles.view27}>
+					<View style={styles.timeSlot}>
+						<View>
 							<Text style={styles.dayOfTheWeek}>Wed</Text>
 						</View>
-						<View style={styles.view28}>
-							<Text style={styles.dayOfWeek}>16 Aug</Text>
+						<View style={styles.dateContainer}>
+							<Text style={styles.date}>16 Aug</Text>
 						</View>
-						<View>
-							<Text style={styles.dayAvailable}>9 available</Text>
+						<View style={styles.availableSlots}>
+							<Text style={styles.availableSlotsText}>
+								9 available
+							</Text>
 						</View>
 					</View>
-					<View style={styles.timeBox}>
-						<View style={styles.view31}>
+					<View style={styles.timeSlot}>
+						<View>
 							<Text style={styles.dayOfTheWeek}>Thu</Text>
 						</View>
-						<View style={styles.view32}>
-							<Text style={styles.dayOfWeek}>17 Aug</Text>
+						<View style={styles.dateContainer}>
+							<Text style={styles.date}>17 Aug</Text>
 						</View>
-						<View>
-							<Text style={styles.dayAvailable}>7 available</Text>
+						<View style={styles.availableSlots}>
+							<Text style={styles.availableSlotsText}>
+								7 available
+							</Text>
 						</View>
 					</View>
-					<View style={styles.timeBox}>
-						<View style={styles.view31}>
+					<View style={styles.timeSlot}>
+						<View>
 							<Text style={styles.dayOfTheWeek}>Fri</Text>
 						</View>
-						<View style={styles.view32}>
-							<Text style={styles.dayOfWeek}>17 Aug</Text>
+						<View style={styles.dateContainer}>
+							<Text style={styles.date}>17 Aug</Text>
 						</View>
-						<View>
-							<Text style={styles.dayAvailable}>9 available</Text>
+						<View style={styles.availableSlots}>
+							<Text style={styles.availableSlotsText}>
+								9 available
+							</Text>
 						</View>
 					</View>
 				</View>
@@ -92,120 +101,68 @@ const AvailabilitySchedule = () => {
 import { theme } from '../../styles/theme';
 
 const styles = StyleSheet.create({
-	availibilityTitle: {
+	availabilityTitle: {
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'space-between',
 		paddingHorizontal: theme.spacing.large,
 		paddingTop: theme.spacing.large,
 	},
-	view15: {
-		color: '#000',
+	availabilityText: {
+		color: theme.colors.text.dark,
 		letterSpacing: 0.1,
-		font: '400 12px/167% Roboto, sans-serif ',
+		fontFamily: 'Roboto-Regular',
+		fontSize: theme.typography.smallBody.fontSize,
 	},
-	avalibilityText: {
-		fontFamily: 'Roboto-Medium',
-	},
-	view16: {
-		color: '#00367C',
-		letterSpacing: 0.1,
-		font: '400 12px/167% Roboto, sans-serif ',
-	},
-	viewCalendar: {
-		fontFamily: 'Roboto-Medium',
+	viewCalendarText: {
+		fontFamily: 'Roboto-Regular',
 		color: theme.colors.primary.dark,
+		letterSpacing: 0.1,
 	},
-	availibilitySchedule: {
+	availabilitySchedule: {
 		flexDirection: 'row',
 		alignItems: 'center',
 		gap: theme.spacing.medium,
 		paddingHorizontal: theme.spacing.large,
+		marginVertical: theme.spacing.mediumSmall,
 	},
-	timeBox: {
+	timeSlot: {
 		marginVertical: theme.spacing.small,
 		borderRadius: theme.spacing.small,
-		border: '0.25px solid rgba(204, 204, 204, 0.50)',
-		boxShadow: '0px 0px 15px 0px rgba(0, 0, 0, 0.05)',
 		backgroundColor: theme.colors.white,
-		display: 'flex',
-		flexGrow: '1',
-		flexBasis: '0%',
 		flexDirection: 'column',
 		padding: theme.spacing.medium,
 	},
 	dayOfTheWeek: {
 		fontFamily: 'Roboto-Bold',
 		color: theme.colors.text.gray,
-		fontSize: theme.typography.tinyBody.fontSize,
+		fontSize: theme.typography.smallBody.fontSize,
 		textAlign: 'center',
 	},
-	view20: {
-		color: '#000',
-		textAlign: 'center',
+	dateContainer: {
 		letterSpacing: 0.1,
-		marginTop: 4,
-		whiteSpace: 'nowrap',
-		font: '400 14px/143% Roboto, sans-serif ',
+		marginTop: theme.spacing.tiny,
 	},
-	dayAvailable: {
+	availableSlots: {
 		fontFamily: 'Roboto-Regular',
 		color: theme.colors.primary.dark,
-		fontSize: 11,
 		textAlign: 'center',
 		paddingTop: theme.spacing.tiny,
 	},
-	dayOfWeek: {
-		fontFamily: 'Roboto-Medium',
+	availableSlotsText: {
+		fontFamily: 'Roboto-Bold',
+		color: theme.colors.primary.dark,
+		fontSize: 10,
+		textAlign: 'center',
+		paddingTop: theme.spacing.tiny,
+		letterSpacing: 0.1,
+	},
+	date: {
+		fontFamily: 'Roboto-Regular',
 		color: theme.colors.text.dark,
-		fontSize: theme.typography.tinyBody.fontSize,
+		fontSize: theme.typography.mediumBody.fontSize,
 		textAlign: 'center',
 		padding: theme.spacing.tiny,
-	},
-	view23: {
-		color: '#999',
-		textAlign: 'center',
-		letterSpacing: 0.1,
-		whiteSpace: 'nowrap',
-		font: '800 10px/20px Roboto, sans-serif ',
-	},
-	view24: {
-		color: '#000',
-		textAlign: 'center',
-		letterSpacing: 0.1,
-		marginTop: 4,
-		whiteSpace: 'nowrap',
-		font: '400 14px/143% Roboto, sans-serif ',
-	},
-	view27: {
-		color: '#999',
-		textAlign: 'center',
-		letterSpacing: 0.1,
-		whiteSpace: 'nowrap',
-		font: '800 10px/20px Roboto, sans-serif ',
-	},
-	view28: {
-		color: '#000',
-		textAlign: 'center',
-		letterSpacing: 0.1,
-		marginTop: 4,
-		whiteSpace: 'nowrap',
-		font: '400 14px/143% Roboto, sans-serif ',
-	},
-	view31: {
-		color: '#999',
-		textAlign: 'center',
-		letterSpacing: 0.1,
-		whiteSpace: 'nowrap',
-		font: '800 10px/20px Roboto, sans-serif ',
-	},
-	view32: {
-		color: '#000',
-		textAlign: 'center',
-		letterSpacing: 0.1,
-		marginTop: 4,
-		whiteSpace: 'nowrap',
-		font: '400 14px/143% Roboto, sans-serif ',
 	},
 });
 

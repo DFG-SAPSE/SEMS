@@ -11,28 +11,24 @@ const ConsultantProfileDetails = () => {
 	}
 	return (
 		<>
-			<View style={styles.consultantInformation}>
-				<View style={styles.titleDetailContainer}>
-					<Text style={styles.titleDetail}>Social enterprise</Text>
-				</View>
-				<View style={styles.socialEntepriseInfo}>
-					<Text style={styles.subTitleLink}>EcoHarvest</Text>
+			<View style={styles.container}>
+				<View style={styles.detailContainer}>
+					<Text style={styles.detailTitle}>Social Enterprise</Text>
+					<Text style={styles.detailSubTitleLink}>EcoHarvest</Text>
 				</View>
 
-				<View style={styles.titleDetailContainer}>
-					<Text style={styles.titleDetail}>Industry</Text>
-				</View>
-				<View style={styles.view11}>
-					<Text style={styles.subTitle}>Community Development</Text>
-				</View>
-
-				<View style={styles.titleDetailContainer}>
-					<Text style={styles.titleDetail}>
-						Consultation sessions
+				<View style={styles.detailContainer}>
+					<Text style={styles.detailTitle}>Industry</Text>
+					<Text style={styles.detailSubTitle}>
+						Community Development
 					</Text>
 				</View>
-				<View style={styles.view13}>
-					<Text style={styles.subTitle}>39</Text>
+
+				<View style={styles.detailContainer}>
+					<Text style={styles.detailTitle}>
+						Consultation Sessions
+					</Text>
+					<Text style={styles.detailSubTitle}>39</Text>
 				</View>
 			</View>
 		</>
@@ -42,63 +38,37 @@ const ConsultantProfileDetails = () => {
 import { theme } from '../../styles/theme';
 
 const styles = StyleSheet.create({
-	consultantInformation: {
-		justifyContent: 'center',
-		alignItems: 'stretch',
+	container: {
 		backgroundColor: theme.colors.white,
-		alignSelf: 'stretch',
-		display: 'flex',
-		flexDirection: 'column',
 		paddingHorizontal: theme.spacing.large,
 		paddingTop: theme.spacing.small,
 		paddingBottom: theme.spacing.medium,
+		shadowOffset: { width: 0, height: 0.1 },
+		shadowOpacity: 0.05,
 	},
-	socialEntepriseInfo: {
-		color: '#00367C',
-		letterSpacing: 0.1,
-		whiteSpace: 'nowrap',
-		font: '400 14px/143% Roboto, sans-serif ',
-	},
-	titleDetail: {
+	detailTitle: {
 		color: theme.colors.text.gray,
-		fontFamily: 'Roboto-Medium',
+		fontFamily: 'Roboto-Bold',
 		fontSize: theme.typography.tinyBody.fontSize,
 		marginVertical: theme.spacing.tiny,
 		letterSpacing: 0.1,
 	},
-	titleDetailContainer: {
-		color: '#999',
+	detailContainer: {
 		letterSpacing: 0.1,
-		marginTop: 10,
+		marginBottom: theme.spacing.mediumSmall,
 		whiteSpace: 'nowrap',
-		font: '700 12px/167% Roboto, sans-serif ',
 	},
-	IndustryTitle: {
-		color: '#999',
-		letterSpacing: 0.1,
-		marginTop: 10,
-		whiteSpace: 'nowrap',
-		font: '700 12px/167% Roboto, sans-serif ',
-	},
-	view11: {
-		color: '#000',
-		letterSpacing: 0.1,
-		whiteSpace: 'nowrap',
-		font: '400 14px/143% Roboto, sans-serif ',
-	},
-	view13: {
-		color: '#000',
-		letterSpacing: 0.1,
-		whiteSpace: 'nowrap',
-		font: '400 14px/143% Roboto, sans-serif ',
-	},
-	subTitle: {
-		fontFamily: 'Roboto-Medium',
+	detailSubTitle: {
+		fontFamily: 'Roboto-Regular',
 		color: theme.colors.text.dark,
+		letterSpacing: 0.1,
+		fontSize: theme.typography.smallBody.fontSize,
 	},
-	subTitleLink: {
-		fontFamily: 'Roboto-Medium',
+	detailSubTitleLink: {
+		fontFamily: 'Roboto-Regular',
 		color: theme.colors.primary.dark,
+		letterSpacing: 0.1,
+		fontSize: theme.typography.smallBody.fontSize,
 	},
 });
 

@@ -19,14 +19,14 @@ function ConsultantProfile() {
 	}
 
 	return (
-		<ScrollView>
+		<ScrollView style={styles.container}>
 			<Stack.Screen
 				options={{
 					title: `Andrea Beatrice`,
 					headerTitleStyle: styles.name,
 				}}
 			/>
-			<View style={styles.container}>
+			<View>
 				<ConsultantProfileHeader />
 
 				<ConsultantProfileDetails />
@@ -39,7 +39,10 @@ function ConsultantProfile() {
 			</View>
 
 			<View styles={styles.marginButton}>
-				<Button title={'Book Consultation'} />
+				<Button
+					customBtnStyle={{ margin: theme.spacing.large }}
+					title={'Book Consultation'}
+				/>
 			</View>
 			<Stack.Screen />
 		</ScrollView>
@@ -53,20 +56,15 @@ const styles = StyleSheet.create({
 		margin: theme.spacing.large,
 	},
 	container: {
-		background:
-			'linear-gradient(180deg, #FFF 14.17%, #FCFCFC 18.18%, #FCFCFC 100%)',
 		display: 'flex',
-		maxWidth: 480,
-		width: '100%',
-		paddingBottom: 24,
-		flexDirection: 'column',
-		margin: '0 auto',
+		paddingBottom: 0,
+		marginVertical: theme.spacing.large,
 	},
 	name: {
 		letterSpacing: 0.1,
 		fontSize: theme.typography.large.fontSize,
 		fontFamily: 'Roboto-Bold',
-		color: 'rgba(33, 37, 41, 1)', //will be replaced
+		color: theme.colors.text.black,
 	},
 });
 

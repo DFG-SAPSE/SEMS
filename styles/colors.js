@@ -13,6 +13,7 @@ export const colors = {
 		dark: 'rgba(46, 46, 46, 1)',
 		light: 'rgba(255, 255, 255, 1)',
 		gray: 'rgba(153, 153, 153, 1)',
+		black: 'rgba(33, 37, 41, 1)',
 	},
 	background: {
 		white: 'rgba(250, 250, 250, 1)',
