@@ -37,7 +37,7 @@ async function searchConsultants(name) {
 async function filterConsultants(
 	specialities,
 	minYearsOfExperience,
-	region,
+	regions,
 	maxPrice,
 ) {
 	try {
@@ -45,8 +45,26 @@ async function filterConsultants(
 
 		for (let speciality of specialities) {
 			let query = db
-				.collection('people')
-				.where('speciality', '==', speciality);
+				.collection('Consultants')
+				.where('speciality', 'array-contains-any', speciality);
+
+			if (minYearsOfExperience) {
+				query = query.where(
+					'yearsOfExperience',
+					'>=',
+					minYearsOfExperience,
+				);
+			}
+
+			if (regions) {
+				query = query.where('regions', 'array-contains-any', regions);
+			}
+
+			/* maxPrice in-progress
+                if (maxPrice) {
+                    query = query.where('price', '<=', maxPrice);
+                }
+				*/
 
 			// run the query
 			const snapshot = await query.get();
