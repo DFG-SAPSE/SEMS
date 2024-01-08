@@ -2,18 +2,18 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
 import CheckBox from '../../../../assets/svg/CheckIcon';
-import { useSpecialities } from '../../../../context/FilterConsultantsContext';
+import { useConsultantFiltersContext } from '../../../../context/ConsultantFilterContext';
 import specialties from '../../../../defaultdata/Specialties.json';
-import ModalContent from '../ModalContent';
+import ModalContent from '../FilterCommonContent';
 import tabs from '../../../../locales/en/Tabs.json';
 
-const SpecialtyModalContent = ({ closeModal }) => {
+const SpecialtyModal = ({ closeModal }) => {
 	const {
 		selectedSpecialities,
 		addSpecialty,
 		removeSpecialty,
 		clearSpecialities,
-	} = useSpecialities();
+	} = useConsultantFiltersContext();
 
 	const isSpecialtySelected = (Specialty) =>
 		selectedSpecialities.includes(Specialty);
@@ -33,7 +33,7 @@ const SpecialtyModalContent = ({ closeModal }) => {
 				style={[
 					styles.specialtyText,
 					isSpecialtySelected(specialty) &&
-						styles.selectedSpecialtyText,
+					styles.selectedSpecialtyText,
 				]}
 			>
 				{specialty}
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
 		borderStartStartRadius: theme.spacing.xlarge,
 	},
 	divider: {
-		backgroundColor: theme.colors.gray.border,
+		backgroundColor: theme.colors.border,
 		marginTop: theme.spacing.medium,
 		height: 1,
 	},
@@ -98,4 +98,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default SpecialtyModalContent;
+export default SpecialtyModal;

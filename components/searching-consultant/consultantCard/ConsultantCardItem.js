@@ -2,7 +2,7 @@
 import React from 'react';
 import { View, Image, Text, StyleSheet } from 'react-native';
 //This is just responsible for the consunltants card that displays their information. This is just a UI to be filled with data
-const ConsultantItem = ({ consultant }) => (
+const ConsultantCardItem = ({ consultant }) => (
 	<View style={styles.consultantCardContainer}>
 		<View style={styles.consultantInfoContainer}>
 			<Image
@@ -42,8 +42,6 @@ const ConsultantItem = ({ consultant }) => (
 	</View>
 );
 
-export default ConsultantItem;
-
 import { theme } from '../../../styles/theme';
 
 const styles = StyleSheet.create({
@@ -57,14 +55,14 @@ const styles = StyleSheet.create({
 		left: 0,
 		right: 0,
 		borderBottomWidth: 0.5,
-		borderBottomColor: theme.colors.gray.border,
+		borderBottomColor: theme.colors.border,
 	},
 	sessionInfoTextContainer: {
 		flexDirection: 'row',
 		marginTop: theme.spacing.small,
 	},
 	sessionInfoText: {
-		color: theme.colors.gray.text,
+		color: theme.colors.text.gray,
 		fontSize: theme.typography.tinyBody.fontSize,
 		fontFamily: 'Roboto-Bold',
 		marginRight: theme.spacing.tiny,
@@ -91,7 +89,7 @@ const styles = StyleSheet.create({
 		fontFamily: 'Roboto-Regular',
 	},
 	industryText: {
-		color: theme.colors.gray.text,
+		color: theme.colors.text.gray,
 		fontSize: theme.typography.tinyBody.fontSize,
 		letterSpacing: 0.1,
 		fontFamily: 'Roboto-Regular',
@@ -103,8 +101,10 @@ const styles = StyleSheet.create({
 		marginVertical: theme.spacing.medium,
 		borderWidth: 1,
 		borderRadius: theme.spacing.small,
-		borderColor: theme.colors.gray.border,
+		borderColor: theme.colors.border,
 		overflow: 'hidden',
 		backgroundColor: theme.colors.white,
 	},
 });
+
+export default ConsultantCardItem;

@@ -1,10 +1,10 @@
 import React from 'react';
 import { Text, StyleSheet, View } from 'react-native';
 
-import { useSpecialities } from '../../../../context/FilterConsultantsContext';
+import { useConsultantFiltersContext } from '../../../../context/ConsultantFilterContext';
 import philippineRegions from '../../../../defaultdata/Philippines-Region.json';
 import CheckBox from '../../../../assets/svg/CheckIcon';
-import ModalContent from '../ModalContent';
+import FilterCommonContent from '../FilterCommonContent';
 import tabs from '../../../../locales/en/Tabs.json';
 
 const RegionItem = ({ region, onPress, isSelected }) => (
@@ -39,9 +39,9 @@ const RegionList = ({ regions, onRegionPress, selectedRegions }) => (
 	</>
 );
 
-const RegionModalContent = ({ closeModal }) => {
+const RegionModal = ({ closeModal }) => {
 	const { addRegion, removeRegion, selectedRegions, clearRegions } =
-		useSpecialities();
+		useConsultantFiltersContext();
 
 	const toggleRegion = (region) => {
 		if (selectedRegions.includes(region)) {
@@ -52,7 +52,7 @@ const RegionModalContent = ({ closeModal }) => {
 	};
 
 	return (
-		<ModalContent
+		<FilterCommonContent
 			closeModal={closeModal}
 			headerAction={clearRegions}
 			headerFilter={tabs.Region.text}
@@ -88,4 +88,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default RegionModalContent;
+export default RegionModal;

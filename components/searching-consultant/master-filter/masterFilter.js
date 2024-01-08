@@ -1,19 +1,18 @@
 import React from 'react';
-import { Text, StyleSheet, View, ScrollView } from 'react-native';
+import { Text, StyleSheet, View, ScrollView, Pressable } from 'react-native';
 import Button from '../../common/Button';
 import { useFonts } from 'expo-font';
 
 import { fonts } from '../../../styles/fonts';
-import { useSpecialities } from '../../../context/FilterConsultantsContext';
-import ModalHeader from '../common/ModalHeader';
-import RegionComponent from './master-filter-components/regionComponent';
-import PriceModal from './master-filter-components/priceRangeComponent';
-import ExperienceModal from './master-filter-components/experienceComponent';
-import SpecialtyComponent from './master-filter-components/specialtyComponent';
-
+import { useConsultantFiltersContext } from '../../../context/ConsultantFilterContext';
+import RegionComponent from './masterFilterComponents/RegionComponent';
+import PriceModal from './masterFilterComponents/PriceRangeComponent';
+import ExperienceModal from './masterFilterComponents/ExperienceComponent';
+import SpecialtyComponent from './masterFilterComponents/SpecialtyComponent';
+import tabs from '../../../locales/en/Tabs.json';
 // This is the main UI for the master filters.
 // Inside the 'master-filter-components' folder is where you would add a new filter if needed.
-const AllFiltersModal = ({ closeModal }) => {
+const MasterFilter = ({ closeModal }) => {
 	const {
 		clearAllFilters,
 		selectedSpecialities,
@@ -26,7 +25,7 @@ const AllFiltersModal = ({ closeModal }) => {
 		addRegion,
 		removeRegion,
 		selectedRegions,
-	} = useSpecialities();
+	} = useConsultantFiltersContext();
 
 	const [fontsLoaded] = useFonts(fonts);
 
@@ -42,10 +41,12 @@ const AllFiltersModal = ({ closeModal }) => {
 
 	return (
 		<ScrollView style={styles.modalContent}>
-			<ModalHeader
-				filter={'Filter by'}
-				onPress={clearAllFiltersAndCloseModal}
-			/>
+			<View style={styles.header}>
+				<Text style={styles.headerText}>{'Filter by'}</Text>
+				<Pressable onPress={clearAllFiltersAndCloseModal}>
+					<Text style={styles.clearAllText}>{tabs.ClearAll}</Text>
+				</Pressable>
+			</View>
 			<View style={styles.divider} />
 			<Text style={styles.experience}>Experience</Text>
 			<SpecialtyComponent
@@ -84,7 +85,7 @@ const styles = StyleSheet.create({
 		borderStartStartRadius: theme.spacing.xlarge,
 	},
 	divider: {
-		backgroundColor: theme.colors.gray.border,
+		backgroundColor: theme.colors.border,
 		marginVertical: theme.spacing.medium,
 		height: 1,
 	},
@@ -95,6 +96,21 @@ const styles = StyleSheet.create({
 		fontSize: theme.typography.mediumBody.fontSize,
 		paddingVertical: theme.spacing.medium,
 	},
+	header: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'space-between',
+	},
+	headerText: {
+		letterSpacing: 0.1,
+		fontFamily: 'Roboto-Bold',
+		fontSize: theme.typography.large.fontSize,
+	},
+	clearAllText: {
+		color: theme.colors.primary.dark,
+		fontFamily: 'Roboto-Bold',
+		fontSize: theme.typography.smallBody.fontSize,
+	},
 });
 
-export default AllFiltersModal;
+export default MasterFilter;

@@ -4,7 +4,7 @@ import Slider from '@react-native-community/slider';
 import tabs from '../../../../locales/en/Tabs.json';
 
 // ExperienceModal is a component for handling the experience range filter
-const ExperienceModal = ({ experience, setExperience }) => {
+const ExperienceComponent = ({ experience, setExperience }) => {
 	return (
 		<View style={styles.sliderContainer}>
 			{/* Display the selected experience value */}
@@ -49,4 +49,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default ExperienceModal;
+export default ExperienceComponent;

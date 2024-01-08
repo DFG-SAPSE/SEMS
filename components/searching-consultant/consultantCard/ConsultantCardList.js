@@ -5,14 +5,14 @@ import { useFonts } from 'expo-font';
 import { fonts } from '../../../styles/fonts';
 import Loading from '../../common/Loading';
 import ErrorMessage from '../common/ErrorView';
-import ConsultantItem from './ConsultantItem';
+import ConsultantCardItem from './ConsultantCardItem';
 
 import errorMessages from '../../../locales/en/ErrorMessages.json';
 //This is the consultant card component that renders one of 3 things.
 //1.An error message if there is no consultants that match that criteria,
 //2.another error message that is when a fetch request fails.
 //3.he last return statement just returns the card that shows the consultant
-const ConsultantList = ({ consultantData, isLoading, errorMessage }) => {
+const ConsultantCardList = ({ consultantData, isLoading, errorMessage }) => {
 	const [fontsLoaded] = useFonts(fonts);
 
 	if (!fontsLoaded) {
@@ -53,7 +53,7 @@ const ConsultantList = ({ consultantData, isLoading, errorMessage }) => {
 	) : (
 		<View style={styles.container}>
 			{consultantData.map((consultant, index) => (
-				<ConsultantItem key={index} consultant={consultant} />
+				<ConsultantCardItem key={index} consultant={consultant} />
 			))}
 		</View>
 	);
@@ -67,10 +67,10 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		padding: theme.spacing.medium,
-		backgroundColor: theme.colors.red.delete,
+		backgroundColor: theme.colors.delete,
 		borderRadius: theme.spacing.small,
 		borderWidth: 1,
-		borderColor: theme.colors.red.delete,
+		borderColor: theme.colors.delete,
 		marginTop: '50%',
 	},
 	errorMessageText: {
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		flexWrap: 'wrap',
 		justifyContent: 'space-between',
-		backgroundColor: theme.colors.background,
+		backgroundColor: theme.colors.background.white,
 	},
 	centeredContainer: {
 		flex: 1,
@@ -92,4 +92,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default ConsultantList;
+export default ConsultantCardList;

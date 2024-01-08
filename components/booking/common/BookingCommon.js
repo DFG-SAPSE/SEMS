@@ -11,7 +11,7 @@ const BookingCommon = ({ children, proceedButton, pageTitle }) => {
 	const title = pageTitle ? pageTitle : `Booking with ${consultantData.name}`;
 
 	return (
-		<ScrollView style={{ backgroundColor: theme.colors.background }}>
+		<ScrollView style={{ backgroundColor: theme.colors.background.white }}>
 			<ScrollView style={styles.container}>
 				<CancelConfirmModal />
 
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		padding: theme.spacing.large,
-		backgroundColor: theme.colors.background,
+		backgroundColor: theme.colors.background.white,
 	},
 	footer: {
 		flexDirection: 'row',

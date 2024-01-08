@@ -3,7 +3,7 @@ import { Text, StyleSheet, View } from 'react-native';
 import Slider from '@react-native-community/slider';
 import tabs from '../../../../locales/en/Tabs.json';
 // PriceModal is a component for handling the price range filter
-const PriceModal = ({ setPrice, price }) => {
+const PriceRangeComponent = ({ setPrice, price }) => {
 	return (
 		<>
 			{/* Title for the price range filter */}
@@ -51,4 +51,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default PriceModal;
+export default PriceRangeComponent;
