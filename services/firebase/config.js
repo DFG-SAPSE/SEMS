@@ -4,10 +4,9 @@
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 
-import * as firebase from 'firebase';
-import '@firebase/auth';
-import '@firebase/firestore';
-
+const firebase = require('firebase/app');
+require('firebase/auth');
+require('firebase/firestore');
 require('dotenv').config();
 
 const firebaseConfig = {
@@ -20,8 +19,10 @@ const firebaseConfig = {
 	measurementId: 'G-Z0XMDWF8HB',
 };
 
-if (!firebase.apps.length) {
-	const app = firebase.initializeApp(firebaseConfig);
+if (!firebase.apps || !firebase.apps.length) {
+	firebase.initializeApp(firebaseConfig);
+} else {
+	firebase.app();
 }
 
-export { firebase };
+module.exports = { firebase };
