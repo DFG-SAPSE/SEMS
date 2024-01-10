@@ -11,7 +11,7 @@
 		"lint:fix": "eslint --fix .",
 		"format": "prettier --write .",
 		"linter": "eslint . && eslint --fix . && prettier --write . && echo 'Linting and formatting completed successfully!'",
-		"test": "jest --coverage"
+		"test": "NODE_ENV=test jest --coverage"
 	},
 	"dependencies": {
 		"@react-native-community/slider": "4.4.2",
@@ -39,6 +39,7 @@
 	"devDependencies": {
 		"@babel/core": "^7.19.3",
 		"@babel/plugin-proposal-export-namespace-from": "^7.18.9",
+		"@babel/preset-env": "^7.23.8",
 		"@firebase/rules-unit-testing": "^3.0.1",
 		"@react-native-community/eslint-config": "^3.2.0",
 		"babel-jest": "^29.7.0",
