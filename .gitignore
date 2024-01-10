@@ -37,3 +37,6 @@ yarn-error.*
 
 # jest unit testing
 coverage/
+
+# log files
+*.log
