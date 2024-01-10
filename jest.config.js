@@ -5,6 +5,6 @@ module.exports = {
 	},
 	moduleFileExtensions: ['js', 'jsx', 'json', 'node'],
 	transformIgnorePatterns: [
-		'node_modules/(?!(react-native|expo|@react-native|firebase|@firebase)/)',
+		'node_modules/(?!(react-native|expo|@react-native|firebase|@firebase|@firebase/rules-unit-testing)/)',
 	],
 };
