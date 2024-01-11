@@ -3,20 +3,50 @@
 // querying the Google Firestore database
 
 // mock Firebase App and Firestore
-jest.mock('firebase/app', () => ({
-	apps: [],
-	initializeApp: jest.fn().mockReturnThis(),
-	firestore: jest.fn(() => mockFirestore),
-}));
-
 const mockFirestore = {
 	collection: jest.fn().mockReturnThis(),
+	doc: jest.fn().mockReturnThis(),
 	where: jest.fn().mockReturnThis(),
 	get: jest.fn(),
+	set: jest.fn(),
 };
 
+jest.mock('firebase/app', () => {
+	const actual = jest.requireActual('firebase/app');
+	return {
+		...actual,
+		apps: [],
+		initializeApp: jest.fn().mockReturnThis(),
+		firestore: jest.fn(() => mockFirestore),
+	};
+});
+
+/* 
+mock initializeTestApp and clearFirestoreData
+for unit testing with the Firebase Emulator
+kept code in case we want to use it later
+
+import {
+	initializeTestApp,
+	clearFirestoreData,
+} from '@firebase/rules-unit-testing';
+
+jest.mock('@firebase/rules-unit-testing', () => ({
+	initializeTestApp: jest.fn().mockReturnValue({
+		firestore: jest.fn().mockReturnValue({
+			...mockFirestore,
+			useEmulator: jest.fn(),
+		}),
+	}),
+	clearFirestoreData: jest.fn(),
+})); */
+
 // we import the functions we want to test
-const { searchConsultants, filterConsultants } = require('../service.js');
+const {
+	searchConsultants,
+	filterConsultantsClientSide,
+	filterConsultantsServerSide,
+} = require('../service.js');
 
 describe('searchConsultants', () => {
 	beforeEach(() => {
@@ -73,11 +103,14 @@ describe('searchConsultants', () => {
 	it('should return an empty array when the name is not found', async () => {
 		// adjust mock to return no documents
 		mockFirestore.get.mockResolvedValue({ forEach: jest.fn() });
-		const consultants = await searchConsultants('Unknown Name');
+		const consultants = await searchConsultants('Beanie Babies');
 		expect(consultants).toEqual([]);
 	});
 
 	it('should handle errors correctly', async () => {
+		// we want to hide the error message
+		console.error = jest.fn();
+		expect.assertions(1);
 		mockFirestore.get.mockRejectedValueOnce(
 			new Error('Error fetching consultants'),
 		);
@@ -89,7 +122,7 @@ describe('searchConsultants', () => {
 	});
 });
 
-describe('filterConsultants', () => {
+describe('filterConsultantsClientSide', () => {
 	beforeEach(() => {
 		jest.clearAllMocks();
 
@@ -182,7 +215,7 @@ describe('filterConsultants', () => {
 		// AND have at least 5 years of experience
 		// AND are located in Canada
 
-		const consultants = await filterConsultants(
+		const consultants = await filterConsultantsClientSide(
 			['Tech', 'Education'],
 			5,
 			['Canada'],
@@ -215,7 +248,7 @@ describe('filterConsultants', () => {
 		// AND have at least 0 years of experience
 		// AND are located in US
 
-		const consultants = await filterConsultants(
+		const consultants = await filterConsultantsClientSide(
 			['Tech', 'Education'],
 			0,
 			['US'],
@@ -268,5 +301,116 @@ describe('filterConsultants', () => {
 		expect(consultants).toContainEqual(expectedElement3);
 		expect(consultants).toContainEqual(expectedElement4);
 		expect(consultants).toContainEqual(expectedElement5);
+	});
+
+	it('should handle more than 10 regions correctly', async () => {
+        const consultants = await filterConsultantsServerSide(
+            ['Tech', 'Education'],
+            5,
+            ['US', 'Canada', 'UK', 'Germany', 'France', 'Italy', 'Spain', 'Netherlands', 'Belgium', 'Switzerland', 'Austria'],
+        );
+		// expect the function to get called 4 times
+		// speciality, experienceYears, regions, regions
+		expect(mockFirestore.where).toHaveBeenCalledTimes(4);
+	});
+
+	it('should return an empty array when no consultants match the criteria', async () => {
+		// no Tokyo consultants
+        const consultants = await filterConsultantsClientSide(
+            ['Finance'],
+            10,
+            ['Tokyo'],
+            null,
+        );
+        expect(consultants).toEqual([]);
+    });
+
+    it('should handle errors correctly', async () => {
+		// we want to hide the error message
+        console.error = jest.fn();
+        expect.assertions(1);
+        mockFirestore.get.mockRejectedValueOnce(
+            new Error('Error filtering for consultants'),
+        );
+        try {
+            await filterConsultantsClientSide(
+                ['Tech', 'Education'],
+                5,
+                ['Canada'],
+                null,
+            );
+        } catch (error) {
+            expect(error).toEqual(new Error('Error filtering for consultants'));
+        }
+    });
+});
+
+describe('filterConsultantsServerSide', () => {
+	beforeEach(() => {
+		jest.clearAllMocks();
+
+		// mock implementation for 'get' to simulate filtering consultants
+		// set up mock data
+		mockFirestore.get.mockImplementation(() => {
+			return Promise.resolve({
+				forEach: (callback) => {
+					const mockDocs = [
+						{
+							id: '1',
+							data: () => ({
+								name: 'John Doe',
+								specialty: ['Tech'],
+								experienceYears: 5,
+								geographic_regions: ['US'],
+							}),
+						},
+						{
+							id: '2',
+							data: () => ({
+								name: 'Jane Smith',
+								specialty: ['Health', 'Tech'],
+								experienceYears: 8,
+								geographic_regions: ['US', 'Canada'],
+							}),
+						},
+					];
+					mockDocs.forEach(callback);
+				},
+			});
+		});
+	});
+
+	it('should filter consultants based on parameters Test 1', async () => {
+		const consultants = await filterConsultantsServerSide(['Tech'], 3, [
+			'Canada',
+			'US',
+		]);
+		expect(consultants.length).toBe(2);
+	});
+
+it('should filter consultants based on parameters Test 2', async () => {
+    await filterConsultantsServerSide(['Health'], 3, ['Canada', 'US']);
+    
+    // check if where mock function was called with the correct arguments
+    expect(mockFirestore.where).toHaveBeenCalledWith('specialty', '==', 'Health');
+    expect(mockFirestore.where).toHaveBeenCalledWith('experienceYears', '>=', 3);
+    expect(mockFirestore.where).toHaveBeenCalledWith('geographic_regions', 'array-contains-any', ['Canada', 'US']);
+});
+
+	it('should handle errors correctly', async () => {
+		// we want to hide the error message
+		console.error = jest.fn();
+		expect.assertions(1);
+		mockFirestore.get.mockRejectedValueOnce(
+			new Error('Error filtering for consultants'),
+		);
+		const db = { collection: jest.fn(() => mockFirestore) };
+		try {
+			await filterConsultantsServerSide(['Tech', 'Education'], 5, [
+				'Canada',
+			]);
+		} catch (error) {
+			expect(error).toEqual(new Error('Error filtering for consultants'));
+		}
 	});
 });
