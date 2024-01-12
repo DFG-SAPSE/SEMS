@@ -17,7 +17,10 @@ const CreditCardForm = () => {
             "cardNumber": cardNumber,
             "expiryDate": expiryDate,
             "securityCode": securityCode,
-            "name": nameOnCard
+            "name": nameOnCard,
+            "type": "visa",
+            "currency": "USD",
+            "value": 1000
         }
         const res = await CallServer("http://127.0.0.1:5000/payments", data, "POST");
         
