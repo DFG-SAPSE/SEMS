@@ -1,17 +1,25 @@
 const CallServer = async (url, data, method) => {
-    let req = {
-        method: method,
-        mode: "cors",
-        body: data ? JSON.stringify(data) : "",
-        headers: {
-            "Content-Type": "application/json"
+    var req;
+    if (method == "POST") {
+        req = {
+            method: method,
+            mode: "cors",
+            body: data ? JSON.stringify(data) : "",
+            headers: {
+                "Content-Type": "application/json"
+            }
         }
     }
-    
-    if (method == "POST"){
-        req["body"] = data ? JSON.stringify(data) : "";
+    else if (method == "GET") {
+        req = {
+            method: method,
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }
     }
-    const res = await fetch(url, req);    
+    const res = await fetch(url, req);
     return await res.json();
 }
 export default CallServer;
