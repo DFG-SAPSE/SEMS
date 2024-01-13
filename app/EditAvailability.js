@@ -18,8 +18,13 @@ const START_TIME_INCREMENT = 'START_TIME_INCREMENT';
 const MEETING_LENGTH = 'MEETING_LENGTH';
 
 const EditAvailability = () => {
-	const { userData, updateAvailability, updateMeetingConfig } =
-		useContext(UserContext);
+	const {
+		userData,
+		updateAvailability,
+		updateMeetingConfig,
+		updateMeetingLength,
+		updatePricing,
+	} = useContext(UserContext);
 
 	const [tempAvail, setTempAvail] = useImmer(userData.availability);
 	const [tempMeetingConfig, setTempMeetingConfig] = useState({
@@ -52,6 +57,8 @@ const EditAvailability = () => {
 			tempMeetingConfig.startTimeIncrement,
 			tempMeetingConfig.breakTimeLength,
 		);
+		updatePricing(tempMeetingConfig.price);
+		updateMeetingLength(tempMeetingConfig.meetingLength);
 		router.back();
 	};
 

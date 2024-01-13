@@ -1,4 +1,5 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useEffect } from 'react';
+import { useImmer } from 'use-immer';
 import { fetchUserProfilev2 } from '../services/user';
 
 const DEFAULT_USER_DATA = {
@@ -30,7 +31,7 @@ const DEFAULT_USER_DATA = {
 export const UserContext = createContext(null);
 
 const UserProvider = ({ children }) => {
-	const [userData, setUserData] = useState(DEFAULT_USER_DATA);
+	const [userData, setUserData] = useImmer(DEFAULT_USER_DATA);
 
 	// use a useEffect to make call to firebase whenever userData changes
 
@@ -60,11 +61,26 @@ const UserProvider = ({ children }) => {
 		}));
 	};
 
+	// When the pricing is handled
+	const updatePricing = (newPrice) => {
+		setUserData((prevUserData) => {
+			prevUserData.services[0].price = newPrice;
+		});
+	};
+
+	const updateMeetingLength = (newMeetingLength) => {
+		setUserData((prevUserData) => {
+			prevUserData.services[0].meetingLength = newMeetingLength;
+		});
+	};
+
 	const contextValue = {
 		userData,
 		login,
 		updateAvailability,
 		updateMeetingConfig,
+		updatePricing,
+		updateMeetingLength,
 	};
 
 	return (
