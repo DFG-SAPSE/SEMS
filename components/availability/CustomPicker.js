@@ -3,24 +3,24 @@ import { View, Button, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { theme } from '../../styles/theme';
 
-const IncrementPicker = ({ onConfirm, onCancel, defaultInc }) => {
+const CustomPicker = ({ updateSelect, cancel, currentlySelected }) => {
 	const incrementOptions = [15, 30, 45, 60, 90];
-	const [inc, setInc] = useState(defaultInc);
+	const [newVal, setNewVal] = useState(currentlySelected);
 
 	return (
 		<View style={styles.pickerContainer}>
 			<Picker
 				style={styles.picker}
-				selectedValue={inc}
-				onValueChange={(itemValue) => setInc(Number(itemValue))}
+				selectedValue={newVal}
+				onValueChange={(itemValue) => setNewVal(Number(itemValue))}
 			>
 				{incrementOptions.map((option) => (
 					<Picker.Item key={option} label={option} value={option} />
 				))}
 			</Picker>
 			<View style={styles.buttonContainer}>
-				<Button title="Cancel" onPress={onCancel} />
-				<Button title="Confirm" onPress={() => onConfirm(inc)} />
+				<Button title="Cancel" onPress={cancel} />
+				<Button title="Confirm" onPress={() => updateSelect(newVal)} />
 			</View>
 		</View>
 	);
@@ -44,4 +44,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default IncrementPicker;
+export default CustomPicker;

@@ -10,17 +10,24 @@ import DaySchedule from '../components/availability/DaySchedule';
 import TimePicker from '../components/availability/TimePicker';
 import CustomModal from '../components/common/CustomModal';
 import Button from '../components/common/Button';
-import TimeIncrementInput from '../components/availability/TimeIncrementInput';
-import IncrementPicker from '../components/availability/IncrementPicker';
+import MeetingConfig from '../components/availability/MeetingConfig';
+import CustomPicker from '../components/availability/CustomPicker';
+
+const BREAK_TIME = 'BREAK_TIME';
+const START_TIME_INCREMENT = 'START_TIME_INCREMENT';
+const MEETING_LENGTH = 'MEETING_LENGTH';
 
 const EditAvailability = () => {
-	const { userData, updateAvailability, updateTimeIncrement } =
+	const { userData, updateAvailability, updateMeetingConfig } =
 		useContext(UserContext);
 
 	const [tempAvail, setTempAvail] = useImmer(userData.availability);
-	const [tempTimeIncrement, setTempTimeIncrement] = useState(
-		userData.startTimeIncrement,
-	);
+	const [tempMeetingConfig, setTempMeetingConfig] = useState({
+		startTimeIncrement: userData.meetingConfig.startTimeIncrement,
+		breakTimeLength: userData.meetingConfig.breakTimeLength,
+		meetingLength: userData.services[0].meetingLength,
+		price: userData.services[0].price,
+	});
 
 	const [timerPickerVisibility, setTimePickerVisibility] = useState(false);
 	const [timePickerState, setTimePickerState] = useState({
@@ -30,15 +37,21 @@ const EditAvailability = () => {
 		selectedTime: 0,
 	});
 
-	const [isIncrementPickerOpen, setIsIncrementPickerOpen] = useState(false);
+	const [isMeetingConfigPickerOpen, setIsMeetingConfigPickerOpen] =
+		useState(false);
+	const [meetingConfigType, setMeetingConfigType] = useState(null);
 
 	useEffect(() => {
 		setTempAvail(userData.availability);
 	}, [userData.availability, setTempAvail]);
 
+	// UPDATE TO CONTEXT
 	const handleSave = () => {
 		updateAvailability(tempAvail);
-		updateTimeIncrement(tempTimeIncrement);
+		updateMeetingConfig(
+			tempMeetingConfig.startTimeIncrement,
+			tempMeetingConfig.breakTimeLength,
+		);
 		router.back();
 	};
 
@@ -46,6 +59,7 @@ const EditAvailability = () => {
 		router.back();
 	};
 
+	// WEEKLY AVAILABILITY STATE MANAGEMENT
 	const addTimeSlot = (dayIndex) => {
 		setTempAvail((prevTempAvail) => {
 			prevTempAvail[dayIndex].push([0, 0]);
@@ -98,23 +112,44 @@ const EditAvailability = () => {
 					<Text style={styles.title}>Scheduling settings</Text>
 				</View>
 
-				<View style={styles.timeIncrementContainer}>
-					<View>
-						<Text
-							style={{
-								...theme.typography.mediumHeader,
-							}}
-						>
-							Start time increments
-						</Text>
-					</View>
-					<TimeIncrementInput
-						timeIncrement={tempTimeIncrement}
-						openTimeIncrementModal={() => {
-							setIsIncrementPickerOpen(true);
-						}}
-					/>
-				</View>
+				<Text
+					style={{
+						...theme.typography.largeBold,
+						marginBottom: theme.spacing.large,
+					}}
+				>
+					Meeting configuration
+				</Text>
+
+				<MeetingConfig
+					currentlySelected={tempMeetingConfig.startTimeIncrement}
+					openPicker={() => {
+						setMeetingConfigType(START_TIME_INCREMENT);
+						setIsMeetingConfigPickerOpen(true);
+					}}
+				>
+					Start time increments
+				</MeetingConfig>
+
+				<MeetingConfig
+					currentlySelected={tempMeetingConfig.breakTimeLength}
+					openPicker={() => {
+						setMeetingConfigType(BREAK_TIME);
+						setIsMeetingConfigPickerOpen(true);
+					}}
+				>
+					Break between meetings
+				</MeetingConfig>
+
+				<MeetingConfig
+					currentlySelected={tempMeetingConfig.breakTimeLength}
+					openPicker={() => {
+						setMeetingConfigType(MEETING_LENGTH);
+						setIsMeetingConfigPickerOpen(true);
+					}}
+				>
+					Meeting length
+				</MeetingConfig>
 
 				<View style={styles.availabilityContainer}>
 					<Text style={{ ...theme.typography.largeBold }}>Hours</Text>
@@ -159,16 +194,37 @@ const EditAvailability = () => {
 				</CustomModal>
 
 				<CustomModal
-					isVisible={isIncrementPickerOpen}
-					onDismiss={() => setIsIncrementPickerOpen(false)}
+					isVisible={isMeetingConfigPickerOpen}
+					onDismiss={() => setIsMeetingConfigPickerOpen(false)}
 				>
-					<IncrementPicker
-						onCancel={() => setIsIncrementPickerOpen(false)}
-						onConfirm={(inc) => {
-							setTempTimeIncrement(inc);
-							setIsIncrementPickerOpen(false);
+					<CustomPicker
+						cancel={() => setIsMeetingConfigPickerOpen(false)}
+						updateSelect={(newVal) => {
+							setTempMeetingConfig((prev) => {
+								const newMeetingConfig = { ...prev };
+								switch (meetingConfigType) {
+									case BREAK_TIME:
+										newMeetingConfig.breakTimeLength =
+											newVal;
+										break;
+									case START_TIME_INCREMENT:
+										newMeetingConfig.startTimeIncrement =
+											newVal;
+										break;
+									case MEETING_LENGTH:
+										newMeetingConfig.meetingLength = newVal;
+								}
+								return newMeetingConfig;
+							});
+							setIsMeetingConfigPickerOpen(false);
 						}}
-						defaultInc={tempTimeIncrement}
+						currentlySelected={
+							meetingConfigType === BREAK_TIME
+								? tempMeetingConfig.breakTimeLength
+								: meetingConfigType === MEETING_LENGTH
+								  ? tempMeetingConfig.meetingLength
+								  : tempMeetingConfig.startTimeIncrement
+						}
 					/>
 				</CustomModal>
 			</ScrollView>
@@ -193,12 +249,6 @@ const styles = StyleSheet.create({
 		...theme.typography.extraLargeBold,
 		marginTop: theme.spacing.xlarge,
 		marginBottom: theme.spacing.xxlarge,
-	},
-	timeIncrementContainer: {
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		alignItems: 'center',
-		marginBottom: theme.spacing.xlarge,
 	},
 	buttonContainer: {
 		flexDirection: 'row',
