@@ -78,7 +78,10 @@ export const fetchUserProfilev2 = (id) => {
 						[1260, 1350],
 					],
 				],
-				startTimeIncrement: 15,
+				meetingConfig: {
+					startTimeIncrement: 15,
+					breakTimeLength: 10,
+				},
 				bookedMeetings: [
 					{
 						invitee: 'John Constantine',

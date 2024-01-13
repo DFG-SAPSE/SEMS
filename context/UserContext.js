@@ -12,7 +12,10 @@ const DEFAULT_USER_DATA = {
 	experienceYears: 0,
 	description: '',
 	availability: [[], [], [], [], [], [], []],
-	startTimeIncrement: 0,
+	meetingConfig: {
+		startTimeIncrement: 0,
+		breakTimeLength: 0,
+	},
 	bookedMeetings: [],
 	services: [
 		{
@@ -28,6 +31,8 @@ export const UserContext = createContext(null);
 
 const UserProvider = ({ children }) => {
 	const [userData, setUserData] = useState(DEFAULT_USER_DATA);
+
+	// use a useEffect to make call to firebase whenever userData changes
 
 	useEffect(() => {
 		login('dummy', 'function call');
@@ -45,10 +50,13 @@ const UserProvider = ({ children }) => {
 		}));
 	};
 
-	const updateTimeIncrement = (newTimeIncrement) => {
+	const updateMeetingConfig = (newTimeIncrement, newBreakTimeLength) => {
 		setUserData((prevUserData) => ({
 			...prevUserData,
-			startTimeIncrement: newTimeIncrement,
+			meetingConfig: {
+				startTimeIncrement: newTimeIncrement,
+				breakTimeLength: newBreakTimeLength,
+			},
 		}));
 	};
 
@@ -56,7 +64,7 @@ const UserProvider = ({ children }) => {
 		userData,
 		login,
 		updateAvailability,
-		updateTimeIncrement,
+		updateMeetingConfig,
 	};
 
 	return (
