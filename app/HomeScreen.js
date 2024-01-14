@@ -3,9 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { onAuthStateChanged } from 'firebase/auth';
-import { firestore, auth } from '../services/firebase/config';
-import { doc, getDoc } from 'firebase/firestore';
+import { getCurrentUser } from '../services/firebase/api';
 
 export default function HomeScreen() {
 	const route = useRoute();
@@ -16,26 +14,7 @@ export default function HomeScreen() {
 	};
 
 	useEffect(() => {
-		onAuthStateChanged(auth, async (currentUser) => {
-			if (currentUser) {
-				// User is signed in
-				const uid = currentUser.uid;
-				const usersRef = doc(firestore, 'users', uid); //get profile info from database
-				await getDoc(usersRef)
-					.then((userSnap) => {
-						const user = userSnap.data();
-						console.log(user);
-						navigation.setParams({ user });
-					})
-					.catch((error) => {
-						alert(error);
-					});
-				// ...
-			} else {
-				// User is signed out
-				// ...
-			}
-		});
+		getCurrentUser(navigation);
 	}, [navigation]);
 
 	if (route.params === undefined || route.params.user === undefined) {

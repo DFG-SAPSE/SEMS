@@ -4,9 +4,7 @@ import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { StyleSheet } from 'react-native';
-import { firestore, auth } from '../services/firebase/config';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore';
+import { login } from '../services/firebase/api';
 
 export default function LoginScreen() {
 	const [email, setEmail] = useState('');
@@ -18,22 +16,7 @@ export default function LoginScreen() {
 	};
 
 	const onLoginPress = () => {
-		signInWithEmailAndPassword(auth, email, password)
-			.then(async (response) => {
-				const uid = response.user.uid;
-				const usersRef = doc(firestore, 'users', uid);
-				const userSnap = await getDoc(usersRef);
-				if (userSnap.exists()) {
-					const user = userSnap.data();
-					navigation.navigate('HomeScreen', { user });
-				} else {
-					// docSnap.data() will be undefined in this case
-					alert('User does not exist anymore.');
-				}
-			})
-			.catch((error) => {
-				alert(error);
-			});
+		login(email, password, navigation); //login and pass in navigation
 	};
 
 	return (
@@ -44,7 +27,7 @@ export default function LoginScreen() {
 			>
 				<Image
 					style={styles.logo}
-					source={require('../styles/logo.avif')}
+					source={require('../assets/images/logo.avif')}
 				/>
 				<TextInput
 					style={styles.input}
@@ -87,6 +70,7 @@ export default function LoginScreen() {
 	);
 }
 
+import { theme } from '../styles/theme';
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
@@ -98,48 +82,48 @@ const styles = StyleSheet.create({
 		height: 200,
 		width: 400,
 		alignSelf: 'center',
-		margin: 30,
-		marginTop: 80,
+		margin: theme.spacing.xlarge,
 		resizeMode: 'contain',
 	},
 	input: {
 		height: 48,
-		borderRadius: 5,
+		borderRadius: theme.spacing.tiny,
 		overflow: 'hidden',
-		backgroundColor: 'white',
-		marginTop: 10,
-		marginBottom: 10,
-		marginLeft: 30,
-		marginRight: 30,
-		paddingLeft: 16,
+		backgroundColor: theme.colors.white,
+		marginTop: theme.spacing.small,
+		marginBottom: theme.spacing.small,
+		marginLeft: theme.spacing.xlarge,
+		marginRight: theme.spacing.xlarge,
+		paddingLeft: theme.spacing.medium,
 	},
 	button: {
-		backgroundColor: '#788eec',
-		marginLeft: 30,
-		marginRight: 30,
-		marginTop: 20,
+		backgroundColor: theme.colors.button,
+		margin: theme.spacing.medium,
+		marginLeft: theme.spacing.xlarge,
+		marginRight: theme.spacing.xlarge,
+		marginTop: theme.spacing.medium,
 		height: 48,
-		borderRadius: 5,
+		borderRadius: theme.spacing.tiny,
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
 	buttonTitle: {
-		color: 'white',
-		fontSize: 16,
+		color: theme.colors.white,
+		...theme.typography.large,
 		fontWeight: 'bold',
 	},
 	footerView: {
 		flex: 1,
 		alignItems: 'center',
-		marginTop: 20,
+		marginTop: theme.spacing.xlarge,
 	},
 	footerText: {
-		fontSize: 16,
-		color: '#2e2e2d',
+		...theme.typography.mediumBody,
+		color: theme.colors.text.dark,
 	},
 	footerLink: {
-		color: '#788eec',
+		color: theme.colors.button,
 		fontWeight: 'bold',
-		fontSize: 16,
+		...theme.typography.mediumBody,
 	},
 });

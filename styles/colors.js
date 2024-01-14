@@ -14,5 +14,7 @@ export const colors = {
 		light: 'rgba(255, 255, 255, 1)',
 	},
 	white: 'rgb(255, 255, 255)',
+	black: 'rgb(0,0,0)',
+	button: 'rgb(120, 142, 236)',
 	background: 'rgba(250, 250, 250, 1)',
 };

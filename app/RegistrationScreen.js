@@ -4,9 +4,7 @@ import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { StyleSheet } from 'react-native';
-import { firestore, auth } from '../services/firebase/config';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
+import { register } from '../services/firebase/api';
 
 export default function RegistrationScreen() {
 	const [fullName, setFullName] = useState('');
@@ -24,28 +22,7 @@ export default function RegistrationScreen() {
 			alert("Passwords don't match.");
 			return;
 		}
-		createUserWithEmailAndPassword(auth, email, password)
-			.then(async (response) => {
-				const uid = response.user.uid;
-				const data = {
-					id: uid,
-					email,
-					fullName,
-				};
-				const usersRef = doc(firestore, 'users', uid);
-				await setDoc(usersRef, data)
-					.then(() => {
-						alert('Registration successful');
-						//change this later on because it should ask for email confirmation
-						navigation.navigate('HomeScreen', { user: data });
-					})
-					.catch((error) => {
-						alert(error);
-					});
-			})
-			.catch((error) => {
-				alert(error);
-			});
+		register(fullName, email, password, navigation); //register and pass in navigation
 	};
 
 	return (
@@ -56,7 +33,7 @@ export default function RegistrationScreen() {
 			>
 				<Image
 					style={styles.logo}
-					source={require('../styles/logo.avif')}
+					source={require('../assets/images/logo.avif')}
 				/>
 				<TextInput
 					style={styles.input}
@@ -117,7 +94,7 @@ export default function RegistrationScreen() {
 		</View>
 	);
 }
-
+import { theme } from '../styles/theme';
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
@@ -129,48 +106,48 @@ const styles = StyleSheet.create({
 		height: 200,
 		width: 400,
 		alignSelf: 'center',
-		margin: 30,
-		marginTop: 80,
+		margin: theme.spacing.xlarge,
 		resizeMode: 'contain',
 	},
 	input: {
 		height: 48,
-		borderRadius: 5,
+		borderRadius: theme.spacing.tiny,
 		overflow: 'hidden',
-		backgroundColor: 'white',
-		marginTop: 10,
-		marginBottom: 10,
-		marginLeft: 30,
-		marginRight: 30,
-		paddingLeft: 16,
+		backgroundColor: theme.colors.white,
+		marginTop: theme.spacing.small,
+		marginBottom: theme.spacing.small,
+		marginLeft: theme.spacing.xlarge,
+		marginRight: theme.spacing.xlarge,
+		paddingLeft: theme.spacing.medium,
 	},
 	button: {
-		backgroundColor: '#788eec',
-		marginLeft: 30,
-		marginRight: 30,
-		marginTop: 20,
+		backgroundColor: theme.colors.button,
+		margin: theme.spacing.medium,
+		marginLeft: theme.spacing.xlarge,
+		marginRight: theme.spacing.xlarge,
+		marginTop: theme.spacing.medium,
 		height: 48,
-		borderRadius: 5,
+		borderRadius: theme.spacing.tiny,
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
 	buttonTitle: {
-		color: 'white',
-		fontSize: 16,
+		color: theme.colors.white,
+		...theme.typography.large,
 		fontWeight: 'bold',
 	},
 	footerView: {
 		flex: 1,
 		alignItems: 'center',
-		marginTop: 20,
+		marginTop: theme.spacing.xlarge,
 	},
 	footerText: {
-		fontSize: 16,
-		color: '#2e2e2d',
+		...theme.typography.mediumBody,
+		color: theme.colors.text.dark,
 	},
 	footerLink: {
-		color: '#788eec',
+		color: theme.colors.button,
 		fontWeight: 'bold',
-		fontSize: 16,
+		...theme.typography.mediumBody,
 	},
 });
