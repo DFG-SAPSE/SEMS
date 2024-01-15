@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, StyleSheet, View, TextInput } from 'react-native';
+import { Text, StyleSheet, View, TextInput, Pressable } from 'react-native';
 import { theme } from '../../styles/theme';
 
 const PricingConfig = ({ meetingPrice, setMeetingPrice }) => {
@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
 		marginBottom: theme.spacing.xlarge,
 	},
 	timeSlotContainer: {
+		width: '30%',
 		flexDirection: 'flex-end',
 	},
 	configInput: {
