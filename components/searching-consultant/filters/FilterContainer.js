@@ -6,7 +6,7 @@ import SpecialtyModal from './filterCategories/SpecialtyModal';
 import ExperienceModal from './filterCategories/ExperienceModal';
 import RegionModal from './filterCategories/RegionModal';
 import PriceRangeModal from './filterCategories/PriceRangeModal';
-import MasterFilter from '../master-filter/MasterFilter';
+import MasterFilter from '../master-filter/masterFilter';
 
 // FilterModal Component: Renders a modal for filtering content
 const FilterContainer = ({ modalVisible, closeModal, filterContent }) => {
