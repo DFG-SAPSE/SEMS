@@ -12,6 +12,7 @@ import CustomModal from '../components/common/CustomModal';
 import Button from '../components/common/Button';
 import MeetingConfig from '../components/availability/MeetingConfig';
 import CustomPicker from '../components/availability/CustomPicker';
+import PricingConfig from '../components/availability/PricingConfig';
 
 const BREAK_TIME = 'BREAK_TIME';
 const START_TIME_INCREMENT = 'START_TIME_INCREMENT';
@@ -157,6 +158,11 @@ const EditAvailability = () => {
 				>
 					Meeting length
 				</MeetingConfig>
+
+				<PricingConfig
+					meetingPrice={tempMeetingConfig.price}
+					setMeetingPrice={() => {}}
+				/>
 
 				<View style={styles.availabilityContainer}>
 					<Text style={{ ...theme.typography.largeBold }}>Hours</Text>
