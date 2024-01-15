@@ -58,7 +58,6 @@ const styles = StyleSheet.create({
 	container: {
 		display: 'flex',
 		paddingBottom: 0,
-		marginVertical: theme.spacing.large,
 	},
 	name: {
 		letterSpacing: 0.1,
