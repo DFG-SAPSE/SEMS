@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, StyleSheet, View, TouchableOpacity } from 'react-native';
+import { Text, StyleSheet, View, Pressable } from 'react-native';
 import { theme } from '../../styles/theme';
 
 const MeetingConfig = ({ children, currentlySelected, openPicker }) => {
@@ -15,14 +15,11 @@ const MeetingConfig = ({ children, currentlySelected, openPicker }) => {
 				</Text>
 			</View>
 			<View style={styles.timeSlotContainer}>
-				<TouchableOpacity
-					style={styles.configInput}
-					onPress={openPicker}
-				>
+				<Pressable style={styles.configInput} onPress={openPicker}>
 					<Text style={styles.inputText}>
 						{currentlySelected} minutes
 					</Text>
-				</TouchableOpacity>
+				</Pressable>
 			</View>
 		</View>
 	);

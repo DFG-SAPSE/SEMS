@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, StyleSheet, View, TextInput, Pressable } from 'react-native';
+import { Text, StyleSheet, View, TextInput } from 'react-native';
 import { theme } from '../../styles/theme';
 
 const PricingConfig = ({ meetingPrice, setMeetingPrice }) => {
@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
 		borderColor: theme.colors.border,
 		borderRadius: 4,
 		padding: theme.spacing.small,
+		...theme.typography.mediumBody,
 	},
 });
 export default PricingConfig;
