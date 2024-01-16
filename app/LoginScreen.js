@@ -1,22 +1,21 @@
 /* eslint-disable no-alert */
 import React, { useState } from 'react';
 import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { StyleSheet } from 'react-native';
-import { login } from '../services/firebase/api';
+import { login } from '../services/auth';
+import { router } from 'expo-router';
 
 export default function LoginScreen() {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	const navigation = useNavigation();
 
 	const onFooterLinkPress = () => {
-		navigation.navigate('RegistrationScreen');
+		router.push('/RegistrationScreen');
 	};
 
 	const onLoginPress = () => {
-		login(email, password, navigation); //login and pass in navigation
+		login(email, password, router); //login and pass in navigation
 	};
 
 	return (

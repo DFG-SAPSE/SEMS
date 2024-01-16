@@ -1,20 +1,20 @@
 /* eslint-disable no-alert */
 import React, { useState } from 'react';
 import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { StyleSheet } from 'react-native';
-import { register } from '../services/firebase/api';
+import { register } from '../services/auth';
+import { router } from 'expo-router';
 
 export default function RegistrationScreen() {
 	const [fullName, setFullName] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
-	const navigation = useNavigation();
+
 
 	const onFooterLinkPress = () => {
-		navigation.navigate('LoginScreen');
+		router.push('/LoginScreen');
 	};
 
 	const onRegisterPress = () => {
@@ -22,7 +22,7 @@ export default function RegistrationScreen() {
 			alert("Passwords don't match.");
 			return;
 		}
-		register(fullName, email, password, navigation); //register and pass in navigation
+		register(fullName, email, password, router); //register and pass in navigation
 	};
 
 	return (

@@ -1,4 +1,4 @@
-import { firestore, auth } from './config.js';
+import { firestore, auth } from './firebase/config.js';
 import {
 	signInWithEmailAndPassword,
 	createUserWithEmailAndPassword,
@@ -7,15 +7,15 @@ import {
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 
 //Login and Registration Functions
-export const login = (email, password, navigation) => {
+export const login = (email, password, router) => {
 	signInWithEmailAndPassword(auth, email, password)
 		.then(async (response) => {
 			const uid = response.user.uid;
 			const usersRef = doc(firestore, 'users', uid);
 			const userSnap = await getDoc(usersRef);
 			if (userSnap.exists()) {
-				const user = userSnap.data();
-				navigation.navigate('HomeScreen', { user });
+				//const user = userSnap.data();
+				router.replace('/HomeScreen');
 			} else {
 				// docSnap.data() will be undefined in this case
 				alert('User does not exist anymore.');
@@ -27,7 +27,7 @@ export const login = (email, password, navigation) => {
 	//return user;
 };
 
-export const register = (fullName, email, password, navigation) => {
+export const register = (fullName, email, password, router) => {
 	createUserWithEmailAndPassword(auth, email, password)
 		.then(async (response) => {
 			const uid = response.user.uid;
@@ -41,7 +41,7 @@ export const register = (fullName, email, password, navigation) => {
 				.then(() => {
 					alert('Registration successful');
 					//change this later on because it should ask for email confirmation
-					navigation.navigate('HomeScreen', { user });
+					router.replace('/HomeScreen');
 				})
 				.catch((error) => {
 					console.log(error);
@@ -52,7 +52,7 @@ export const register = (fullName, email, password, navigation) => {
 		});
 };
 
-export const getCurrentUser = (navigation) => {
+export const getAuthChange = (setAuthChange) => {
 	onAuthStateChanged(auth, async (currentUser) => {
 		if (currentUser) {
 			// User is signed in
@@ -61,7 +61,7 @@ export const getCurrentUser = (navigation) => {
 			await getDoc(usersRef)
 				.then((userSnap) => {
 					const user = userSnap.data();
-					navigation.setParams({ user });
+					setAuthChange(user);
 				})
 				.catch((error) => {
 					alert(error);

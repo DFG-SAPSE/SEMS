@@ -1,42 +1,28 @@
-/* eslint-disable no-alert */
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { getCurrentUser } from '../services/firebase/api';
+import { getAuthChange } from '../services/auth';
 
 export default function HomeScreen() {
-	const route = useRoute();
-	const navigation = useNavigation();
+	const [user, setUser] = useState(''); //stores currently logged in user
 
-	const onFooterLinkPress = () => {
-		navigation.navigate('LoginScreen');
-	};
+	// Handle user state changes
+	function setAuthChange(newUser) {
+		setUser(newUser);
+	}
 
 	useEffect(() => {
-		getCurrentUser(navigation);
-	}, [navigation]);
+		getAuthChange(setAuthChange);
+	}, []);
 
-	if (route.params === undefined || route.params.user === undefined) {
-		return (
-			<View style={styles.container}>
-				<Text onPress={onFooterLinkPress} style={styles.footerLink}>
-					Please Log in
-				</Text>
-				<StatusBar style="auto" />
-			</View>
-		);
-	} else {
-		const user = route.params.user; //gets profile info of current user
-		return (
-			<View style={styles.container}>
-				<Text>Welcome {user.fullName}</Text>
-				<StatusBar style="auto" />
-			</View>
-		);
-	}
+	return (
+		<View style={styles.container}>
+			<Text>Welcome {user.fullName}</Text>
+			<StatusBar style="auto" />
+		</View>
+	);
 }
-
+import { theme } from '../styles/theme';
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
@@ -46,15 +32,14 @@ const styles = StyleSheet.create({
 	footerView: {
 		flex: 1,
 		alignItems: 'center',
-		marginTop: 20,
+		marginTop: theme.spacing.xlarge,
 	},
 	footerText: {
-		fontSize: 16,
+		...theme.typography.mediumBody,
 		color: '#2e2e2d',
 	},
 	footerLink: {
 		color: '#788eec',
-		fontWeight: 'bold',
-		fontSize: 16,
+		...theme.typography.mediumBodyBold,
 	},
 });
