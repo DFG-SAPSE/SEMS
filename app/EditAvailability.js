@@ -1,7 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useImmer } from 'use-immer';
 import { Stack, router } from 'expo-router';
-import { View, Text, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
+import {
+	View,
+	Text,
+	StyleSheet,
+	SafeAreaView,
+	ScrollView,
+	TextInput,
+} from 'react-native';
 
 import { theme } from '../styles/theme';
 
@@ -25,6 +32,7 @@ const EditAvailability = () => {
 		updateMeetingConfig,
 		updateMeetingLength,
 		updatePricing,
+		updateExceptions,
 	} = useContext(UserContext);
 
 	const [tempAvail, setTempAvail] = useImmer(userData.availability);
@@ -34,6 +42,7 @@ const EditAvailability = () => {
 		meetingLength: userData.services[0].meetingLength,
 		price: userData.services[0].price,
 	});
+	const [tempExceptions, setTempExceptions] = useState(userData.exceptions);
 
 	const [timerPickerVisibility, setTimePickerVisibility] = useState(false);
 	const [timePickerState, setTimePickerState] = useState({
@@ -60,6 +69,7 @@ const EditAvailability = () => {
 		);
 		updatePricing(tempMeetingConfig.price);
 		updateMeetingLength(tempMeetingConfig.meetingLength);
+		updateExceptions(tempExceptions);
 		router.back();
 	};
 
@@ -185,6 +195,22 @@ const EditAvailability = () => {
 					})}
 				</View>
 
+				<View style={{ marginTop: theme.spacing.large }}>
+					<Text style={{ ...theme.typography.largeBold }}>
+						Exceptions
+					</Text>
+					<View style={styles.exceptionsContainer}>
+						<TextInput
+							style={styles.exceptionInput}
+							onChangeText={(newExceptionText) => {
+								setTempExceptions(newExceptionText);
+							}}
+							value={tempExceptions}
+							multiline={true}
+						/>
+					</View>
+				</View>
+
 				<View style={styles.buttonContainer}>
 					<Button
 						title={'Cancel'}
@@ -287,6 +313,16 @@ const styles = StyleSheet.create({
 	cancelButtonText: {
 		...theme.typography.mediumBodyBold,
 		color: theme.colors.primary.light,
+	},
+	exceptionsContainer: {
+		marginVertical: theme.spacing.large,
+	},
+	exceptionInput: {
+		borderWidth: 1,
+		borderColor: theme.colors.border,
+		borderRadius: 4,
+		padding: theme.spacing.mediumSmall,
+		...theme.typography.mediumBody,
 	},
 });
 
