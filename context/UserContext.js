@@ -3,27 +3,81 @@ import { useImmer } from 'use-immer';
 import { fetchUserProfilev2 } from '../services/user';
 
 const DEFAULT_USER_DATA = {
-	name: '',
-	email: '',
-	password: '',
-	photoURL: '',
+	name: 'Jane Doe',
+	email: 'jdoe@consultant.com',
+	password: '12345678',
+	photoURL: 'https://picsum.photos/200/300',
 	isConsultant: true,
-	enterpriseID: '',
-	specialty: [],
-	experienceYears: 0,
-	description: '',
-	availability: [[], [], [], [], [], [], []],
+	enterpriseID: 'pvwkw0238',
+	specialty: ['Financial Development', 'Community Development'],
+	experienceYears: '4',
+	description: 'Book me since I am great!!',
+	availability: [
+		[
+			[540, 675],
+			[840, 1065],
+		],
+		[
+			[960, 1080],
+			[1260, 1350],
+		],
+		[
+			[540, 675],
+			[840, 1065],
+		],
+		[
+			[960, 1080],
+			[1260, 1350],
+		],
+		[
+			[540, 675],
+			[840, 1065],
+		],
+		[
+			[960, 1080],
+			[1260, 1350],
+		],
+		[
+			[960, 1080],
+			[1260, 1350],
+		],
+	],
 	meetingConfig: {
-		startTimeIncrement: 0,
-		breakTimeLength: 0,
+		startTimeIncrement: 15,
+		breakTimeLength: 10,
 	},
-	bookedMeetings: [],
+	bookedMeetings: [
+		{
+			invitee: 'John Constantine',
+			service: 0, // either index of service in services array or other id
+			date: '18/12/2023',
+			startTime: 540,
+			endTime: 585,
+		}, // Meeting on day 18/12/2023, from 9 - 9.45am
+		{
+			invitee: 'Dorothy Channel',
+			service: 0, // either index of service in services array or other id
+			date: '19/12/2023',
+			startTime: 960,
+			endTime: 1000,
+		}, // Meeting on day 19/12/2023, from 9 - 9.45am
+	],
 	services: [
 		{
-			name: '',
-			price: 0,
-			meetingLength: 0,
-			questions: [],
+			name: 'General consultation',
+			questions: [
+				'What is your main goal for this consultation?',
+				'Do you have any specific questions or topics you want to cover?',
+			],
+			price: 297.6,
+		},
+		{
+			name: 'Special consultation',
+			questions: [
+				'Why do you need special consultation?',
+				'Do you have any specific questions or topics you want to cover?',
+			],
+			price: 2974.6,
 		},
 	],
 };
@@ -34,10 +88,6 @@ const UserProvider = ({ children }) => {
 	const [userData, setUserData] = useImmer(DEFAULT_USER_DATA);
 
 	// use a useEffect to make call to firebase whenever userData changes
-
-	useEffect(() => {
-		login('dummy', 'function call');
-	}, []);
 
 	const login = async (username, password) => {
 		const res = await fetchUserProfilev2(username);

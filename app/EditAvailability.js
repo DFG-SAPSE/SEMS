@@ -161,7 +161,12 @@ const EditAvailability = () => {
 
 				<PricingConfig
 					meetingPrice={tempMeetingConfig.price}
-					setMeetingPrice={() => {}}
+					setMeetingPrice={(newPrice) => {
+						setTempMeetingConfig((prev) => ({
+							...prev,
+							price: Number(newPrice),
+						}));
+					}}
 				/>
 
 				<View style={styles.availabilityContainer}>
@@ -235,8 +240,8 @@ const EditAvailability = () => {
 							meetingConfigType === BREAK_TIME
 								? tempMeetingConfig.breakTimeLength
 								: meetingConfigType === MEETING_LENGTH
-								  ? tempMeetingConfig.meetingLength
-								  : tempMeetingConfig.startTimeIncrement
+									? tempMeetingConfig.meetingLength
+									: tempMeetingConfig.startTimeIncrement
 						}
 					/>
 				</CustomModal>

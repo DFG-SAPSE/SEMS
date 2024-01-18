@@ -17,10 +17,11 @@ import { theme } from '../../styles/theme';
 const styles = StyleSheet.create({
 	button: {
 		paddingHorizontal: theme.spacing.medium,
-		paddingVertical: theme.spacing.small,
+		paddingVertical: theme.spacing.mediumSmall,
 		backgroundColor: theme.colors.primary.default,
 		alignItems: 'center',
 		justifyContent: 'center',
+		borderRadius: theme.spacing.large,
 	},
 	text: {
 		color: theme.colors.text.light,
