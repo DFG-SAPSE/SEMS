@@ -1,4 +1,4 @@
-import React, { createContext, useEffect } from 'react';
+import React, { createContext } from 'react';
 import { useImmer } from 'use-immer';
 import { fetchUserProfilev2 } from '../services/user';
 
@@ -12,6 +12,8 @@ const DEFAULT_USER_DATA = {
 	specialty: ['Financial Development', 'Community Development'],
 	experienceYears: '4',
 	description: 'Book me since I am great!!',
+	exceptions:
+		'I am not available Tuesday Jan 23, 2024 and Wednesday 23, 2024',
 	availability: [
 		[
 			[540, 675],
@@ -124,6 +126,12 @@ const UserProvider = ({ children }) => {
 		});
 	};
 
+	const updateExceptions = (newExceptionText) => {
+		setUserData((prevUserData) => {
+			prevUserData.exceptions = newExceptionText;
+		});
+	};
+
 	const contextValue = {
 		userData,
 		login,
@@ -131,6 +139,7 @@ const UserProvider = ({ children }) => {
 		updateMeetingConfig,
 		updatePricing,
 		updateMeetingLength,
+		updateExceptions,
 	};
 
 	return (

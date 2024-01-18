@@ -27,6 +27,7 @@ export const fetchUserProfile = (id) => {
 						price: 2974.6, // per hour, in PHP
 					},
 				],
+				exceptions: `I cannot meet Tuesday and Wednesday this week. Please don't book at that time`,
 			};
 			resolve(consultant);
 		}, 1000);
