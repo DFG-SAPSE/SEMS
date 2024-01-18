@@ -11,7 +11,7 @@ import { useFonts } from 'expo-font';
 import { fonts } from '../../styles/fonts';
 import { router } from 'expo-router';
 
-const Dashboard = () => {
+const Dashboard = ({ user }) => {
 	const [fontsLoaded] = useFonts(fonts);
 
 	if (!fontsLoaded) {
@@ -21,7 +21,7 @@ const Dashboard = () => {
 		<ScrollView style={styles.dashboard}>
 			<View style={styles.header}>
 				<Text style={styles.headerText}>Welcome,</Text>
-				<Text style={styles.headerName}>John</Text>
+				<Text style={styles.headerName}>{user.fullName}</Text>
 				<Text style={styles.headerText}>!</Text>
 			</View>
 

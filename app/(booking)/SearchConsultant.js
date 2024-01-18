@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, ScrollView, View } from 'react-native';
+import { Stack } from 'expo-router';
 
 import { theme } from '../../styles/theme';
 import { useConsultantFiltersContext } from '../../context/ConsultantFilterContext';
@@ -31,6 +32,11 @@ export default function SearchConsultant() {
 
 	return (
 		<ScrollView style={styles.containerFull}>
+			<Stack.Screen
+				options={{
+					title: '',
+				}}
+			/>
 			<View style={styles.container}>
 				<SearchBar
 					searchQuery={searchQuery}
@@ -44,6 +50,7 @@ export default function SearchConsultant() {
 				isLoading={isLoading}
 				errorMessage={fetchError}
 			/>
+			<Stack.Screen />
 		</ScrollView>
 	);
 }
