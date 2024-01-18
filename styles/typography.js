@@ -6,8 +6,15 @@ export const typography = {
 	extraLarge: {
 		fontSize: 24,
 	},
+	largeBold: {
+		fontSize: 20,
+		fontWeight: 'bold',
+	},
 	large: {
 		fontSize: 20,
+	},
+	mediumHeader: {
+		fontSize: 18,
 	},
 	mediumBody: {
 		fontSize: 16,
@@ -18,5 +25,8 @@ export const typography = {
 	},
 	smallBody: {
 		fontSize: 14,
+	},
+	tinyBody: {
+		fontSize: 13,
 	},
 };
