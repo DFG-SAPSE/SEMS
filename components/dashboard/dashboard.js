@@ -6,6 +6,7 @@ import {
 	StyleSheet,
 	TouchableOpacity,
 	ScrollView,
+	SafeAreaView,
 } from 'react-native';
 import { useFonts } from 'expo-font';
 import { fonts } from '../../styles/fonts';
@@ -19,120 +20,131 @@ const Dashboard = ({ user }) => {
 	}
 	return (
 		<ScrollView style={styles.dashboard}>
-			<View style={styles.header}>
-				<Text style={styles.headerText}>Welcome,</Text>
-				<Text style={styles.headerName}>{user.fullName}</Text>
-				<Text style={styles.headerText}>!</Text>
-			</View>
-
-			<View style={styles.layer}>
-				<TouchableOpacity
-					onPress={() => {
-						router.push('SearchConsultant');
-					}}
-					style={styles.iconContainer}
-				>
-					<View style={styles.iconWrapper}>
-						<Image
-							resizeMode="contain"
-							source={{
-								uri: 'https://cdn.builder.io/api/v1/image/assets/TEMP/9f8bf2982f8064a65b6a6aa3fed7a3cf66503161fac70fe52c8eed7b144991f7?apiKey=978f41e0131a442f8daf873f3d5553aa',
-							}}
-							style={styles.icon}
-						/>
-					</View>
-
-					<Text style={styles.iconText}>Meeting Dashboard</Text>
-				</TouchableOpacity>
-
-				<View style={styles.iconContainer}>
-					<View style={styles.iconWrapper}>
-						<Image
-							resizeMode="contain"
-							source={{
-								uri: 'https://cdn.builder.io/api/v1/image/assets/TEMP/7397f5e5c9a174fbcd84d47298e8185c33c7947d1b4d0b14e18e3863d9712836?apiKey=978f41e0131a442f8daf873f3d5553aa',
-							}}
-							style={styles.icon}
-						/>
-					</View>
-					<Text style={styles.iconText}>
-						Edit Organizational Data
-					</Text>
-				</View>
-			</View>
-			<Text style={styles.otherServicesText}>Other Services</Text>
-			<View style={styles.layer}>
-				<View style={styles.iconContainer}>
-					<View style={styles.iconWrapper}>
-						<Image
-							resizeMode="contain"
-							source={{
-								uri: 'https://cdn.builder.io/api/v1/image/assets/TEMP/1b4ddcb4669c20973b2008c02583c4b5fa0a4f70bfbb2174c2028d127b408ddd?apiKey=978f41e0131a442f8daf873f3d5553aa',
-							}}
-							style={styles.icon}
-						/>
-					</View>
-					<Text style={styles.iconText}>
-						Funding Opportunities & Capacity Building
-					</Text>
+			<SafeAreaView style={styles.wrapper}>
+				<View style={styles.header}>
+					<Text style={styles.headerText}>Welcome,</Text>
+					<Text style={styles.headerName}>{user.fullName}</Text>
+					<Text style={styles.headerText}>!</Text>
 				</View>
 
-				<View style={styles.iconContainer}>
-					<View style={styles.iconWrapper}>
-						<Image
-							resizeMode="contain"
-							source={{
-								uri: 'https://cdn.builder.io/api/v1/image/assets/TEMP/7397f5e5c9a174fbcd84d47298e8185c33c7947d1b4d0b14e18e3863d9712836?apiKey=978f41e0131a442f8daf873f3d5553aa',
-							}}
-							style={styles.icon}
-						/>
-					</View>
-					<Text style={styles.iconText}>
-						Research & Grant Writing
-					</Text>
-				</View>
-			</View>
+				<View style={styles.layer}>
+					<TouchableOpacity
+						onPress={() => {
+							router.push('MeetingDashboard');
+						}}
+						style={styles.iconContainer}
+					>
+						<View style={styles.iconWrapper}>
+							<Image
+								resizeMode="contain"
+								source={{
+									uri: 'https://cdn.builder.io/api/v1/image/assets/TEMP/9f8bf2982f8064a65b6a6aa3fed7a3cf66503161fac70fe52c8eed7b144991f7?apiKey=978f41e0131a442f8daf873f3d5553aa',
+								}}
+								style={styles.icon}
+							/>
+						</View>
 
-			<View style={styles.layer}>
-				<View style={styles.iconContainer}>
-					<View style={styles.iconWrapper}>
-						<Image
-							resizeMode="contain"
-							source={{
-								uri: 'https://cdn.builder.io/api/v1/image/assets/TEMP/8625d80bd6d7e8764c3140717dfd0b6d2243c4945531a59ed24a5e9eb7f5b19d?apiKey=978f41e0131a442f8daf873f3d5553aa',
-							}}
-							style={styles.icon}
-						/>
-					</View>
-					<Text style={styles.iconText}>
-						{' '}
-						Project Management Data
-					</Text>
+						<Text style={styles.iconText}>Meeting Dashboard</Text>
+					</TouchableOpacity>
+					<TouchableOpacity
+						onPress={() => {
+							router.push('EditAvailability');
+						}}
+						style={styles.iconContainer}
+					>
+						<View style={styles.iconContainer}>
+							<View style={styles.iconWrapper}>
+								<Image
+									resizeMode="contain"
+									source={{
+										uri: 'https://cdn.builder.io/api/v1/image/assets/TEMP/7397f5e5c9a174fbcd84d47298e8185c33c7947d1b4d0b14e18e3863d9712836?apiKey=978f41e0131a442f8daf873f3d5553aa',
+									}}
+									style={styles.icon}
+								/>
+							</View>
+							<Text style={styles.iconText}>
+								Edit Availability
+							</Text>
+						</View>
+					</TouchableOpacity>
 				</View>
-				<View style={styles.iconContainer}>
-					<View style={styles.iconWrapper}>
-						<Image
-							resizeMode="contain"
-							source={{
-								uri: 'https://cdn.builder.io/api/v1/image/assets/TEMP/54b8d78eedb9783506a3ef7eedb4bf51e961b280f5e41c17a8bee1176d507471?apiKey=978f41e0131a442f8daf873f3d5553aa',
-							}}
-							style={styles.icon}
-						/>
+				<Text style={styles.otherServicesText}>Other Services</Text>
+				<View style={styles.layer}>
+					<View style={styles.iconContainer}>
+						<View style={styles.iconWrapper}>
+							<Image
+								resizeMode="contain"
+								source={{
+									uri: 'https://cdn.builder.io/api/v1/image/assets/TEMP/1b4ddcb4669c20973b2008c02583c4b5fa0a4f70bfbb2174c2028d127b408ddd?apiKey=978f41e0131a442f8daf873f3d5553aa',
+								}}
+								style={styles.icon}
+							/>
+						</View>
+						<Text style={styles.iconText}>
+							Funding Opportunities & Capacity Building
+						</Text>
 					</View>
-					<Text style={styles.iconText}>
-						Social Enterprise Registry
-					</Text>
+
+					<View style={styles.iconContainer}>
+						<View style={styles.iconWrapper}>
+							<Image
+								resizeMode="contain"
+								source={{
+									uri: 'https://cdn.builder.io/api/v1/image/assets/TEMP/7397f5e5c9a174fbcd84d47298e8185c33c7947d1b4d0b14e18e3863d9712836?apiKey=978f41e0131a442f8daf873f3d5553aa',
+								}}
+								style={styles.icon}
+							/>
+						</View>
+						<Text style={styles.iconText}>
+							Research & Grant Writing
+						</Text>
+					</View>
 				</View>
-			</View>
+
+				<View style={styles.layer}>
+					<View style={styles.iconContainer}>
+						<View style={styles.iconWrapper}>
+							<Image
+								resizeMode="contain"
+								source={{
+									uri: 'https://cdn.builder.io/api/v1/image/assets/TEMP/8625d80bd6d7e8764c3140717dfd0b6d2243c4945531a59ed24a5e9eb7f5b19d?apiKey=978f41e0131a442f8daf873f3d5553aa',
+								}}
+								style={styles.icon}
+							/>
+						</View>
+						<Text style={styles.iconText}>
+							{' '}
+							Project Management Data
+						</Text>
+					</View>
+					<View style={styles.iconContainer}>
+						<View style={styles.iconWrapper}>
+							<Image
+								resizeMode="contain"
+								source={{
+									uri: 'https://cdn.builder.io/api/v1/image/assets/TEMP/54b8d78eedb9783506a3ef7eedb4bf51e961b280f5e41c17a8bee1176d507471?apiKey=978f41e0131a442f8daf873f3d5553aa',
+								}}
+								style={styles.icon}
+							/>
+						</View>
+						<Text style={styles.iconText}>
+							Social Enterprise Registry
+						</Text>
+					</View>
+				</View>
+			</SafeAreaView>
 		</ScrollView>
 	);
 };
 import { theme } from '../../styles/theme';
 const styles = StyleSheet.create({
+	wrapper: {
+		flex: 1,
+		backgroundColor: theme.colors.white,
+	},
 	dashboard: {
 		flex: 1,
 		flexDirection: 'column',
-		marginVertical: theme.spacing.large,
 		marginHorizontal: theme.spacing.large,
 		backgroundColor: theme.colors.white,
 	},

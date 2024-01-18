@@ -2,10 +2,10 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 
-export default function Home() {
+export default function About() {
 	return (
 		<View style={styles.container}>
-			<Text>This is the about page</Text>
+			<Text>This is the About</Text>
 			<StatusBar style="auto" />
 		</View>
 	);

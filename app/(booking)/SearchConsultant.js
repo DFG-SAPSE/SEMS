@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, ScrollView, View } from 'react-native';
+import { StyleSheet, ScrollView, View, SafeAreaView } from 'react-native';
 import { Stack } from 'expo-router';
 
 import { theme } from '../../styles/theme';
@@ -31,31 +31,33 @@ export default function SearchConsultant() {
 	}; //search Query that allows us to search for consultants
 
 	return (
-		<ScrollView style={styles.containerFull}>
-			<Stack.Screen
-				options={{
-					title: '',
-				}}
-			/>
-			<View style={styles.container}>
-				<SearchBar
-					searchQuery={searchQuery}
-					onSearch={onSearch}
-					placeHolder={consultingSearching}
+		<SafeAreaView style={styles.wrapper}>
+			<ScrollView style={styles.containerFull}>
+				<Stack.Screen options={{ headerShown: false }} />
+				<View style={styles.container}>
+					<SearchBar
+						searchQuery={searchQuery}
+						onSearch={onSearch}
+						placeHolder={consultingSearching}
+					/>
+				</View>
+				<FilterTabs />
+				<ConsultantCardList
+					consultantData={filteredConsultants}
+					isLoading={isLoading}
+					errorMessage={fetchError}
 				/>
-			</View>
-			<FilterTabs />
-			<ConsultantCardList
-				consultantData={filteredConsultants}
-				isLoading={isLoading}
-				errorMessage={fetchError}
-			/>
-			<Stack.Screen />
-		</ScrollView>
+				<Stack.Screen />
+			</ScrollView>
+		</SafeAreaView>
 	);
 }
 
 const styles = StyleSheet.create({
+	wrapper: {
+		flex: 1,
+		backgroundColor: theme.colors.background.white,
+	},
 	containerFull: {
 		flex: 1,
 		paddingHorizontal: theme.spacing.large,

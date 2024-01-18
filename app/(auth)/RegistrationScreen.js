@@ -1,10 +1,18 @@
 /* eslint-disable no-alert */
 import React, { useState } from 'react';
-import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import {
+	Image,
+	Text,
+	TextInput,
+	// TouchableOpacity,
+	View,
+	SafeAreaView,
+} from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { StyleSheet } from 'react-native';
 import { register } from '../../services/auth';
 import { router } from 'expo-router';
+import Button from '../../components/common/Button';
 
 export default function RegistrationScreen() {
 	const [fullName, setFullName] = useState('');
@@ -25,100 +33,106 @@ export default function RegistrationScreen() {
 	};
 
 	return (
-		<View style={styles.container}>
-			<KeyboardAwareScrollView
-				style={styles.keyboardShouldPersistTaps}
-				keyboardShouldPersistTaps="always"
-			>
-				<Image
-					resizeMode="contain"
-					style={styles.logo}
-					source={require('../../assets/images/logo2.avif')}
-				/>
-				<TextInput
-					style={styles.input}
-					placeholder="Full Name"
-					placeholderTextColor="#aaaaaa"
-					onChangeText={(text) => setFullName(text)}
-					value={fullName}
-					underlineColorAndroid="transparent"
-					autoCapitalize="none"
-				/>
-				<TextInput
-					style={styles.input}
-					placeholder="E-mail"
-					placeholderTextColor="#aaaaaa"
-					onChangeText={(text) => setEmail(text)}
-					value={email}
-					underlineColorAndroid="transparent"
-					autoCapitalize="none"
-				/>
-				<TextInput
-					style={styles.input}
-					placeholderTextColor="#aaaaaa"
-					secureTextEntry
-					placeholder="Password"
-					onChangeText={(text) => setPassword(text)}
-					value={password}
-					underlineColorAndroid="transparent"
-					autoCapitalize="none"
-				/>
-				<TextInput
-					style={styles.input}
-					placeholderTextColor="#aaaaaa"
-					secureTextEntry
-					placeholder="Confirm Password"
-					onChangeText={(text) => setConfirmPassword(text)}
-					value={confirmPassword}
-					underlineColorAndroid="transparent"
-					autoCapitalize="none"
-				/>
-				<TouchableOpacity
-					style={styles.button}
-					onPress={() => onRegisterPress()}
+		<SafeAreaView style={styles.wrapper}>
+			<View style={styles.container}>
+				<KeyboardAwareScrollView
+					style={styles.keyboardShouldPersistTaps}
+					keyboardShouldPersistTaps="always"
 				>
-					<Text style={styles.buttonTitle}>Create account</Text>
-				</TouchableOpacity>
-				<View style={styles.footerView}>
-					<Text style={styles.footerText}>
-						Already got an account?{' '}
-						<Text
-							onPress={onFooterLinkPress}
-							style={styles.footerLink}
-						>
-							Log in
+					<Image
+						resizeMode="contain"
+						style={styles.logo}
+						source={require('../../assets/images/logo2.avif')}
+					/>
+					<TextInput
+						style={styles.input}
+						placeholder="Full Name"
+						placeholderTextColor="#aaaaaa"
+						onChangeText={(text) => setFullName(text)}
+						value={fullName}
+						underlineColorAndroid="transparent"
+						autoCapitalize="none"
+					/>
+					<TextInput
+						style={styles.input}
+						placeholder="E-mail"
+						placeholderTextColor="#aaaaaa"
+						onChangeText={(text) => setEmail(text)}
+						value={email}
+						underlineColorAndroid="transparent"
+						autoCapitalize="none"
+					/>
+					<TextInput
+						style={styles.input}
+						placeholderTextColor="#aaaaaa"
+						secureTextEntry
+						placeholder="Password"
+						onChangeText={(text) => setPassword(text)}
+						value={password}
+						underlineColorAndroid="transparent"
+						autoCapitalize="none"
+					/>
+					<TextInput
+						style={styles.input}
+						placeholderTextColor="#aaaaaa"
+						secureTextEntry
+						placeholder="Confirm Password"
+						onChangeText={(text) => setConfirmPassword(text)}
+						value={confirmPassword}
+						underlineColorAndroid="transparent"
+						autoCapitalize="none"
+					/>
+					<Button
+						title={'Create Account'}
+						onPress={() => onRegisterPress()}
+						customBtnStyle={styles.joinButton}
+					/>
+					<View style={styles.footerView}>
+						<Text style={styles.footerText}>
+							Already got an account?{' '}
+							<Text
+								onPress={onFooterLinkPress}
+								style={styles.footerLink}
+							>
+								Log in
+							</Text>
 						</Text>
-					</Text>
-				</View>
-			</KeyboardAwareScrollView>
-		</View>
+					</View>
+				</KeyboardAwareScrollView>
+			</View>
+		</SafeAreaView>
 	);
 }
 import { theme } from '../../styles/theme';
 const styles = StyleSheet.create({
+	wrapper: {
+		flex: 1,
+		backgroundColor: theme.colors.background.white,
+	},
 	container: {
 		flex: 1,
 		alignItems: 'center',
-		marginTop: theme.spacing.xlarge,
+		marginHorizontal: theme.spacing.xlarge,
+		marginVertical: theme.spacing.xlarge,
 	},
 	logo: {
 		flex: 1,
-		height: 250,
-		width: 400,
+		height: 100,
+		width: 200,
 		alignSelf: 'center',
 		margin: theme.spacing.xlarge,
 		resizeMode: 'contain',
 	},
 	input: {
-		height: 48,
+		height: 60,
 		borderRadius: theme.spacing.tiny,
-		overflow: 'hidden',
 		backgroundColor: theme.colors.white,
-		marginTop: theme.spacing.small,
-		marginBottom: theme.spacing.small,
-		marginLeft: theme.spacing.xlarge,
-		marginRight: theme.spacing.xlarge,
 		paddingLeft: theme.spacing.medium,
+		marginVertical: theme.spacing.medium,
+		borderColor: 'rgba(68, 68, 68, 1)',
+		borderStyle: 'solid',
+		borderWidth: 1,
+		fontSize: theme.typography.mediumBody.fontSize,
 	},
 	button: {
 		backgroundColor: theme.colors.button,
@@ -130,6 +144,13 @@ const styles = StyleSheet.create({
 		borderRadius: theme.spacing.tiny,
 		alignItems: 'center',
 		justifyContent: 'center',
+	},
+	joinButton: {
+		marginTop: theme.spacing.xlarge,
+		paddingVertical: theme.spacing.medium,
+		paddingHorizontal: theme.spacing.large,
+		backgroundColor: theme.colors.primary.light,
+		borderRadius: 24,
 	},
 	buttonTitle: {
 		color: theme.colors.white,

@@ -29,6 +29,12 @@ const Layout = () => {
 				}}
 			/>
 			<Tabs.Screen
+				name="EditAvailability"
+				options={{
+					href: null,
+				}}
+			/>
+			<Tabs.Screen
 				name="home"
 				options={{
 					href: '/home',
