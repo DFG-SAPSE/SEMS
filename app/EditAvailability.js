@@ -74,7 +74,7 @@ const EditAvailability = () => {
 	};
 
 	const handleCancel = () => {
-		router.back();
+		router.replace('/home');
 	};
 
 	// WEEKLY AVAILABILITY STATE MANAGEMENT

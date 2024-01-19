@@ -8,24 +8,25 @@ const Exceptions = () => {
 	const { exceptions } = consultantData;
 
 	return (
-		<View
-			style={{
-				marginTop: theme.spacing.large,
-				padding: theme.spacing.large,
-			}}
-		>
-			<Text style={{ ...theme.typography.large }}>Exceptions</Text>
-			<Text
-				style={{
-					marginTop: theme.spacing.mediumSmall,
-					fontWeight: 'bold',
-				}}
-			>
-				{exceptions}
-			</Text>
+		<View style={styles.container}>
+			<Text style={styles.largeText}>Exceptions</Text>
+			<Text style={styles.exceptionsText}>{exceptions}</Text>
 		</View>
 	);
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+	container: {
+		marginTop: theme.spacing.large,
+		padding: theme.spacing.large,
+	},
+	largeText: {
+		...theme.typography.large,
+	},
+	exceptionsText: {
+		marginTop: theme.spacing.mediumSmall,
+		fontWeight: 'bold',
+	},
+});
+
 export default Exceptions;

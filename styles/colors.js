@@ -13,6 +13,7 @@ export const colors = {
 		dark: 'rgba(46, 46, 46, 1)',
 		light: 'rgba(255, 255, 255, 1)',
 		gray: 'rgba(153, 153, 153, 1)',
+		black: 'rgba(33, 37, 41, 1)',
 	},
 	background: {
 		white: 'rgba(250, 250, 250, 1)',
@@ -22,7 +23,6 @@ export const colors = {
 	white: 'rgb(255, 255, 255)',
 	black: 'rgb(0,0,0)',
 	button: 'rgb(120, 142, 236)',
-	background: 'rgba(250, 250, 250, 1)',
 	delete: 'rgba(207, 49, 38, 1)',
 	border: 'rgba(204, 204, 204, 1)',
 };
