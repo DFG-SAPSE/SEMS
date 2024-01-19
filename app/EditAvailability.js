@@ -74,7 +74,7 @@ const EditAvailability = () => {
 	};
 
 	const handleCancel = () => {
-		router.back();
+		router.replace('/home');
 	};
 
 	// WEEKLY AVAILABILITY STATE MANAGEMENT
@@ -122,165 +122,157 @@ const EditAvailability = () => {
 	};
 
 	return (
-		<UserContext>
-			<SafeAreaView style={styles.wrapper}>
-				<ScrollView style={styles.container}>
-					<Stack.Screen options={{ headerShown: false }} />
+		<SafeAreaView style={styles.wrapper}>
+			<ScrollView style={styles.container}>
+				<Stack.Screen options={{ headerShown: false }} />
 
-					<View style={styles.titleWrapper}>
-						<Text style={styles.title}>Scheduling settings</Text>
-					</View>
+				<View style={styles.titleWrapper}>
+					<Text style={styles.title}>Scheduling settings</Text>
+				</View>
 
-					<Text
-						style={{
-							...theme.typography.largeBold,
-							marginBottom: theme.spacing.large,
-						}}
-					>
-						Meeting configuration
-					</Text>
+				<Text
+					style={{
+						...theme.typography.largeBold,
+						marginBottom: theme.spacing.large,
+					}}
+				>
+					Meeting configuration
+				</Text>
 
-					<MeetingConfig
-						currentlySelected={tempMeetingConfig.startTimeIncrement}
-						openPicker={() => {
-							setMeetingConfigType(START_TIME_INCREMENT);
-							setIsMeetingConfigPickerOpen(true);
-						}}
-					>
-						Start time increments
-					</MeetingConfig>
+				<MeetingConfig
+					currentlySelected={tempMeetingConfig.startTimeIncrement}
+					openPicker={() => {
+						setMeetingConfigType(START_TIME_INCREMENT);
+						setIsMeetingConfigPickerOpen(true);
+					}}
+				>
+					Start time increments
+				</MeetingConfig>
 
-					<MeetingConfig
-						currentlySelected={tempMeetingConfig.breakTimeLength}
-						openPicker={() => {
-							setMeetingConfigType(BREAK_TIME);
-							setIsMeetingConfigPickerOpen(true);
-						}}
-					>
-						Break between meetings
-					</MeetingConfig>
+				<MeetingConfig
+					currentlySelected={tempMeetingConfig.breakTimeLength}
+					openPicker={() => {
+						setMeetingConfigType(BREAK_TIME);
+						setIsMeetingConfigPickerOpen(true);
+					}}
+				>
+					Break between meetings
+				</MeetingConfig>
 
-					<MeetingConfig
-						currentlySelected={tempMeetingConfig.breakTimeLength}
-						openPicker={() => {
-							setMeetingConfigType(MEETING_LENGTH);
-							setIsMeetingConfigPickerOpen(true);
-						}}
-					>
-						Meeting length
-					</MeetingConfig>
+				<MeetingConfig
+					currentlySelected={tempMeetingConfig.breakTimeLength}
+					openPicker={() => {
+						setMeetingConfigType(MEETING_LENGTH);
+						setIsMeetingConfigPickerOpen(true);
+					}}
+				>
+					Meeting length
+				</MeetingConfig>
 
-					<PricingConfig
-						meetingPrice={tempMeetingConfig.price}
-						setMeetingPrice={(newPrice) => {
-							setTempMeetingConfig((prev) => ({
-								...prev,
-								price: Number(newPrice),
-							}));
-						}}
-					/>
+				<PricingConfig
+					meetingPrice={tempMeetingConfig.price}
+					setMeetingPrice={(newPrice) => {
+						setTempMeetingConfig((prev) => ({
+							...prev,
+							price: Number(newPrice),
+						}));
+					}}
+				/>
 
-					<View style={styles.availabilityContainer}>
-						<Text style={{ ...theme.typography.largeBold }}>
-							Hours
-						</Text>
-						{tempAvail.map((todayTimeSlots, dayIndex) => {
-							return (
-								<DaySchedule
-									key={dayIndex}
-									dayIndex={dayIndex}
-									todayTimeSlots={todayTimeSlots}
-									openTimePickerModal={openTimePickerModal}
-									addTimeSlot={addTimeSlot}
-									deleteTimeSlot={deleteTimeSlot}
-								/>
-							);
-						})}
-					</View>
-
-					<View style={{ marginTop: theme.spacing.large }}>
-						<Text style={{ ...theme.typography.largeBold }}>
-							Exceptions
-						</Text>
-						<View style={styles.exceptionsContainer}>
-							<TextInput
-								style={styles.exceptionInput}
-								onChangeText={(newExceptionText) => {
-									setTempExceptions(newExceptionText);
-								}}
-								value={tempExceptions}
-								multiline={true}
+				<View style={styles.availabilityContainer}>
+					<Text style={{ ...theme.typography.largeBold }}>Hours</Text>
+					{tempAvail.map((todayTimeSlots, dayIndex) => {
+						return (
+							<DaySchedule
+								key={dayIndex}
+								dayIndex={dayIndex}
+								todayTimeSlots={todayTimeSlots}
+								openTimePickerModal={openTimePickerModal}
+								addTimeSlot={addTimeSlot}
+								deleteTimeSlot={deleteTimeSlot}
 							/>
-						</View>
-					</View>
+						);
+					})}
+				</View>
 
-					<View style={styles.buttonContainer}>
-						<Button
-							title={'Cancel'}
-							customBtnStyle={[
-								styles.button,
-								styles.cancelButton,
-							]}
-							customTextStyle={styles.cancelButtonText}
-							onPress={handleCancel}
-						/>
-						<Button
-							title={'Save'}
-							customBtnStyle={styles.button}
-							onPress={handleSave}
-						/>
-					</View>
-
-					<CustomModal
-						isVisible={timerPickerVisibility}
-						onDismiss={() => setTimePickerVisibility(false)}
-					>
-						<TimePicker
-							onCancel={() => setTimePickerVisibility(false)}
-							onConfirm={updateTimeSlot}
-							selectedTime={timePickerState.selectedTime}
-							setSelectedTime={setSelectedTime}
-						/>
-					</CustomModal>
-
-					<CustomModal
-						isVisible={isMeetingConfigPickerOpen}
-						onDismiss={() => setIsMeetingConfigPickerOpen(false)}
-					>
-						<CustomPicker
-							cancel={() => setIsMeetingConfigPickerOpen(false)}
-							updateSelect={(newVal) => {
-								setTempMeetingConfig((prev) => {
-									const newMeetingConfig = { ...prev };
-									switch (meetingConfigType) {
-										case BREAK_TIME:
-											newMeetingConfig.breakTimeLength =
-												newVal;
-											break;
-										case START_TIME_INCREMENT:
-											newMeetingConfig.startTimeIncrement =
-												newVal;
-											break;
-										case MEETING_LENGTH:
-											newMeetingConfig.meetingLength =
-												newVal;
-									}
-									return newMeetingConfig;
-								});
-								setIsMeetingConfigPickerOpen(false);
+				<View style={{ marginTop: theme.spacing.large }}>
+					<Text style={{ ...theme.typography.largeBold }}>
+						Exceptions
+					</Text>
+					<View style={styles.exceptionsContainer}>
+						<TextInput
+							style={styles.exceptionInput}
+							onChangeText={(newExceptionText) => {
+								setTempExceptions(newExceptionText);
 							}}
-							currentlySelected={
-								meetingConfigType === BREAK_TIME
-									? tempMeetingConfig.breakTimeLength
-									: meetingConfigType === MEETING_LENGTH
-										? tempMeetingConfig.meetingLength
-										: tempMeetingConfig.startTimeIncrement
-							}
+							value={tempExceptions}
+							multiline={true}
 						/>
-					</CustomModal>
-				</ScrollView>
-			</SafeAreaView>
-		</UserContext>
+					</View>
+				</View>
+
+				<View style={styles.buttonContainer}>
+					<Button
+						title={'Cancel'}
+						customBtnStyle={[styles.button, styles.cancelButton]}
+						customTextStyle={styles.cancelButtonText}
+						onPress={handleCancel}
+					/>
+					<Button
+						title={'Save'}
+						customBtnStyle={styles.button}
+						onPress={handleSave}
+					/>
+				</View>
+
+				<CustomModal
+					isVisible={timerPickerVisibility}
+					onDismiss={() => setTimePickerVisibility(false)}
+				>
+					<TimePicker
+						onCancel={() => setTimePickerVisibility(false)}
+						onConfirm={updateTimeSlot}
+						selectedTime={timePickerState.selectedTime}
+						setSelectedTime={setSelectedTime}
+					/>
+				</CustomModal>
+
+				<CustomModal
+					isVisible={isMeetingConfigPickerOpen}
+					onDismiss={() => setIsMeetingConfigPickerOpen(false)}
+				>
+					<CustomPicker
+						cancel={() => setIsMeetingConfigPickerOpen(false)}
+						updateSelect={(newVal) => {
+							setTempMeetingConfig((prev) => {
+								const newMeetingConfig = { ...prev };
+								switch (meetingConfigType) {
+									case BREAK_TIME:
+										newMeetingConfig.breakTimeLength =
+											newVal;
+										break;
+									case START_TIME_INCREMENT:
+										newMeetingConfig.startTimeIncrement =
+											newVal;
+										break;
+									case MEETING_LENGTH:
+										newMeetingConfig.meetingLength = newVal;
+								}
+								return newMeetingConfig;
+							});
+							setIsMeetingConfigPickerOpen(false);
+						}}
+						currentlySelected={
+							meetingConfigType === BREAK_TIME
+								? tempMeetingConfig.breakTimeLength
+								: meetingConfigType === MEETING_LENGTH
+									? tempMeetingConfig.meetingLength
+									: tempMeetingConfig.startTimeIncrement
+						}
+					/>
+				</CustomModal>
+			</ScrollView>
+		</SafeAreaView>
 	);
 };
 

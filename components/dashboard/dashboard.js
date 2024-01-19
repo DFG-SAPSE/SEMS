@@ -24,7 +24,7 @@ const Dashboard = ({ user }) => {
 				<View style={styles.header}>
 					<Text style={styles.headerText}>Welcome,</Text>
 					<Text style={styles.headerName}>{user.fullName}</Text>
-					<Text style={styles.headerText}>!</Text>
+					<Text style={styles.headerText}> !</Text>
 				</View>
 
 				<View style={styles.layer}>

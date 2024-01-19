@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
 import { Stack, router } from 'expo-router';
 import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
-import { UserContext } from '../../context/UserContext';
-import Button from '../../components/common/Button';
-import { theme } from '../../styles/theme';
-import { convertMinutesToTime } from '../../utils/dateAndTime';
+import { UserContext } from '../context/UserContext';
+import Button from '../components/common/Button';
+import { theme } from '../styles/theme';
+import { convertMinutesToTime } from '../utils/dateAndTime';
 
-const MeetinDashboard = () => {
+const MeetingDashboard = () => {
 	const { userData } = useContext(UserContext);
 
 	const renderMeeting = (meeting, index) => {
@@ -108,4 +108,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default MeetinDashboard;
+export default MeetingDashboard;
