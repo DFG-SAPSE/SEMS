@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
-import { Stack } from 'expo-router';
+import { Stack, router } from 'expo-router';
 import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
 import { UserContext } from '../context/UserContext';
 import Button from '../components/common/Button';
 import { theme } from '../styles/theme';
 import { convertMinutesToTime } from '../utils/dateAndTime';
 
-const MeetinDashboard = () => {
+const MeetingDashboard = () => {
 	const { userData } = useContext(UserContext);
 
 	const renderMeeting = (meeting, index) => {
@@ -49,7 +49,7 @@ const MeetinDashboard = () => {
 					customBtnStyle={styles.scheduleButton}
 					onPress={() => {
 						// Push to the consultant profile page
-						// router.push('/EditAvailability');
+						router.push('/SearchConsultant');
 					}}
 				/>
 				{/* )} */}
@@ -61,7 +61,7 @@ const MeetinDashboard = () => {
 const styles = StyleSheet.create({
 	wrapper: {
 		flex: 1,
-		backgroundColor: theme.colors.white,
+		backgroundColor: theme.colors.background.white,
 	},
 	container: {
 		padding: theme.spacing.large,
@@ -108,4 +108,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default MeetinDashboard;
+export default MeetingDashboard;

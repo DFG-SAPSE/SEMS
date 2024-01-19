@@ -5,6 +5,7 @@ import {
 	onAuthStateChanged,
 } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { Alert } from 'react-native';
 
 //Login and Registration Functions
 export const login = (email, password, router) => {
@@ -15,14 +16,14 @@ export const login = (email, password, router) => {
 			const userSnap = await getDoc(usersRef);
 			if (userSnap.exists()) {
 				//const user = userSnap.data();
-				router.replace('/HomeScreen');
+				router.replace('/home');
 			} else {
 				// docSnap.data() will be undefined in this case
-				alert('User does not exist anymore.');
+				Alert('User does not exist anymore.');
 			}
 		})
 		.catch((error) => {
-			alert(error);
+			// alert(error);
 		});
 	//return user;
 };
@@ -39,9 +40,9 @@ export const register = (fullName, email, password, router) => {
 			const usersRef = doc(firestore, 'users', uid);
 			await setDoc(usersRef, user)
 				.then(() => {
-					alert('Registration successful');
+					// alert('Registration successful');
 					//change this later on because it should ask for email confirmation
-					router.replace('/HomeScreen');
+					router.replace('/LoginScreen');
 				})
 				.catch((error) => {
 					console.log(error);
@@ -64,11 +65,8 @@ export const getAuthChange = (setAuthChange) => {
 					setAuthChange(user);
 				})
 				.catch((error) => {
-					alert(error);
+					Alert('Error fetching user data:', error);
 				});
-			// ...
-		} else {
-			// User is signed out
 			// ...
 		}
 	});
