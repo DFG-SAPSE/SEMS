@@ -6,6 +6,7 @@ import {
 } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { Alert } from 'react-native';
+import User from '../schema/user.js';
 
 //Login and Registration Functions
 export const login = (email, password, router) => {
@@ -32,11 +33,13 @@ export const register = (fullName, email, password, router) => {
 	createUserWithEmailAndPassword(auth, email, password)
 		.then(async (response) => {
 			const uid = response.user.uid;
-			const user = {
-				id: uid,
-				email,
-				fullName,
-			};
+
+			// create new User object based on schema
+			const user = User();
+			user.id = uid;
+			user.email = email;
+			user.name = fullName;
+
 			const usersRef = doc(firestore, 'users', uid);
 			await setDoc(usersRef, user)
 				.then(() => {
@@ -62,6 +65,7 @@ export const getAuthChange = (setAuthChange) => {
 			await getDoc(usersRef)
 				.then((userSnap) => {
 					const user = userSnap.data();
+					user.availability = JSON.parse(user.availability);
 					setAuthChange(user);
 				})
 				.catch((error) => {

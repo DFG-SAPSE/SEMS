@@ -17,7 +17,7 @@ const Layout = () => {
 					tabBarStyle: {
 						display:
 							currentRouteName === '/LoginScreen' ||
-								currentRouteName === '/RegistrationScreen'
+							currentRouteName === '/RegistrationScreen'
 								? 'none'
 								: 'flex',
 					},
@@ -25,12 +25,6 @@ const Layout = () => {
 			>
 				<Tabs.Screen
 					name="(auth)"
-					options={{
-						href: null,
-					}}
-				/>
-				<Tabs.Screen
-					name="EditAvailability"
 					options={{
 						href: null,
 					}}
@@ -77,12 +71,6 @@ const Layout = () => {
 						href: '/message',
 						tabBarIcon: MessageIcon,
 						tabBarLabel: '',
-					}}
-				/>
-				<Tabs.Screen
-					name="MeetingDashboard"
-					options={{
-						href: null,
 					}}
 				/>
 			</Tabs>

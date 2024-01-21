@@ -91,6 +91,8 @@ const UserProvider = ({ children }) => {
 
 	useEffect(() => {
 		getAuthChange(setUserData);
+
+		// TODO: Add clean up function to unsub from onAuthStateChanged
 	}, [setUserData]);
 
 	const updateAvailability = (newAvailability) => {
