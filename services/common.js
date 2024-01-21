@@ -1,4 +1,5 @@
 import { firestore } from './config.js';
+import { doc as createDocRef, setDoc } from 'firebase/firestore';
 
 export const fetchAllDocuments = async (collectionName) => {
 	try {
@@ -7,11 +8,12 @@ export const fetchAllDocuments = async (collectionName) => {
 			id: doc.id,
 			...doc.data(),
 		}));
-		return { data: documents, error: null };
+		return { data: documents, error: null, ok: true };
 	} catch (error) {
 		return {
 			data: null,
 			error: Error(('Error fetching documents: ', error)),
+			ok: false,
 		};
 	}
 };
@@ -42,11 +44,13 @@ export const fetchDocumentsWithPagination = async (
 		return {
 			data: { documents, lastVisible: lastVisibleDocument },
 			error: null,
+			ok: true,
 		};
 	} catch (error) {
 		return {
 			data: null,
 			error: Error('Error fetching documents with pagination: ', error),
+			ok: false,
 		};
 	}
 };
@@ -65,5 +69,19 @@ export const fetchDocumentById = async (collectionName, documentId) => {
 		return { data: 'Document does not exists', error: null };
 	} catch (error) {
 		return { data: null, error: Error('Error fetching document: ', error) };
+	}
+};
+
+export const updateEntireDocument = async (
+	collectionName,
+	documentId,
+	newData,
+) => {
+	try {
+		const docRef = createDocRef(firestore, collectionName, documentId);
+		await setDoc(docRef, newData);
+		return { ok: true, error: null };
+	} catch (error) {
+		return { ok: false, error: Error('Error updating document: ', error) };
 	}
 };
