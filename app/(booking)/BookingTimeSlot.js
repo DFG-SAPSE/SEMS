@@ -5,17 +5,17 @@ import { StyleSheet, ScrollView } from 'react-native';
 import { BookingContext } from '../../context/BookingContext';
 import CustomCalendar from '../../components/booking/timeSlot/CustomCalendar';
 import AvailableTimes from '../../components/booking/timeSlot/AvailableTimes';
-import { fetchAvailableTimes } from '../../services/scheduling';
+import { getAvailableStartTimes } from '../../services/scheduling';
 import { convertTo24HourFormat } from '../../utils/dateAndTime';
 
 const BookTimeSlot = () => {
-	const [selectedDate, setSelectedDate] = useState('');
 	const [availableTimes, setAvailableTimes] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
-	const { chooseTimeSlot, consultantData } = useContext(BookingContext);
+	const { bookingData, chooseDate, chooseTimeSlot, consultantData } =
+		useContext(BookingContext);
 
 	const markedDates = {
-		[selectedDate]: {
+		[bookingData.date]: {
 			selected: true,
 			disableTouchEvent: true,
 		},
@@ -23,8 +23,23 @@ const BookTimeSlot = () => {
 
 	const onDayPress = async (day) => {
 		setIsLoading(true);
-		const times = await fetchAvailableTimes(day.dateString);
-		setSelectedDate(day.dateString);
+		const {
+			availability,
+			bookedMeetings,
+			meetingConfig: { startTimeIncrement, breakTimeLength },
+			meetingLength,
+		} = consultantData;
+
+		const times = await getAvailableStartTimes(
+			day.dateString,
+			availability,
+			bookedMeetings,
+			startTimeIncrement,
+			breakTimeLength,
+			meetingLength,
+		);
+
+		chooseDate(day.dateString);
 		setAvailableTimes(times);
 		setIsLoading(false);
 	};
@@ -32,7 +47,7 @@ const BookTimeSlot = () => {
 	const handleTimePress = async (time) => {
 		// Conver time to 24-hour format, combine the date and time
 		// and parse into Date
-		const startDateString = `${selectedDate} ${convertTo24HourFormat(
+		const startDateString = `${bookingData.date} ${convertTo24HourFormat(
 			time,
 		)}`;
 		const startTime = new Date(startDateString);

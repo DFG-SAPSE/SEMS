@@ -1,12 +1,13 @@
 import React, { createContext, useEffect, useState } from 'react';
 
-import { fetchUserProfile } from '../services/user';
+import { fetchConsultantById } from '../services/user';
 import { finalizeBooking } from '../services/scheduling';
 
 export const BookingContext = createContext(null);
 
 const DEFAULT_BOOKING_DATA = {
 	service: 0,
+	date: null,
 	startTime: null,
 	endTime: null,
 	answers: [],
@@ -58,6 +59,10 @@ const BookingProvider = ({ children }) => {
 		changeConsultant('123');
 	}, []);
 
+	const chooseDate = (date) => {
+		setBookingData((prev) => ({ ...prev, date }));
+	};
+
 	const chooseTimeSlot = (startTime, endTime) => {
 		setBookingData((prev) => ({ ...prev, startTime, endTime }));
 	};
@@ -89,13 +94,13 @@ const BookingProvider = ({ children }) => {
 	const book = async () => {
 		const res = await finalizeBooking(bookingData);
 		if (res.ok) {
-			setRecentlyBookedMeetingId(res.meetingId);
+			// setRecentlyBookedMeetingId(data.meetingId);
 		}
 		return { ok: res.ok };
 	};
 
 	const changeConsultant = async (consultantId) => {
-		const userProfile = await fetchUserProfile(consultantId);
+		const userProfile = await fetchConsultantById(consultantId);
 		setConsultantData(userProfile);
 	};
 
@@ -116,6 +121,7 @@ const BookingProvider = ({ children }) => {
 		consultantData,
 		modalVisible,
 		recentlyBookedMeetingId,
+		chooseDate,
 		chooseTimeSlot,
 		updateAnswers,
 		uploadFile,

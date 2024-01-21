@@ -1,41 +1,96 @@
-export const fetchAvailableTimes = (id, date) => {
-	// This is a dummy function that mimics fetching data from a server
-	// Replace this with actual API call logic when backend is ready
-	return new Promise((resolve) => {
-		setTimeout(() => {
-			const times = [
-				'9:00am',
-				'10:00am',
-				'11:00am',
-				'12:00pm',
-				'1:00pm',
-				'2:00pm',
-			];
-			resolve(times);
-		}, 1000);
-	});
+import { firestore, auth } from './config.js';
+import firebase from 'firebase/app';
+import COLLECTION_NAMES from './collectionNames.js';
+
+export const getAvailableStartTimes = (
+	date,
+	weeklyHours,
+	bookedMeetings,
+	startTimeIncrement,
+	breakTimeLength,
+	meetingLength,
+) => {
+	// Check if a potential meeting slot overlaps with any booked meeting
+	const isOverlap = (potentialStart, meeting) => {
+		const potentialEnd = potentialStart + meetingLength + breakTimeLength;
+		return (
+			potentialStart < meeting.endTime && potentialEnd > meeting.startTime
+		);
+	};
+
+	// Generate start times within a time slot
+	const generateStartTimes = (slot) => {
+		let startTimes = [];
+		for (
+			let time = slot[0];
+			time + meetingLength + breakTimeLength <= slot[1];
+			time += startTimeIncrement
+		) {
+			startTimes.push(time);
+		}
+		return startTimes;
+	};
+
+	// Get day of the week (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
+	const dayOfWeek = date.getDay();
+
+	// Get available slots for that day
+	const availableSlots = weeklyHours[dayOfWeek];
+
+	// Get all potential start times within the available slots
+	let potentialStartTimes = availableSlots.flatMap((slot) =>
+		generateStartTimes(slot),
+	);
+
+	// Filter out start times that overlap with booked meetings
+	return potentialStartTimes.filter(
+		(startTime) =>
+			!bookedMeetings.some((meeting) => isOverlap(startTime, meeting)),
+	);
 };
 
-export const finalizeBooking = (bookingData) => {
-	return new Promise((resolve, reject) => {
-		setTimeout(() => {
-			// Here we are simulating a successful API call
-			// In a real application, this would be replaced with an actual API call
+export const finalizeBooking = async (bookingData, consultantId) => {
+	// add the meeting to the bookedMeetings field of the consultant
+	try {
+		const docRef = firestore
+			.collection(COLLECTION_NAMES.CONSULTANTS)
+			.doc(consultantId);
 
-			// Simulate a successful response or an error based on some condition
-			const isSuccess = true;
+		await docRef.update({
+			bookedMeetings:
+				firebase.firestore.FieldValue.arrayUnion(bookingData),
+		});
+	} catch (error) {
+		return {
+			data: null,
+			error: Error('Error registering meeting for consultant: ', error),
+			ok: false,
+		};
+	}
 
-			if (isSuccess) {
-				resolve({
-					ok: true,
-					meetingId: '123',
-					message: 'Booking finalized successfully.',
-				});
-			} else {
-				reject({ ok: false, message: 'Failed to finalize booking.' });
-			}
-		}, 1000); // simulate a network delay
-	});
+	// retrieve the current user's id, add the meeting to the bookedMeetings field
+	const user = auth.currentUser;
+	if (!user) return { data: null, error: Error('No user logged in') };
+
+	const entrepreneurId = user.uid;
+	try {
+		const docRef = firestore
+			.collection(COLLECTION_NAMES.ENTREPRENEURS)
+			.doc(entrepreneurId);
+
+		await docRef.update({
+			bookedMeetings:
+				firebase.firestore.FieldValue.arrayUnion(bookingData),
+		});
+	} catch (error) {
+		return {
+			data: null,
+			error: Error('Error registering meeting for entrepreneur: ', error),
+			ok: false,
+		};
+	}
+
+	return { data: 'Success!', error: null, ok: true };
 };
 
 export const cancelMeeting = (meetingId) => {

@@ -38,8 +38,14 @@ const MeetingDashboard = () => {
 				<Text style={styles.welcomeText}>Upcoming meetings</Text>
 
 				<View style={styles.meetingListContainer}>
-					{userData.bookedMeetings.map((meeting, index) =>
-						renderMeeting(meeting, index),
+					{userData.bookedMeetings ? (
+						userData.bookedMeetings.map((meeting, index) =>
+							renderMeeting(meeting, index),
+						)
+					) : (
+						<Text style={{ ...theme.typography.mediumBody }}>
+							You currently have no meeting.
+						</Text>
 					)}
 				</View>
 

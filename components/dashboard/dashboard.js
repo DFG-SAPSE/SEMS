@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
 	View,
 	Text,
@@ -11,8 +11,11 @@ import {
 import { useFonts } from 'expo-font';
 import { fonts } from '../../styles/fonts';
 import { router } from 'expo-router';
+import { theme } from '../../styles/theme';
+import { UserContext } from '../../context/UserContext';
 
-const Dashboard = ({ user }) => {
+const Dashboard = () => {
+	const { userData } = useContext(UserContext);
 	const [fontsLoaded] = useFonts(fonts);
 
 	if (!fontsLoaded) {
@@ -23,7 +26,7 @@ const Dashboard = ({ user }) => {
 			<SafeAreaView style={styles.wrapper}>
 				<View style={styles.header}>
 					<Text style={styles.headerText}>Welcome,</Text>
-					<Text style={styles.headerName}>{user.fullName}</Text>
+					<Text style={styles.headerName}>{userData.name}</Text>
 					<Text style={styles.headerText}> !</Text>
 				</View>
 
@@ -136,7 +139,7 @@ const Dashboard = ({ user }) => {
 		</ScrollView>
 	);
 };
-import { theme } from '../../styles/theme';
+
 const styles = StyleSheet.create({
 	wrapper: {
 		flex: 1,
