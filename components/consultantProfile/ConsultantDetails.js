@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 
 const ConsultantDetails = () => {
+	const { consultantData } = useContext(BookingContext);
 	return (
 		<>
 			<View style={styles.consultantInformation}>
@@ -10,36 +11,38 @@ const ConsultantDetails = () => {
 					<Text style={styles.subTitle}>President</Text>
 				</View>
 				<View style={styles.TitleContainer}>
-					<Text style={styles.title}>Specialty</Text>
-					<Text style={styles.subTitle}>Community Organizing</Text>
+					<Text style={styles.title}>Expertise</Text>
+					<Text style={styles.subTitle}>
+						{consultantData.expertise}
+					</Text>
 				</View>
 				<View style={styles.TitleContainer}>
 					<Text style={styles.title}>About</Text>
 					<Text style={styles.subTitle}>
-						I'm a passionate entrepreneur and the driving force
-						behind our enterprise, which is dedicated to connecting
-						companies and fostering collaboration for mutual
-						success.
+						{consultantData.description}
 					</Text>
 				</View>
 				<View style={styles.TitleContainer}>
 					<Text style={styles.title}>Years of experience</Text>
-					<Text style={styles.subTitle}>3</Text>
+					<Text style={styles.subTitle}>
+						{consultantData.experienceYears}
+					</Text>
 				</View>
-				<View style={styles.TitleContainer}>
+				{/* <View style={styles.TitleContainer}>
 					<Text style={styles.title}>General consultation</Text>
 					<Text style={styles.subTitle}>Yes</Text>
 				</View>
 				<View style={styles.TitleContainer}>
 					<Text style={styles.title}>Special consultation</Text>
 					<Text style={styles.subTitle}>Yes</Text>
-				</View>
+				</View> */}
 			</View>
 		</>
 	);
 };
 
 import { theme } from '../../styles/theme';
+import { BookingContext } from '../../context/BookingContext';
 
 const styles = StyleSheet.create({
 	consultantInformation: {

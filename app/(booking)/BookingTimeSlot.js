@@ -21,48 +21,43 @@ const BookTimeSlot = () => {
 		},
 	};
 
-	const onDayPress = async (day) => {
+	/**
+	 *
+	 * @param dateData: DateData from react-native-calendars
+	 */
+	const onDayPress = async (dateData) => {
 		setIsLoading(true);
 		const {
 			availability,
 			bookedMeetings,
-			meetingConfig: { startTimeIncrement, breakTimeLength },
-			meetingLength,
+			// meetingConfig: { startTimeIncrement, breakTimeLength },
+			services,
 		} = consultantData;
 
-		const times = await getAvailableStartTimes(
-			day.dateString,
-			availability,
+		const meetingLength = services[0].meetingLength;
+		const startTimeIncrement = 15; // dummy data, waiting for Iyi to update database, this cannot be 0
+		const breakTimeLength = 15; // dummy data, waiting for Iyi to update database
+
+		const times = getAvailableStartTimes(
+			new Date(dateData.timestamp),
+			JSON.parse(availability),
 			bookedMeetings,
 			startTimeIncrement,
 			breakTimeLength,
 			meetingLength,
 		);
 
-		chooseDate(day.dateString);
+		chooseDate(new Date(dateData.timestamp));
 		setAvailableTimes(times);
 		setIsLoading(false);
 	};
 
-	const handleTimePress = async (time) => {
-		// Conver time to 24-hour format, combine the date and time
-		// and parse into Date
-		const startDateString = `${bookingData.date} ${convertTo24HourFormat(
-			time,
-		)}`;
-		const startTime = new Date(startDateString);
+	const handleTimePress = async (startTime) => {
+		const { services } = consultantData;
+		const meetingLength = services[0].meetingLength;
+		const endTime = startTime + meetingLength;
 
-		// Dummy: Clone the Date object and add 45 minutes for the end time
-		// This will be changed when we give consultants the ability
-		// to customize their meeting length
-		const endTime = new Date(startTime);
-		endTime.setMinutes(startTime.getMinutes() + 45);
-
-		// Convert start and end times to timestamps
-		const startTimeStamp = startTime.getTime();
-		const endTimeStamp = endTime.getTime();
-
-		await chooseTimeSlot(startTimeStamp, endTimeStamp);
+		chooseTimeSlot(startTime, endTime);
 
 		router.push('/BookingQuestions');
 	};

@@ -1,9 +1,15 @@
 import { firestore } from './config.js';
-import { doc as createDocRef, setDoc } from 'firebase/firestore';
+import {
+	doc as createDocRef,
+	setDoc,
+	getDocs,
+	collection,
+	getDoc,
+} from 'firebase/firestore';
 
 export const fetchAllDocuments = async (collectionName) => {
 	try {
-		const snapshot = await firestore.collection(collectionName).get();
+		const snapshot = await getDocs(collection(firestore, collectionName));
 		const documents = snapshot.docs.map((doc) => ({
 			id: doc.id,
 			...doc.data(),
@@ -12,7 +18,7 @@ export const fetchAllDocuments = async (collectionName) => {
 	} catch (error) {
 		return {
 			data: null,
-			error: Error(('Error fetching documents: ', error)),
+			error: 'Error fetching documents: ' + error.message,
 			ok: false,
 		};
 	}
@@ -49,7 +55,7 @@ export const fetchDocumentsWithPagination = async (
 	} catch (error) {
 		return {
 			data: null,
-			error: Error('Error fetching documents with pagination: ', error),
+			error: 'Error fetching documents with pagination: ' + error.message,
 			ok: false,
 		};
 	}
@@ -57,8 +63,8 @@ export const fetchDocumentsWithPagination = async (
 
 export const fetchDocumentById = async (collectionName, documentId) => {
 	try {
-		const docRef = firestore.collection(collectionName).doc(documentId);
-		const docSnapshot = await docRef.get();
+		const docRef = createDocRef(firestore, collectionName, documentId);
+		const docSnapshot = await getDoc(docRef);
 
 		if (docSnapshot.exists)
 			return {
@@ -68,7 +74,10 @@ export const fetchDocumentById = async (collectionName, documentId) => {
 
 		return { data: 'Document does not exists', error: null };
 	} catch (error) {
-		return { data: null, error: Error('Error fetching document: ', error) };
+		return {
+			data: null,
+			error: 'Error fetching document: ' + error.message,
+		};
 	}
 };
 
@@ -82,6 +91,9 @@ export const updateEntireDocument = async (
 		await setDoc(docRef, newData);
 		return { ok: true, error: null };
 	} catch (error) {
-		return { ok: false, error: Error('Error updating document: ', error) };
+		return {
+			ok: false,
+			error: 'Error updating document: ' + error.message,
+		};
 	}
 };

@@ -9,20 +9,21 @@ import ConsultantProfile from '../../components/booking/common/ConsultantProfile
 import CancelConfirmModal from '../../components/booking/common/CancelConfirmModal';
 import CancelBookingButton from '../../components/booking/common/CancelBookingButton';
 
-import { formatDateAndTime } from '../../utils/dateAndTime';
+import { convertMinutesToTime, formatDate } from '../../utils/dateAndTime';
 import { camelCaseToNormalText } from '../../utils/stringFormat';
 
 const BookingReview = ({ pageTitle, children, footerComponent }) => {
 	const { bookingData, consultantData } = useContext(BookingContext);
+	const { date, startTime, endTime } = bookingData;
 
-	// Preparing data for date and time of booking
-	const { date: bookingDate, time: startTime } = formatDateAndTime(
-		bookingData.startTime,
-	);
-	const { time: endTime } = formatDateAndTime(bookingData.endTime);
 	const dateAndTime = [
-		['Date', `${bookingDate} (YYYY-MM-DD)`],
-		['Time and duration', `${startTime} - ${endTime}`],
+		['Date', `${formatDate(date)} (YYYY-MM-DD)`],
+		[
+			'Time and duration',
+			`${convertMinutesToTime(startTime)} - ${convertMinutesToTime(
+				endTime,
+			)}`,
+		],
 	];
 
 	const service = consultantData.services[bookingData.service];

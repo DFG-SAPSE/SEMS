@@ -1,5 +1,11 @@
 import { firestore, auth } from './config.js';
-import firebase from 'firebase/app';
+import {
+	doc as createDocRef,
+	getDoc,
+	updateDoc,
+	collection,
+	arrayUnion,
+} from 'firebase/firestore';
 import COLLECTION_NAMES from './collectionNames.js';
 
 export const getAvailableStartTimes = (
@@ -43,49 +49,52 @@ export const getAvailableStartTimes = (
 	);
 
 	// Filter out start times that overlap with booked meetings
-	return potentialStartTimes.filter(
+	const startTimes = potentialStartTimes.filter(
 		(startTime) =>
 			!bookedMeetings.some((meeting) => isOverlap(startTime, meeting)),
 	);
+
+	return startTimes;
 };
 
 export const finalizeBooking = async (bookingData, consultantId) => {
 	// add the meeting to the bookedMeetings field of the consultant
 	try {
-		const docRef = firestore
-			.collection(COLLECTION_NAMES.CONSULTANTS)
-			.doc(consultantId);
+		const docRef = createDocRef(
+			collection(firestore, COLLECTION_NAMES.CONSULTANTS),
+			consultantId,
+		);
 
-		await docRef.update({
-			bookedMeetings:
-				firebase.firestore.FieldValue.arrayUnion(bookingData),
+		await updateDoc(docRef, {
+			bookedMeetings: arrayUnion(bookingData),
 		});
 	} catch (error) {
 		return {
 			data: null,
-			error: Error('Error registering meeting for consultant: ', error),
+			error: 'Error registering meeting for consultant: ' + error.message,
 			ok: false,
 		};
 	}
 
 	// retrieve the current user's id, add the meeting to the bookedMeetings field
 	const user = auth.currentUser;
-	if (!user) return { data: null, error: Error('No user logged in') };
+	if (!user) return { data: null, error: 'No user logged in', ok: false };
 
 	const entrepreneurId = user.uid;
 	try {
-		const docRef = firestore
-			.collection(COLLECTION_NAMES.ENTREPRENEURS)
-			.doc(entrepreneurId);
+		const docRef = createDocRef(
+			collection(firestore, COLLECTION_NAMES.ENTREPRENEURS),
+			entrepreneurId,
+		);
 
-		await docRef.update({
-			bookedMeetings:
-				firebase.firestore.FieldValue.arrayUnion(bookingData),
+		await updateDoc(docRef, {
+			bookedMeetings: arrayUnion(bookingData),
 		});
 	} catch (error) {
 		return {
 			data: null,
-			error: Error('Error registering meeting for entrepreneur: ', error),
+			error:
+				'Error registering meeting for entrepreneur: ' + error.message,
 			ok: false,
 		};
 	}
