@@ -42,7 +42,7 @@ export const register = (fullName, email, password, router) => {
 				.then(() => {
 					// alert('Registration successful');
 					//change this later on because it should ask for email confirmation
-					router.replace('/LoginScreen');
+					router.replace('/ProfileCreation');
 				})
 				.catch((error) => {
 					console.log(error);
