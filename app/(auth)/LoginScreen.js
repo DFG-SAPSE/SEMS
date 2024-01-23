@@ -14,8 +14,12 @@ const LoginScreen = () => {
 		router.push('/RegistrationScreen');
 	};
 
+	const pushNextScreen = () => {
+		router.replace('/JoinEnterprise');
+	};
+
 	const onLoginPress = () => {
-		login(email, password, router);
+		login(email, password, pushNextScreen);
 	};
 
 	return (

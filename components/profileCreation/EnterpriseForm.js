@@ -15,62 +15,40 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { RNMultiSelect } from 'rn-multipicker';
 import { router } from 'expo-router';
 import Button from '../common/Button';
-import { Consultant, regions } from '../../services/model';
-import { addConsultant } from '../../services/profile';
+import { addEnterprise, generateNewEnterpriseID } from '../../services/profile';
+import { Enterprise } from '../../services/model';
 
-const ConsultantForm = ({ user, enterprise }) => {
-	const [fullName, setFullName] = useState('');
-	const [email, setEmail] = useState('');
+const EnterpriseForm = ({ handleCallback }) => {
 	const [enterpriseID, setEnterpriseID] = useState('');
 	const [enterpriseName, setEnterpriseName] = useState('');
 	const [description, setDescription] = useState('');
-	const [experienceYears, setExperienceYears] = useState(0);
-	const [geographic_regions, setGeographic_regions] = useState([]);
 	const [errors, setErrors] = useState({});
 
 	const onSubmitPress = () => {
-		if (!user) {
-			Alert.alert('Sorry Try again');
-			router.replace('/LoginScreen');
-		} else if (validate()) {
-			var newUser = new Consultant(user.id, fullName, email);
-			newUser.enterpriseID = enterpriseID;
-			newUser.description = description;
-			newUser.experienceYears = experienceYears;
-			newUser.geographic_regions = geographic_regions;
-			addConsultant(newUser.id, newUser);
-			console.log(newUser);
-			Alert.alert('submit');
+		if (validate()) {
+			if (enterpriseID) {
+				var newEnterprise = new Enterprise(
+					enterpriseID,
+					enterpriseName,
+					description,
+				);
+				//addEnterprise(enterpriseID, newEnterprise);
+				handleCallback(newEnterprise);
+				Alert.alert('Enterprise created successfully');
+			} else {
+				Alert.alert('Issue creating new Enterprise');
+			}
 		}
 	};
 
 	const validate = () => {
 		let errors = {};
-		// Validate name field
-		if (!fullName) {
-			errors.fullName = 'Name is required.';
-		}
 
-		// Validate email field
-		if (!email) {
-			errors.email = 'Email is required.';
-		} else if (!/\S+@\S+\.\S+/.test(email)) {
-			errors.email = 'Email is invalid.';
+		if (!enterpriseName) {
+			errors.enterpriseName = 'Enterprise is required';
 		}
-
 		if (description.length < 15) {
 			errors.description = 'Description must be at least 30 characters.';
-		}
-
-		if (experienceYears < 1) {
-			errors.experienceYears = 'Must have at least 1 year of experience';
-		} else if (!Number.isInteger(experienceYears)) {
-			errors.experienceYears = 'Years of experience must be an integer';
-		}
-
-		if (geographic_regions.length < 1) {
-			errors.geographic_regions =
-				'Must set at least one geographic region';
 		}
 
 		// Set the errors and update form validity
@@ -80,20 +58,8 @@ const ConsultantForm = ({ user, enterprise }) => {
 	};
 
 	useEffect(() => {
-		setFullName(user.fullName);
-		setEmail(user.email);
-		setEnterpriseID(enterprise.enterpriseID);
-		setEnterpriseName(enterprise.enterpriseName);
-	}, [
-		enterprise.enterpriseID,
-		enterprise.enterpriseName,
-		user.email,
-		user.fullName,
-	]);
-
-	if (!(user && enterprise)) {
-		return <Text>Loading!</Text>;
-	}
+		setEnterpriseID(generateNewEnterpriseID());
+	}, []);
 
 	return (
 		<SafeAreaView style={styles.wrapper}>
@@ -107,32 +73,10 @@ const ConsultantForm = ({ user, enterprise }) => {
 						style={styles.logo}
 						source={require('../../assets/images/logo2.avif')}
 					/>
-					<Text style={styles.title}>
-						Complete your Consultant Profile
-					</Text>
+					<Text style={styles.title}>Create an Enterprise</Text>
 					<TextInput
 						style={styles.input}
-						placeholder={fullName}
-						placeholderTextColor="#aaaaaa"
-						onChangeText={(text) => setFullName(text)}
-						value={fullName}
-						editable={false}
-						underlineColorAndroid="transparent"
-						autoCapitalize="none"
-					/>
-					<TextInput
-						style={styles.input}
-						placeholder={email}
-						placeholderTextColor="#aaaaaa"
-						onChangeText={(text) => setEmail(text)}
-						value={email}
-						editable={false}
-						underlineColorAndroid="transparent"
-						autoCapitalize="none"
-					/>
-					<TextInput
-						style={styles.input}
-						placeholder="Entreprise Name"
+						placeholder={enterpriseID}
 						placeholderTextColor="#aaaaaa"
 						onChangeText={(text) => setEnterpriseID(text)}
 						value={enterpriseID}
@@ -146,13 +90,12 @@ const ConsultantForm = ({ user, enterprise }) => {
 						placeholderTextColor="#aaaaaa"
 						onChangeText={(text) => setEnterpriseName(text)}
 						value={enterpriseName}
-						editable={false}
 						underlineColorAndroid="transparent"
 						autoCapitalize="none"
 					/>
 					<TextInput
 						style={styles.input}
-						placeholder="Describe yourself..."
+						placeholder="Description"
 						placeholderTextColor="#aaaaaa"
 						onChangeText={(text) => setDescription(text)}
 						value={description}
@@ -160,28 +103,6 @@ const ConsultantForm = ({ user, enterprise }) => {
 						underlineColorAndroid="transparent"
 						autoCapitalize="none"
 					/>
-					<TextInput
-						style={styles.input}
-						placeholder="Years of Experience"
-						placeholderTextColor="#aaaaaa"
-						inputMode="decimal"
-						onChangeText={(text) =>
-							setExperienceYears(Number(text))
-						}
-						value={experienceYears.toString()}
-						underlineColorAndroid="transparent"
-						autoCapitalize="none"
-					/>
-					<View style={{ flex: 1 }}>
-						<RNMultiSelect
-							placeholder="Geographic regions"
-							data={regions}
-							onSelectedItemsChange={(value) =>
-								setGeographic_regions(value)
-							}
-							selectedItems={geographic_regions}
-						/>
-					</View>
 					<Button
 						title={'Submit'}
 						onPress={() => onSubmitPress()}
@@ -206,13 +127,6 @@ const styles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: theme.colors.background.white,
 	},
-	title: {
-		width: '100%',
-		marginTop: 20,
-		fontSize: 25,
-		fontWeight: 'bold',
-		marginLeft: '10%',
-	},
 	container: {
 		flex: 1,
 		alignItems: 'center',
@@ -226,6 +140,13 @@ const styles = StyleSheet.create({
 		alignSelf: 'center',
 		margin: theme.spacing.xlarge,
 		resizeMode: 'contain',
+	},
+	title: {
+		width: '100%',
+		marginTop: 20,
+		fontSize: 25,
+		fontWeight: 'bold',
+		marginLeft: '10%',
 	},
 	input: {
 		height: 60,
@@ -283,4 +204,4 @@ const styles = StyleSheet.create({
 	keyboardShouldPersistTaps: { flex: 1, width: '100%' },
 });
 
-export default ConsultantForm;
+export default EnterpriseForm;

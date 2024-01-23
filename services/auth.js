@@ -8,7 +8,7 @@ import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { Alert } from 'react-native';
 
 //Login and Registration Functions
-export const login = (email, password, router) => {
+export const login = (email, password, pushNextScreen) => {
 	signInWithEmailAndPassword(auth, email, password)
 		.then(async (response) => {
 			const uid = response.user.uid;
@@ -16,10 +16,10 @@ export const login = (email, password, router) => {
 			const userSnap = await getDoc(usersRef);
 			if (userSnap.exists()) {
 				//const user = userSnap.data();
-				router.replace('/home');
+				pushNextScreen();
 			} else {
 				// docSnap.data() will be undefined in this case
-				Alert('User does not exist anymore.');
+				Alert.alert('User does not exist anymore.');
 			}
 		})
 		.catch((error) => {
@@ -28,7 +28,7 @@ export const login = (email, password, router) => {
 	//return user;
 };
 
-export const register = (fullName, email, password, router) => {
+export const register = (fullName, email, password, pushNextScreen) => {
 	createUserWithEmailAndPassword(auth, email, password)
 		.then(async (response) => {
 			const uid = response.user.uid;
@@ -42,7 +42,7 @@ export const register = (fullName, email, password, router) => {
 				.then(() => {
 					// alert('Registration successful');
 					//change this later on because it should ask for email confirmation
-					router.replace('/ProfileCreation');
+					pushNextScreen();
 				})
 				.catch((error) => {
 					console.log(error);
@@ -65,7 +65,7 @@ export const getAuthChange = (setAuthChange) => {
 					setAuthChange(user);
 				})
 				.catch((error) => {
-					Alert('Error fetching user data:', error);
+					Alert.alert('Error fetching user data:', error);
 				});
 			// ...
 		}
