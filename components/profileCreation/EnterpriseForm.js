@@ -32,7 +32,7 @@ const EnterpriseForm = ({ handleCallback }) => {
 					enterpriseName,
 					description,
 				);
-				//addEnterprise(enterpriseID, newEnterprise);
+				addEnterprise(enterpriseID, newEnterprise);
 				handleCallback(newEnterprise);
 				Alert.alert('Enterprise created successfully');
 			} else {

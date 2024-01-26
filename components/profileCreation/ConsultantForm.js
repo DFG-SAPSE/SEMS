@@ -18,7 +18,7 @@ import Button from '../common/Button';
 import { Consultant, regions } from '../../services/model';
 import { addConsultant } from '../../services/profile';
 
-const ConsultantForm = ({ user, enterprise }) => {
+const ConsultantForm = ({ user, enterprise, pushNextScreen }) => {
 	const [fullName, setFullName] = useState('');
 	const [email, setEmail] = useState('');
 	const [enterpriseID, setEnterpriseID] = useState('');
@@ -39,8 +39,7 @@ const ConsultantForm = ({ user, enterprise }) => {
 			newUser.experienceYears = experienceYears;
 			newUser.geographic_regions = geographic_regions;
 			addConsultant(newUser.id, newUser);
-			console.log(newUser);
-			Alert.alert('submit');
+			pushNextScreen();
 		}
 	};
 

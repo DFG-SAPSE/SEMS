@@ -19,9 +19,14 @@ export default function RegistrationScreen() {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
+	const [isConsultant, setIsConsultant] = useState(true);
 
 	const onFooterLinkPress = () => {
 		router.push('/LoginScreen');
+	};
+
+	const pushNextScreen = () => {
+		router.replace('/LoginScreen');
 	};
 
 	const onRegisterPress = () => {
@@ -29,7 +34,7 @@ export default function RegistrationScreen() {
 			alert("Passwords don't match.");
 			return;
 		}
-		register(fullName, email, password, router); //register and pass in navigation
+		register(fullName, email, password, isConsultant, pushNextScreen); //register and pass in navigation
 	};
 
 	return (

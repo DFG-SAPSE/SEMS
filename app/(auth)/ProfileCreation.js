@@ -17,6 +17,14 @@ export default function ProfileCreation() {
 		setUser(newUser);
 	}
 
+	const pushNextScreen = () => {
+		if (user && user.profileComplete) {
+			router.replace('/home');
+		} else {
+			console.log('Error creating profile or user is loading');
+		}
+	};
+
 	useEffect(() => {
 		getAuthChange(setAuthChange);
 		setEnterprise(JSON.parse(enterpriseObject));
@@ -27,7 +35,11 @@ export default function ProfileCreation() {
 			{user && enterpriseObject ? (
 				<View style={styles.container}>
 					{isConsultant ? (
-						<ConsultantForm user={user} enterprise={enterprise} />
+						<ConsultantForm
+							user={user}
+							enterprise={enterprise}
+							pushNextScreen={pushNextScreen}
+						/>
 					) : (
 						<EntrepreneurForm />
 					)}

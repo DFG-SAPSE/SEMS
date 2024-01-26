@@ -1,26 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Image, Text, TextInput, View, SafeAreaView } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { StyleSheet } from 'react-native';
-import { login } from '../../services/auth';
+import { login, getAuthChange } from '../../services/auth';
 import { router } from 'expo-router';
 import Button from '../../components/common/Button';
 
 const LoginScreen = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
+	const [user, setUser] = useState(''); //stores currently logged in user
 
 	const onFooterLinkPress = () => {
 		router.push('/RegistrationScreen');
 	};
 
 	const pushNextScreen = () => {
-		router.replace('/JoinEnterprise');
+		//console.log(user);
+		if (user && user.isProfileComplete) {
+			//need to wait for user to load
+			router.replace('/home');
+		} else if (user && !user.isProfileComplete) {
+			router.replace('/JoinEnterprise');
+		} else {
+			console.log('Error moving past login screen or user is loading');
+		}
 	};
 
 	const onLoginPress = () => {
 		login(email, password, pushNextScreen);
 	};
+
+	// Handle user state changes
+	function setAuthChange(newUser) {
+		setUser(newUser);
+	}
+
+	useEffect(() => {
+		getAuthChange(setAuthChange);
+	}, []);
 
 	return (
 		<SafeAreaView style={styles.wrapper}>

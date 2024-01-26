@@ -28,7 +28,13 @@ export const login = (email, password, pushNextScreen) => {
 	//return user;
 };
 
-export const register = (fullName, email, password, pushNextScreen) => {
+export const register = (
+	fullName,
+	email,
+	password,
+	isConsultant,
+	pushNextScreen,
+) => {
 	createUserWithEmailAndPassword(auth, email, password)
 		.then(async (response) => {
 			const uid = response.user.uid;
@@ -36,6 +42,8 @@ export const register = (fullName, email, password, pushNextScreen) => {
 				id: uid,
 				email,
 				fullName,
+				isConsultant,
+				profileComplete: false,
 			};
 			const usersRef = doc(firestore, 'users', uid);
 			await setDoc(usersRef, user)
