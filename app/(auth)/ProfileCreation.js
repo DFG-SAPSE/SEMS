@@ -8,7 +8,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 export default function ProfileCreation() {
 	const [user, setUser] = useState(''); //stores currently logged in user
 	const [enterprise, setEnterprise] = useState(''); //stores current enterprise
-	const [isConsultant, setIsConsultant] = useState(true);
+	const [isConsultant, setIsConsultant] = useState(false);
 	const params = useLocalSearchParams();
 	const { enterpriseObject } = params;
 
@@ -41,7 +41,11 @@ export default function ProfileCreation() {
 							pushNextScreen={pushNextScreen}
 						/>
 					) : (
-						<EntrepreneurForm />
+						<EntrepreneurForm
+							user={user}
+							enterprise={enterprise}
+							pushNextScreen={pushNextScreen}
+						/>
 					)}
 				</View>
 			) : (

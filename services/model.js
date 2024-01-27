@@ -17,6 +17,36 @@ export const regions = [
 	'Region XIII (Caraga)',
 ];
 
+export const enterpriseSectorsList = [
+	'Indigenous Peoples',
+	'Farmers and Fisherfolk',
+	'Urban Poor',
+	'Women',
+	'Persons with Disabilities',
+	'LGBTQ+',
+	'OFW Workers',
+	'People\'s Association',
+	'Senior Citizen',
+	'Urban and Rural Poor',
+	'Displaced Persons',
+	'Youth from Low-Income Families',
+];
+
+export const enterpriseLivelihoodActivitiesList = [
+	'Activity 1',
+	'Activity 2',
+	'Activity 3',
+	'Activity 4',
+	'Activity 5',
+];
+
+export const certificateTypeList = [
+	'DTI',
+	'SEC',
+	'DOLE',
+	'No Certificate',
+]
+
 export class Consultant {
 	constructor(id, name, email) {
 		this.id = id;
@@ -101,7 +131,13 @@ export class Entrepreneur {
 			'https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg';
 		this.isConsultant = false;
 		this.enterpriseID = '';
+		this.enterpriseName = '';
 		this.description = '';
+		this.enterpriseSector = '';
+		this.enterpriseLivelihoodActivities = '';
+		this.enterpriseRole = '';
+		this.certificateType = '';
+		this.certificateId = '';
 	}
 
 	setObjectFromDatabase(data) {
