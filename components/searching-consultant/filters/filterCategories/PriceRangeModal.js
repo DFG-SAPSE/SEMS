@@ -1,5 +1,5 @@
-import React from 'react';
-import { Text, StyleSheet, View } from 'react-native';
+import React, { useState } from 'react';
+import { Text, StyleSheet, View, TouchableWithoutFeedback } from 'react-native';
 import Slider from '@react-native-community/slider';
 
 import { useConsultantFiltersContext } from '../../../../context/ConsultantFilterContext';
@@ -8,9 +8,14 @@ import tabs from '../../../../locales/en/Tabs.json';
 
 const PriceRangeModal = ({ closeModal }) => {
 	const { price, setPrice } = useConsultantFiltersContext();
-
 	const handleSliderValueChange = (value) => {
 		setPrice(value);
+	};
+
+	const [isChecked, setIsChecked] = useState(false);
+
+	const handleCheckboxToggle = () => {
+		setIsChecked(!isChecked);
 	};
 
 	const scrollViewContent = (
@@ -28,6 +33,18 @@ const PriceRangeModal = ({ closeModal }) => {
 				onValueChange={handleSliderValueChange}
 				onSlidingComplete={handleSliderValueChange}
 			/>
+			<Text style={styles.sliderLabel}>Pro Bono</Text>
+			<TouchableWithoutFeedback onPress={handleCheckboxToggle}>
+				<View style={styles.checkboxContainer}>
+					<View
+						style={[
+							styles.checkbox,
+							isChecked && styles.checkedCheckbox,
+						]}
+					/>
+					<Text style={styles.sliderLabel}>Pro Bono Consultants</Text>
+				</View>
+			</TouchableWithoutFeedback>
 		</View>
 	);
 
@@ -54,6 +71,22 @@ const styles = StyleSheet.create({
 	slider: {
 		marginVertical: theme.spacing.medium,
 		width: '100%',
+	},
+	checkboxContainer: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		marginBottom: 16,
+	},
+	checkbox: {
+		width: 20,
+		height: 20,
+		borderWidth: 1,
+		borderColor: 'black',
+		marginRight: 8,
+	},
+	checkedCheckbox: {
+		backgroundColor: theme.colors.black,
+		borderColor: 'gray',
 	},
 });
 

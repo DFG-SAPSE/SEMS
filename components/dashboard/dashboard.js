@@ -44,7 +44,9 @@ const Dashboard = ({ user }) => {
 							/>
 						</View>
 
-						<Text style={styles.iconText}>Meeting Dashboard</Text>
+						<Text style={styles.iconTextActive}>
+							Meeting Dashboard
+						</Text>
 					</TouchableOpacity>
 					<TouchableOpacity
 						onPress={() => {
@@ -62,7 +64,7 @@ const Dashboard = ({ user }) => {
 									style={styles.icon}
 								/>
 							</View>
-							<Text style={styles.iconText}>
+							<Text style={styles.iconTextActive}>
 								Edit Availability
 							</Text>
 						</View>
@@ -117,6 +119,7 @@ const Dashboard = ({ user }) => {
 							Project Management Data
 						</Text>
 					</View>
+
 					<View style={styles.iconContainer}>
 						<View style={styles.iconWrapper}>
 							<Image
@@ -130,6 +133,7 @@ const Dashboard = ({ user }) => {
 						<Text style={styles.iconText}>
 							Social Enterprise Registry
 						</Text>
+						<View style={styles.overlay} />
 					</View>
 				</View>
 			</SafeAreaView>
@@ -199,8 +203,17 @@ const styles = StyleSheet.create({
 		shadowOpacity: 0.25,
 		shadowRadius: 4,
 	},
-	iconText: {
+	iconTextActive: {
 		color: theme.colors.primary.dark,
+		fontFamily: 'Roboto-Bold',
+		fontSize: theme.spacing.medium,
+		textAlign: 'center',
+		marginTop: theme.spacing.small,
+		padding: theme.spacing.small,
+		height: 75,
+	},
+	iconText: {
+		color: theme.colors.text.gray,
 		fontFamily: 'Roboto-Bold',
 		fontSize: theme.spacing.medium,
 		textAlign: 'center',
