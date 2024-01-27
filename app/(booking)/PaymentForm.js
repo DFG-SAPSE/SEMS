@@ -7,6 +7,7 @@ import {
 	StyleSheet,
 } from 'react-native';
 import CallServer from '../../components/common/CallServer';
+import { Redirect } from 'expo-router';
 
 const CreditCardForm = () => {
 	const [cardNumber, setCardNumber] = useState('');
@@ -34,13 +35,14 @@ const CreditCardForm = () => {
 		);
 
 		if (res.resultCode == 'Authorised') {
-			window.location.href = '/BookingReview';
+			return <Redirect href="/PaymentSuccess"/>;
 		} else if (res.resultCode == 'Received') {
-			console.log('recieved');
+			return <Redirect href="/PaymentSuccess"/>;
 		} else if (res.resultCode == 'Refused') {
-			console.log('refused');
+			return <Redirect href="/PaymentFailed"/>;
 		} else {
-			console.log('errrr', res.resultCode);
+			//console.log('errrr', res.resultCode);
+			return <Redirect href="/PaymentFailed"/>;
 		}
 	};
 	const handleNumbers = (text, number) => {
