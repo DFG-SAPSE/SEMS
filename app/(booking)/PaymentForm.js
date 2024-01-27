@@ -7,7 +7,7 @@ import {
 	StyleSheet,
 } from 'react-native';
 import CallServer from '../../components/common/CallServer';
-import { Redirect } from 'expo-router';
+import { router } from 'expo-router';
 
 const CreditCardForm = () => {
 	const [cardNumber, setCardNumber] = useState('');
@@ -29,20 +29,20 @@ const CreditCardForm = () => {
 			value: 1000,
 		};
 		const res = await CallServer(
-			'http://127.0.0.1:5000/payments',
+			'https://3d5d-142-117-88-178.ngrok-free.app/payments',
 			data,
 			'POST',
 		);
-
+		console.log(res)
 		if (res.resultCode == 'Authorised') {
-			return <Redirect href="/PaymentSuccess"/>;
+			router.push('/PaymentSuccess');
 		} else if (res.resultCode == 'Received') {
-			return <Redirect href="/PaymentSuccess"/>;
+			router.push('/PaymentSuccess');
 		} else if (res.resultCode == 'Refused') {
-			return <Redirect href="/PaymentFailed"/>;
+			router.push('/PaymentFailed');
 		} else {
 			//console.log('errrr', res.resultCode);
-			return <Redirect href="/PaymentFailed"/>;
+			router.push('/PaymentFailed');
 		}
 	};
 	const handleNumbers = (text, number) => {

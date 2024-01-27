@@ -1,5 +1,7 @@
 import React from 'react';
+import Button from '../../components/common/Button';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { router } from 'expo-router';
 
 export default function secondPage() {
   return (
@@ -11,9 +13,9 @@ export default function secondPage() {
       <View style={styles.imageContainer}>
         <Image style = {styles.image} source = {require("../../assets/images/redCheck.png")}/> 
       </View>
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Done</Text>
-      </TouchableOpacity>
+      <Button onPress={() => {
+        router.push("/BookingReview")
+        }} title={"Back"} customBtnStyle={styles.button}></Button>
     </View>
   );
 }

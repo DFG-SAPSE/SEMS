@@ -1,4 +1,5 @@
 import React from 'react';
+import NextButton from '../../components/booking/common/NextButton';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 
 export default function secondPage() {
@@ -11,9 +12,7 @@ export default function secondPage() {
       <View style={styles.imageContainer}>
         <Image style = {styles.image} source = {require("../../assets/images/greenCheck.png")}/> 
       </View>
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Done</Text>
-      </TouchableOpacity>
+      <NextButton nextRoute={'/BookingReview'} />
     </View>
   );
 }
