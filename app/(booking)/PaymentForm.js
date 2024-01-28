@@ -28,6 +28,7 @@ const CreditCardForm = () => {
 			currency: 'USD',
 			value: 1000,
 		};
+		
 		const res = await CallServer(
 			'https://a6c9-142-117-88-178.ngrok-free.app/payments',
 			data,
@@ -80,6 +81,7 @@ const CreditCardForm = () => {
 							onChangeText={(text) => handleNumbers(text, 2)}
 							value={expiryDate}
 							placeholder="MMYY"
+							keyboardType="numeric"
 						/>
 					</View>
 					<View style={styles.column}>
@@ -146,7 +148,7 @@ const styles = StyleSheet.create({
 		marginBottom: 0,
 	},
 	button: {
-		backgroundColor: '#000',
+		backgroundColor: '#06367c',
 		padding: 15,
 		borderRadius: 5,
 		alignItems: 'center',

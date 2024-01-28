@@ -1,9 +1,12 @@
 import React from 'react';
 import Button from '../../components/common/Button';
 import { View, Text, StyleSheet, Image } from 'react-native';
+import { useNavigation } from 'expo-router';
 import { router } from 'expo-router';
+import { StackActions } from '@react-navigation/native';
 
 export default function secondPage() {
+  const navigation = useNavigation();
 	return (
 		<View style={styles.container}>
 			<View style={styles.paymentContainer}>
@@ -21,7 +24,7 @@ export default function secondPage() {
 			</View>
 			<Button
 				onPress={() => {
-					router.push('/BookingReview');
+					router.push("/PaymentMethod")
 				}}
 				title={'Back'}
 				customBtnStyle={styles.button}
@@ -39,7 +42,6 @@ export const styles = StyleSheet.create({
 	},
 	paymentContainer: {
 		width: '100%',
-		height: 120,
 		backgroundColor: 'rgba(229, 236, 249, 1)',
 		justifyContent: 'center',
 		alignItems: 'center',

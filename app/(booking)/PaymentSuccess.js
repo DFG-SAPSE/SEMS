@@ -32,7 +32,6 @@ export const styles = StyleSheet.create({
 	},
 	paymentContainer: {
 		width: '100%',
-		height: 120,
 		backgroundColor: 'rgba(229, 236, 249, 1)',
 		justifyContent: 'center',
 		alignItems: 'center',
