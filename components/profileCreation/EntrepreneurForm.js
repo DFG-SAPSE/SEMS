@@ -13,7 +13,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import RNPickerSelect from 'react-native-picker-select';
 import { router } from 'expo-router';
 import Button from '../common/Button';
-import { Entrepreneur, enterpriseLivelihoodActivitiesList, enterpriseSectorsList, certificateTypeList } from '../../services/model';
+import { Entrepreneur, enterpriseSectorsList, certificateTypeList } from '../../services/model';
 import { addEntrepreneur } from '../../services/profile';
 
 const EntrepreneurForm = ({user, enterprise, pushNextScreen}) => {
@@ -23,7 +23,7 @@ const EntrepreneurForm = ({user, enterprise, pushNextScreen}) => {
     const [enterpriseName, setEnterpriseName] = useState('');
     const [enterpriseSector, setEnterpriseSector] = useState(null);
     const [enterpriseRole, setEnterpriseRole] = useState('');
-    const [enterpriseLivelihoodActivities, setEnterpriseLivelihoodActivities] = useState(null);
+    const [enterpriseLivelihoodActivities, setEnterpriseLivelihoodActivities] = useState('');
     const [certificateType, setCertificateType] = useState(null);
     const [certificateId, setCertificateId] = useState('');
     const [description, setDescription] = useState('');
@@ -42,6 +42,7 @@ const EntrepreneurForm = ({user, enterprise, pushNextScreen}) => {
             newUser.enterpriseName = enterpriseName;
             addEntrepreneur(newUser.id, newUser)
 			pushNextScreen();
+            router.replace('/InviteOthers');
 		}
 	};
 
@@ -160,21 +161,21 @@ const EntrepreneurForm = ({user, enterprise, pushNextScreen}) => {
 					/>
                     <TextInput
 						style={styles.input}
-						placeholder="Describe yourself..."
-						placeholderTextColor="#aaaaaa"
-						onChangeText={(text) => setDescription(text)}
-						value={description}
-						multiline={true}
-						underlineColorAndroid="transparent"
-						autoCapitalize="none"
-					/>
-                    <TextInput
-						style={styles.input}
 						placeholder="Entreprise Name"
 						placeholderTextColor="#aaaaaa"
 						onChangeText={(text) => setEnterpriseName(text)}
 						value={enterpriseName}
 						editable={false}
+						underlineColorAndroid="transparent"
+						autoCapitalize="none"
+					/>
+                    <TextInput
+						style={styles.input}
+						placeholder="Enterprise Short Description"
+						placeholderTextColor="#aaaaaa"
+						onChangeText={(text) => setDescription(text)}
+						value={description}
+						multiline={true}
 						underlineColorAndroid="transparent"
 						autoCapitalize="none"
 					/>
@@ -192,20 +193,15 @@ const EntrepreneurForm = ({user, enterprise, pushNextScreen}) => {
                           }))}
                         />
 					</View>
-                    <View style={{ flex: 1 }}>
-						<RNPickerSelect
-                        placeholder={{
-                            label: 'Select a Livelihood Activity',
-                            value: null,
-                          }}
-                        onValueChange = {(value) => setEnterpriseLivelihoodActivities(value)}
-                        style={pickerSelectStyles}
-                        items = {enterpriseLivelihoodActivitiesList.map(item => ({
-                            label: item,
-                            value: item,
-                          }))}
-                        />
-					</View>
+					<TextInput
+						style={styles.input}
+						placeholder="Enterprise Livelihood Activity"
+						placeholderTextColor="#aaaaaa"
+						onChangeText={(text) => setEnterpriseLivelihoodActivities(text)}
+						value={enterpriseLivelihoodActivities}
+						underlineColorAndroid="transparent"
+						autoCapitalize="none"
+					/>
                     <TextInput
 						style={styles.input}
 						placeholder="Enterprise Role"

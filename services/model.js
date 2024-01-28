@@ -32,14 +32,6 @@ export const enterpriseSectorsList = [
 	'Youth from Low-Income Families',
 ];
 
-export const enterpriseLivelihoodActivitiesList = [
-	'Activity 1',
-	'Activity 2',
-	'Activity 3',
-	'Activity 4',
-	'Activity 5',
-];
-
 export const certificateTypeList = [
 	'DTI',
 	'SEC',
