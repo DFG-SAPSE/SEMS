@@ -29,11 +29,11 @@ const CreditCardForm = () => {
 			value: 1000,
 		};
 		const res = await CallServer(
-			'https://3d5d-142-117-88-178.ngrok-free.app/payments',
+			'https://a6c9-142-117-88-178.ngrok-free.app/payments',
 			data,
 			'POST',
 		);
-		console.log(res)
+		console.log(res);
 		if (res.resultCode == 'Authorised') {
 			router.push('/PaymentSuccess');
 		} else if (res.resultCode == 'Received') {
@@ -65,6 +65,7 @@ const CreditCardForm = () => {
 				<Text style={styles.label}>Card number</Text>
 				<TextInput
 					style={styles.input}
+					placeholderTextColor="#aaaaaa"
 					onChangeText={(text) => handleNumbers(text, 1)}
 					value={cardNumber}
 					placeholder="1234 5678 9012 3456"
@@ -75,6 +76,7 @@ const CreditCardForm = () => {
 						<Text style={styles.label}>Expiry date</Text>
 						<TextInput
 							style={[styles.input, styles.smallInput]}
+							placeholderTextColor="#aaaaaa"
 							onChangeText={(text) => handleNumbers(text, 2)}
 							value={expiryDate}
 							placeholder="MMYY"
@@ -84,6 +86,7 @@ const CreditCardForm = () => {
 						<Text style={styles.label}>Security code</Text>
 						<TextInput
 							style={[styles.input, styles.smallInput]}
+							placeholderTextColor="#aaaaaa"
 							onChangeText={(text) => handleNumbers(text, 3)}
 							value={securityCode}
 							placeholder="3 digits"
@@ -94,6 +97,7 @@ const CreditCardForm = () => {
 				<Text style={styles.label}>Name on card</Text>
 				<TextInput
 					style={styles.input}
+					placeholderTextColor="#aaaaaa"
 					onChangeText={(text) => handleNumbers(text, 4)}
 					value={nameOnCard}
 					placeholder="J. Smith"
@@ -110,6 +114,8 @@ const styles = StyleSheet.create({
 	wrapper: {
 		alignItems: 'center',
 		justifyContent: 'center',
+		backgroundColor: '#fff',
+		flex: 1,
 	},
 	container: {
 		padding: 50,
@@ -130,6 +136,7 @@ const styles = StyleSheet.create({
 	row: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
+		marginBottom: 20,
 	},
 	column: {
 		flexDirection: 'column',
