@@ -3,14 +3,7 @@ export const fetchAvailableTimes = (id, date) => {
 	// Replace this with actual API call logic when backend is ready
 	return new Promise((resolve) => {
 		setTimeout(() => {
-			const times = [
-				'9:00am',
-				'10:00am',
-				'11:00am',
-				'12:00pm',
-				'1:00pm',
-				'2:00pm',
-			];
+			const times = ['9:00am', '10:00am', '11:00am', '12:00pm', '2:00pm'];
 			resolve(times);
 		}, 1000);
 	});

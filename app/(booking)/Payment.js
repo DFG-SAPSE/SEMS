@@ -11,6 +11,7 @@ import ConsultantProfile from '../../components/booking/common/ConsultantProfile
 import CancelConfirmModal from '../../components/booking/common/CancelConfirmModal';
 import { theme } from '../../styles/theme';
 import Pricing from '../../components/booking/payment/Pricing';
+import Divider from '../../components/common/Divider';
 
 const PaymentComponent = () => {
 	const [voucher, setVoucher] = useState('');
@@ -33,6 +34,8 @@ const PaymentComponent = () => {
 				/>
 
 				<ConsultantProfile />
+
+				<Divider />
 
 				<SelectPaymentMethod
 					handleSelectPaymentMethod={handleSelectPaymentMethod}
@@ -57,7 +60,7 @@ const PaymentComponent = () => {
 
 const styles = StyleSheet.create({
 	wrapper: {
-		backgroundColor: theme.colors.background,
+		backgroundColor: theme.colors.white,
 	},
 	container: {
 		flex: 1,
