@@ -15,44 +15,44 @@ const CardForm = () => {
 	const [expiryDate, setExpiryDate] = useState('');
 	const [securityCode, setSecurityCode] = useState('');
 	const [nameOnCard, setNameOnCard] = useState('');
-    const [load, setLoad] = useState(false);
+	const [load, setLoad] = useState(false);
 
 	const handleSubmit = async () => {
 		if (!cardNumber || !expiryDate || !securityCode || !nameOnCard) {
 			return;
 		}
 		try {
-            let data = {
-                cardNumber: cardNumber,
-                expiryDate: expiryDate,
-                securityCode: securityCode,
-                name: nameOnCard,
-                type: 'scheme',
-                currency: 'USD',
-                value: 1000,
-            };
-            setLoad(true);
-            const res = await CallServer(
-                'https://a6c9-142-117-88-178.ngrok-free.app/payments',
-                data,
-                'POST',
-            );
-            setLoad(false);
-            console.log(res);
-            if (res.resultCode == 'Authorised') {
-                router.push('/PaymentSuccess');
-            } else if (res.resultCode == 'Received') {
-                router.push('/PaymentSuccess');
-            } else if (res.resultCode == 'Refused') {
-                router.push('/PaymentFailed');
-            } else {
-                //console.log('errrr', res.resultCode);
-                router.push('/PaymentFailed');
-            }
-        } catch (error) {
-            router.push('/PaymentFailed');
-            setLoad(false)
-        }
+			let data = {
+				cardNumber: cardNumber,
+				expiryDate: expiryDate,
+				securityCode: securityCode,
+				name: nameOnCard,
+				type: 'scheme',
+				currency: 'USD',
+				value: 1000,
+			};
+			setLoad(true);
+			const res = await CallServer(
+				'https://a6c9-142-117-88-178.ngrok-free.app/payments',
+				data,
+				'POST',
+			);
+			setLoad(false);
+			console.log(res);
+			if (res.resultCode == 'Authorised') {
+				router.push('/PaymentSuccess');
+			} else if (res.resultCode == 'Received') {
+				router.push('/PaymentSuccess');
+			} else if (res.resultCode == 'Refused') {
+				router.push('/PaymentFailed');
+			} else {
+				//console.log('errrr', res.resultCode);
+				router.push('/PaymentFailed');
+			}
+		} catch (error) {
+			router.push('/PaymentFailed');
+			setLoad(false);
+		}
 	};
 	const handleNumbers = (text, number) => {
 		// Allow only numbers
@@ -116,7 +116,7 @@ const CardForm = () => {
 					<Text style={styles.buttonText}>Pay $100.00</Text>
 				</TouchableOpacity>
 			</View>
-            {load? <Loading message={"Processing..."}></Loading>:<></>}
+			{load ? <Loading message={'Processing...'} /> : <></>}
 		</View>
 	);
 };
