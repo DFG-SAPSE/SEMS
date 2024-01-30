@@ -11,6 +11,9 @@ import { initializeAuth, getReactNativePersistence } from '@firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { API_KEY, AUTH_DOMAIN } from '@env';
 
+console.log("\n\n\n\n\n")
+console.log(API_KEY)
+
 const firebaseConfig = {
 	apiKey: API_KEY,
 	authDomain: AUTH_DOMAIN,

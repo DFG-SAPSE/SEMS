@@ -6,12 +6,12 @@ import { getAuthChange } from '../../services/auth';
 import { router, useLocalSearchParams } from 'expo-router';
 
 export default function ProfileCreation() {
+	const params = useLocalSearchParams();
+	const { isConsultantState, enterpriseObject } = params;
 	const [user, setUser] = useState(''); //stores currently logged in user
 	const [enterprise, setEnterprise] = useState(''); //stores current enterprise
 	const [isConsultant, setIsConsultant] = useState(true);
-	const params = useLocalSearchParams();
-	const { enterpriseObject } = params;
-
+	
 	// Handle user state changes
 	function setAuthChange(newUser) {
 		setUser(newUser);
@@ -28,7 +28,11 @@ export default function ProfileCreation() {
 	useEffect(() => {
 		getAuthChange(setAuthChange);
 		setEnterprise(JSON.parse(enterpriseObject));
-	}, [enterpriseObject]);
+		setIsConsultant(JSON.parse(isConsultantState));
+	}, [
+		enterpriseObject,
+		isConsultantState,
+	]);
 
 	return (
 		<View style={styles.container}>
@@ -41,7 +45,11 @@ export default function ProfileCreation() {
 							pushNextScreen={pushNextScreen}
 						/>
 					) : (
-						<EntrepreneurForm />
+						<EntrepreneurForm
+							user={user}
+							enterprise={enterprise}
+							pushNextScreen={pushNextScreen}
+						/>
 					)}
 				</View>
 			) : (

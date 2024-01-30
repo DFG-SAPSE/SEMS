@@ -47,6 +47,21 @@ export const addConsultant = async (consultantID, dataObject) => {
 		});
 };
 
+export const addEntrepreneur = async (entrepreneurID, dataObject) => {
+	const consultantRef = doc(
+		firestore,
+		'EntrepreneurTest',
+		entrepreneurID,
+	).withConverter(entrepreneurConverter);
+	await setDoc(entreprenurRef, dataObject)
+		.then(() => {
+			console.log('added Consultant to database!');
+		})
+		.catch((error) => {
+			console.log(error);
+		});
+};
+
 export const generateNewEnterpriseID = () => {
 	// Add a new document with a generated id
 	const newEnterpriseRef = doc(collection(firestore, 'Enterprise'));
