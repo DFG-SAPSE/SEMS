@@ -11,23 +11,23 @@ if (!firebase.apps.length) {
 const db = firebase.firestore();
 
 /**
- * Searches for consultants in a Google Firestore database by name
+ * Server-side function. Searches for consultants in a Google Firestore database by name
  *
  * @async
  * @function searchConsultants
- * @param {string} name The name of the consultant to search for
+ * @param {string} inputName The name of the consultant to search for
  * @returns {Promise<Array<Object>>} A promise that resolves to an array of consultant objects
  * @throws {Error} Will throw an error if the search operation fails
  */
-async function searchConsultants(name) {
+async function searchConsultantsServerSide(inputName) {
 	try {
 		let results = [];
 
-		if (name) {
+		if (inputName) {
 			// we create a query for consultants with the given name
 			const snapshot = await db
 				.collection('Consultants')
-				.where('name', '==', name)
+				.where('name', '==', inputName)
 				.get();
 			snapshot.forEach((doc) => results.push(doc.data()));
 		}
@@ -39,13 +39,12 @@ async function searchConsultants(name) {
 	}
 }
 
-
 /**
  * Performs a server-side Firestore query to filter consultants based on provided criteria
- * The filtering operation is: 
- * (speciality1) 
- * AND (yearsOfExperience >= minYearsOfExperience) 
- * AND (region1 OR region2 OR ...)
+ * The filtering operation is:
+ * (expertise == inputExpertise)
+ * AND (experienceYears >= inputMinYearsOfExperience)
+ * AND (inputRegion1 OR inputRegion2 OR ...)
  * AND (inputMinPrice == 0)
  * AND (maxPrice <= inputMaxPrice)
  *
@@ -57,35 +56,39 @@ async function searchConsultants(name) {
  * @param {number} inputMaxPrice The maximum price to filter by
  * @returns {Promise<Object[]>} A promise that resolves to an array of consultant objects that match the parameters
  * @throws {Error} Will throw an error if the query operation fails
- */async function filterConsultantsServerSide(
+ */ async function filterConsultantsServerSide(
 	inputExpertise,
 	inputMinYearsOfExperience,
 	inputRegions,
 	inputMinPrice,
-	inputMaxPrice
+	inputMaxPrice,
 ) {
 	try {
 		let query = db.collection('Consultants');
 
 		// we create the query
 		if (inputExpertise.length > 0) {
-			// we only use the first speciality in the array for filtering
+			// we only use the first expertise in the array for filtering
 			// this is because Firestore does not support array-contains-any for multiple fields
 			// this is a limitation of Firestore queries server side filtering
-			query = query.where('specialty', '==', inputExpertise[0]);
+			query = query.where('expertise', '==', inputExpertise[0]);
 		}
 
 		if (inputMinYearsOfExperience) {
-			query = query.where('experienceYears', '>=', inputMinYearsOfExperience);
+			query = query.where(
+				'experienceYears',
+				'>=',
+				inputMinYearsOfExperience,
+			);
 		}
 
 		if (inputMinPrice) {
-            query = query.where('minPrice', '==', 0);
-        }
+			query = query.where('minPrice', '==', 0);
+		}
 
 		if (inputMaxPrice) {
-            query = query.where('maxPrice', '<=', inputMaxPrice);
-        }
+			query = query.where('maxPrice', '<=', inputMaxPrice);
+		}
 
 		let results = [];
 		// if regions array argument has more than 10 elements, we need to split it into chunks of 10 and perform multiple queries
@@ -107,11 +110,11 @@ async function searchConsultants(name) {
 			}
 		} else {
 			const snapshot = await query
-				.where('geographic_regions', 'array-contains-any', regions)
+				.where('geographic_regions', 'array-contains-any', inputRegions)
 				.get();
 			snapshot.forEach((doc) => {
 				let data = doc.data();
-				// avoid duplicates
+				// avoid duplicates in results
 				if (!results.find((result) => result.id === doc.id)) {
 					results.push({ id: doc.id, ...data });
 				}
@@ -125,7 +128,4 @@ async function searchConsultants(name) {
 	}
 }
 
-export {
-	searchConsultants,
-	filterConsultantsServerSide,
-};
+export { searchConsultantsServerSide, filterConsultantsServerSide };
