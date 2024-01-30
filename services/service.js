@@ -101,6 +101,8 @@ async function filterConsultantsClientSide(
  * (speciality1) 
  * AND (yearsOfExperience >= minYearsOfExperience) 
  * AND (region1 OR region2 OR ...)
+ * AND (inputMinPrice == 0)
+ * AND (maxPrice <= inputMaxPrice)
  *
  * @async
  * @param {string[]} specialities An array of specialities to filter by. The first speciality in the array is used for filtering
@@ -112,6 +114,8 @@ async function filterConsultantsClientSide(
 	specialities,
 	minYearsOfExperience,
 	regions,
+	inputMinPrice,
+	inputMaxPrice
 ) {
 	try {
 		let query = db.collection('Consultants');
@@ -127,6 +131,14 @@ async function filterConsultantsClientSide(
 		if (minYearsOfExperience) {
 			query = query.where('experienceYears', '>=', minYearsOfExperience);
 		}
+
+		if (inputMinPrice) {
+            query = query.where('minPrice', '==', 0);
+        }
+
+		if (inputMaxPrice) {
+            query = query.where('maxPrice', '<=', inputMaxPrice);
+        }
 
 		let results = [];
 		// if regions array argument has more than 10 elements, we need to split it into chunks of 10 and perform multiple queries
