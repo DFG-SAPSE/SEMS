@@ -50,15 +50,15 @@ async function searchConsultants(name) {
  * AND (maxPrice <= inputMaxPrice)
  *
  * @async
- * @param {string[]} specialities An array of specialities to filter by. The first speciality in the array is used for filtering
- * @param {number} minYearsOfExperience The minimum years of experience to filter by
+ * @param {string[]} inputExpertise An array of expertise to filter by. The first expertise in the array is used for filtering
+ * @param {number} inputMinYearsOfExperience The minimum years of experience to filter by
  * @param {string[]} regions An array of regions to filter by. If the array has more than 10 elements, we split into chunks of 10 and multiple queries are performed
  * @returns {Promise<Object[]>} A promise that resolves to an array of consultant objects that match the parameters
  * @throws {Error} Will throw an error if the query operation fails
  */async function filterConsultantsServerSide(
-	specialities,
-	minYearsOfExperience,
-	regions,
+	inputExpertise,
+	inputMinYearsOfExperience,
+	inputRegions,
 	inputMinPrice,
 	inputMaxPrice
 ) {
@@ -66,15 +66,15 @@ async function searchConsultants(name) {
 		let query = db.collection('Consultants');
 
 		// we create the query
-		if (specialities.length > 0) {
+		if (inputExpertise.length > 0) {
 			// we only use the first speciality in the array for filtering
 			// this is because Firestore does not support array-contains-any for multiple fields
 			// this is a limitation of Firestore queries server side filtering
-			query = query.where('specialty', '==', specialities[0]);
+			query = query.where('specialty', '==', inputExpertise[0]);
 		}
 
-		if (minYearsOfExperience) {
-			query = query.where('experienceYears', '>=', minYearsOfExperience);
+		if (inputMinYearsOfExperience) {
+			query = query.where('experienceYears', '>=', inputMinYearsOfExperience);
 		}
 
 		if (inputMinPrice) {
@@ -87,10 +87,10 @@ async function searchConsultants(name) {
 
 		let results = [];
 		// if regions array argument has more than 10 elements, we need to split it into chunks of 10 and perform multiple queries
-		if (regions.length > 10) {
+		if (inputRegions.length > 10) {
 			const chunkSize = 10;
-			for (let i = 0; i < regions.length; i += chunkSize) {
-				const chunk = regions.slice(i, i + chunkSize);
+			for (let i = 0; i < inputRegions.length; i += chunkSize) {
+				const chunk = inputRegions.slice(i, i + chunkSize);
 
 				const snapshot = await query
 					.where('geographic_regions', 'array-contains-any', chunk)
@@ -125,6 +125,5 @@ async function searchConsultants(name) {
 
 export {
 	searchConsultants,
-	filterConsultantsClientSide,
 	filterConsultantsServerSide,
 };
