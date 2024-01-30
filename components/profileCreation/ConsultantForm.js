@@ -23,9 +23,12 @@ const ConsultantForm = ({ user, enterprise, pushNextScreen }) => {
 	const [email, setEmail] = useState('');
 	const [enterpriseID, setEnterpriseID] = useState('');
 	const [enterpriseName, setEnterpriseName] = useState('');
+	const [enterpriseRole, setEnterpriseRole] = useState('');
 	const [description, setDescription] = useState('');
 	const [experienceYears, setExperienceYears] = useState(0);
 	const [geographic_regions, setGeographic_regions] = useState([]);
+	const [minPrice, setMinPrice] = useState(0);
+	const [maxPrice, setMaxPrice] = useState(0);
 	const [errors, setErrors] = useState({});
 
 	const onSubmitPress = () => {
@@ -38,8 +41,10 @@ const ConsultantForm = ({ user, enterprise, pushNextScreen }) => {
 			newUser.description = description;
 			newUser.experienceYears = experienceYears;
 			newUser.geographic_regions = geographic_regions;
-			addConsultant(newUser.id, newUser);
-			pushNextScreen();
+			newUser.minPrice = minPrice;
+			newUser.maxPrice = maxPrice;
+			addConsultant(newUser.id, newUser, pushNextScreen);
+			//pushNextScreen();
 		}
 	};
 
@@ -133,19 +138,18 @@ const ConsultantForm = ({ user, enterprise, pushNextScreen }) => {
 						style={styles.input}
 						placeholder="Entreprise Name"
 						placeholderTextColor="#aaaaaa"
-						onChangeText={(text) => setEnterpriseID(text)}
-						value={enterpriseID}
+						onChangeText={(text) => setEnterpriseName(text)}
+						value={enterpriseName}
 						editable={false}
 						underlineColorAndroid="transparent"
 						autoCapitalize="none"
 					/>
 					<TextInput
 						style={styles.input}
-						placeholder="Entreprise Name"
+						placeholder="Enterprise Role"
 						placeholderTextColor="#aaaaaa"
-						onChangeText={(text) => setEnterpriseName(text)}
-						value={enterpriseName}
-						editable={false}
+						onChangeText={(text) => setEnterpriseRole(text)}
+						value={enterpriseRole}
 						underlineColorAndroid="transparent"
 						autoCapitalize="none"
 					/>
@@ -171,7 +175,27 @@ const ConsultantForm = ({ user, enterprise, pushNextScreen }) => {
 						underlineColorAndroid="transparent"
 						autoCapitalize="none"
 					/>
-					<View style={{ flex: 1 }}>
+					<TextInput
+						style={styles.input}
+						placeholder="Minimum Price of Services"
+						placeholderTextColor="#aaaaaa"
+						inputMode="decimal"
+						onChangeText={(text) => setMinPrice(Number(text))}
+						value={minPrice.toString()}
+						underlineColorAndroid="transparent"
+						autoCapitalize="none"
+					/>
+					<TextInput
+						style={styles.input}
+						placeholder="Maximum Price of Services"
+						placeholderTextColor="#aaaaaa"
+						inputMode="decimal"
+						onChangeText={(text) => setMaxPrice(Number(text))}
+						value={maxPrice.toString()}
+						underlineColorAndroid="transparent"
+						autoCapitalize="none"
+					/>
+					<View style={styles.wrapper}>
 						<RNMultiSelect
 							placeholder="Geographic regions"
 							data={regions}

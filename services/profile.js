@@ -1,10 +1,12 @@
 import { firestore, auth } from './firebase/config.js';
 import {
-	signInWithEmailAndPassword,
-	createUserWithEmailAndPassword,
-	onAuthStateChanged,
-} from 'firebase/auth';
-import { doc, getDoc, setDoc, collection, getDocs } from 'firebase/firestore';
+	doc,
+	getDoc,
+	setDoc,
+	collection,
+	getDocs,
+	updateDoc,
+} from 'firebase/firestore';
 import {
 	enterpriseConverter,
 	consultantConverter,
@@ -12,27 +14,11 @@ import {
 } from './model';
 import { Alert } from 'react-native';
 
-/*export const login = (email, password, router) => {
-	signInWithEmailAndPassword(auth, email, password)
-		.then(async (response) => {
-			const uid = response.user.uid;
-			const usersRef = doc(firestore, 'users', uid);
-			const userSnap = await getDoc(usersRef);
-			if (userSnap.exists()) {
-				//const user = userSnap.data();
-				router.replace('/ProfileCreation');
-			} else {
-				// docSnap.data() will be undefined in this case
-				Alert('User does not exist anymore.');
-			}
-		})
-		.catch((error) => {
-			// alert(error);
-		});
-	//return user;
-};*/
-
-export const addConsultant = async (consultantID, dataObject) => {
+export const addConsultant = async (
+	consultantID,
+	dataObject,
+	pushNextScreen,
+) => {
 	const consultantRef = doc(
 		firestore,
 		'ConsultantTest',
@@ -41,21 +27,39 @@ export const addConsultant = async (consultantID, dataObject) => {
 	await setDoc(consultantRef, dataObject)
 		.then(() => {
 			console.log('added Consultant to database!');
+			markUserProfileComplete(consultantID, pushNextScreen);
 		})
 		.catch((error) => {
 			console.log(error);
 		});
 };
 
-export const addEntrepreneur = async (entrepreneurID, dataObject) => {
-	const consultantRef = doc(
+export const markUserProfileComplete = async (userID, pushNextScreen) => {
+	const userRef = doc(firestore, 'users', userID);
+	await updateDoc(userRef, { isProfileComplete: true })
+		.then(() => {
+			console.log('Marked profile as complete!');
+			pushNextScreen();
+		})
+		.catch((error) => {
+			console.log(error);
+		});
+};
+
+export const addEntrepreneur = async (
+	entrepreneurID,
+	dataObject,
+	pushNextScreen,
+) => {
+	const entrepreneurRef = doc(
 		firestore,
 		'EntrepreneurTest',
 		entrepreneurID,
 	).withConverter(entrepreneurConverter);
-	await setDoc(entreprenurRef, dataObject)
+	await setDoc(entrepreneurRef, dataObject)
 		.then(() => {
-			console.log('added Consultant to database!');
+			console.log('added Entrepreneur to database!');
+			markUserProfileComplete(entrepreneurID, pushNextScreen);
 		})
 		.catch((error) => {
 			console.log(error);
@@ -74,7 +78,7 @@ export const addEnterprise = async (newEnterpriseID, dataObject) => {
 		'Enterprise',
 		newEnterpriseID,
 	).withConverter(enterpriseConverter);
-	await setDoc(enterpriseRef, data)
+	await setDoc(enterpriseRef, dataObject)
 		.then(() => {
 			console.log('added Enterprise to database!');
 		})

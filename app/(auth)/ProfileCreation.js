@@ -7,32 +7,25 @@ import { router, useLocalSearchParams } from 'expo-router';
 
 export default function ProfileCreation() {
 	const params = useLocalSearchParams();
-	const { isConsultantState, enterpriseObject } = params;
+	const { enterpriseObject } = params;
 	const [user, setUser] = useState(''); //stores currently logged in user
 	const [enterprise, setEnterprise] = useState(''); //stores current enterprise
 	const [isConsultant, setIsConsultant] = useState(true);
-	
+
 	// Handle user state changes
 	function setAuthChange(newUser) {
 		setUser(newUser);
 	}
 
 	const pushNextScreen = () => {
-		if (user && user.profileComplete) {
-			router.replace('/home');
-		} else {
-			console.log('Error creating profile or user is loading');
-		}
+		router.replace('/home');
 	};
 
 	useEffect(() => {
 		getAuthChange(setAuthChange);
 		setEnterprise(JSON.parse(enterpriseObject));
-		setIsConsultant(JSON.parse(isConsultantState));
-	}, [
-		enterpriseObject,
-		isConsultantState,
-	]);
+		setIsConsultant(user.isConsultant);
+	}, [enterpriseObject, user]);
 
 	return (
 		<View style={styles.container}>
@@ -59,8 +52,8 @@ export default function ProfileCreation() {
 	);
 }
 
-//<ConsultantForm user={user} />
 import { theme } from '../../styles/theme';
+
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,

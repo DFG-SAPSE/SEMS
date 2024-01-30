@@ -15,8 +15,8 @@ export const login = (email, password, pushNextScreen) => {
 			const usersRef = doc(firestore, 'users', uid);
 			const userSnap = await getDoc(usersRef);
 			if (userSnap.exists()) {
-				//const user = userSnap.data();
-				pushNextScreen();
+				const user = userSnap.data();
+				pushNextScreen(user);
 			} else {
 				// docSnap.data() will be undefined in this case
 				Alert.alert('User does not exist anymore.');
@@ -43,7 +43,9 @@ export const register = (
 				email,
 				fullName,
 				isConsultant,
-				profileComplete: false,
+				isProfileComplete: false,
+				isEmailVerified: false,
+				isApproved: !isConsultant, //Need approval if consultant
 			};
 			const usersRef = doc(firestore, 'users', uid);
 			await setDoc(usersRef, user)

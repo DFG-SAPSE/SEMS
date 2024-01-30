@@ -8,11 +8,8 @@ import { initializeApp } from 'firebase/app';
 // import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
 import { ReactNativeAsyncStorage } from '@react-native-async-storage/async-storage';
 import { initializeAuth, getReactNativePersistence } from '@firebase/auth';
-import { getFirestore } from 'firebase/firestore';
+import { getFirestore, initializeFirestore } from 'firebase/firestore';
 import { API_KEY, AUTH_DOMAIN } from '@env';
-
-console.log("\n\n\n\n\n")
-console.log(API_KEY)
 
 const firebaseConfig = {
 	apiKey: API_KEY,
@@ -25,7 +22,9 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-export const firestore = getFirestore(app);
+export const firestore = initializeFirestore(app, {
+	experimentalAutoDetectLongPolling: true,
+});
 export const auth = initializeAuth(app, {
 	persistence: getReactNativePersistence(ReactNativeAsyncStorage),
 });

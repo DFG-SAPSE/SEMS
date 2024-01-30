@@ -25,19 +25,14 @@ export const enterpriseSectorsList = [
 	'Persons with Disabilities',
 	'LGBTQ+',
 	'OFW Workers',
-	'People\'s Association',
+	"People's Association",
 	'Senior Citizen',
 	'Urban and Rural Poor',
 	'Displaced Persons',
 	'Youth from Low-Income Families',
 ];
 
-export const certificateTypeList = [
-	'DTI',
-	'SEC',
-	'DOLE',
-	'No Certificate',
-]
+export const certificateTypeList = ['DTI', 'SEC', 'DOLE', 'No Certificate'];
 
 export class Consultant {
 	constructor(id, name, email) {
@@ -48,6 +43,7 @@ export class Consultant {
 			'https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg';
 		this.isConsultant = true;
 		this.enterpriseID = '';
+		this.enterpriseRole = '';
 		this.description = '';
 		this.exceptions = '';
 		this.expertise = [];
@@ -60,6 +56,8 @@ export class Consultant {
 		this.bookedMeetings = [];
 		this.services = [];
 		this.geographic_regions = [];
+		this.minPrice = 0;
+		this.maxPrice = 0;
 	}
 
 	getAvailability() {
@@ -73,6 +71,7 @@ export class Consultant {
 	setObjectFromDatabase(data) {
 		this.photoURL = data.photoURL;
 		this.enterpriseID = data.enterpriseID;
+		this.enterpriseRole = data.enterpriseRole;
 		this.description = data.description;
 		this.exceptions = data.exceptions;
 		this.expertise = data.expertise;
@@ -82,6 +81,8 @@ export class Consultant {
 		this.bookedMeetings = data.bookedMeetings;
 		this.services = data.services;
 		this.geographic_regions = data.geographic_regions;
+		this.minPrice = data.minPrice;
+		this.maxPrice = data.maxPrice;
 	}
 }
 
@@ -95,6 +96,7 @@ export const consultantConverter = {
 			photoURL: consultant.photoURL,
 			isConsultant: consultant.isConsultant,
 			enterpriseID: consultant.enterpriseID,
+			enterpriseRole: consultant.enterpriseRole,
 			exceptions: consultant.exceptions,
 			expertise: consultant.expertise,
 			description: consultant.description,
@@ -104,6 +106,8 @@ export const consultantConverter = {
 			bookedMeetings: consultant.bookedMeetings,
 			services: consultant.services,
 			geographic_regions: consultant.geographic_regions,
+			minPrice: consultant.minPrice,
+			maxPrice: consultant.maxPrice,
 		};
 	},
 	fromFirestore: (snapshot, options) => {
@@ -123,19 +127,15 @@ export class Entrepreneur {
 			'https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg';
 		this.isConsultant = false;
 		this.enterpriseID = '';
-		this.enterpriseName = '';
-		this.description = '';
-		this.enterpriseSector = '';
-		this.enterpriseLivelihoodActivities = '';
 		this.enterpriseRole = '';
-		this.certificateType = '';
-		this.certificateId = '';
+		this.description = '';
 	}
 
 	setObjectFromDatabase(data) {
 		this.photoURL = data.photoURL;
 		this.enterpriseID = data.enterpriseID;
 		this.description = data.description;
+		this.enterpriseRole = data.enterpriseRole;
 	}
 }
 
@@ -149,8 +149,8 @@ export const entrepreneurConverter = {
 			photoURL: entrepreneur.photoURL,
 			isConsultant: entrepreneur.isConsultant,
 			enterpriseID: entrepreneur.enterpriseID,
+			enterpriseRole: entrepreneur.enterpriseRole,
 			description: entrepreneur.description,
-			experienceYears: entrepreneur.experienceYears,
 		};
 	},
 	fromFirestore: (snapshot, options) => {
@@ -166,6 +166,18 @@ export class Enterprise {
 		this.enterpriseID = enterpriseID;
 		this.enterpriseName = enterpriseName;
 		this.description = description;
+		this.website = '';
+		this.livelihoodActivities = '';
+		this.sector = '';
+		this.certificateID = '';
+		this.certificateType = '';
+	}
+	setObjectFromDatabase(data) {
+		this.website = data.website;
+		this.livelihoodActivities = data.livelihoodActivities;
+		this.sector = data.sector;
+		this.certificateID = data.certificateID;
+		this.certificateType = data.certificateType;
 	}
 }
 
@@ -176,14 +188,21 @@ export const enterpriseConverter = {
 			enterpriseID: enterprise.enterpriseID,
 			enterpriseName: enterprise.enterpriseName,
 			description: enterprise.description,
+			website: enterprise.website,
+			livelihoodActivities: enterprise.livelihoodActivities,
+			sector: enterprise.sector,
+			certificateID: enterprise.certificateID,
+			certificateType: enterprise.certificateType,
 		};
 	},
 	fromFirestore: (snapshot, options) => {
 		const data = snapshot.data(options);
-		return new Enterprise(
+		let dataObject = new Enterprise(
 			data.enterpriseID,
 			data.enterpriseName,
 			data.description,
 		);
+		dataObject.setObjectFromDatabase(data);
+		return dataObject;
 	},
 };

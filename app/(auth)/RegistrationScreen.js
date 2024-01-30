@@ -1,5 +1,5 @@
-/* eslint-disable no-alert */
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
+import RadioGroup from 'react-native-radio-buttons-group';
 import {
 	Image,
 	Text,
@@ -7,6 +7,7 @@ import {
 	// TouchableOpacity,
 	View,
 	SafeAreaView,
+	Alert,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { StyleSheet } from 'react-native';
@@ -19,19 +20,46 @@ export default function RegistrationScreen() {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
-	const [isConsultant, setIsConsultant] = useState(true);
+	const [selectedId, setSelectedId] = useState();
+
+	const radioButtons = useMemo(
+		() => [
+			{
+				id: '1', // acts as primary key, should be unique and non-empty string
+				label: 'Consultant',
+				value: 'Consultant',
+				size: 30,
+			},
+			{
+				id: '2',
+				label: 'Entrepreneur',
+				value: 'Entrepreneur',
+				size: 30,
+			},
+		],
+		[],
+	);
 
 	const onFooterLinkPress = () => {
-		router.push('/LoginScreen');
+		router.replace('/LoginScreen');
 	};
 
 	const pushNextScreen = () => {
-		router.replace('/LoginScreen');
+		router.replace('/LoginScreen'); //replace with email verification in future
 	};
 
 	const onRegisterPress = () => {
 		if (password !== confirmPassword) {
-			alert("Passwords don't match.");
+			Alert.alert("Passwords don't match.");
+			return;
+		}
+		let isConsultant;
+		if (selectedId === '1') {
+			isConsultant = true;
+		} else if (selectedId === '2') {
+			isConsultant = false;
+		} else {
+			Alert.alert('You must select an account type');
 			return;
 		}
 		register(fullName, email, password, isConsultant, pushNextScreen); //register and pass in navigation
@@ -87,6 +115,12 @@ export default function RegistrationScreen() {
 						underlineColorAndroid="transparent"
 						autoCapitalize="none"
 					/>
+					<RadioGroup
+						radioButtons={radioButtons}
+						onPress={setSelectedId}
+						selectedId={selectedId}
+						layout="row"
+					/>
 					<Button
 						title={'Create Account'}
 						onPress={() => onRegisterPress()}
@@ -127,6 +161,10 @@ const styles = StyleSheet.create({
 		alignSelf: 'center',
 		margin: theme.spacing.xlarge,
 		resizeMode: 'contain',
+	},
+	joinText: {
+		...theme.typography.mediumBody,
+		color: theme.colors.text.dark,
 	},
 	input: {
 		height: 60,
@@ -177,4 +215,31 @@ const styles = StyleSheet.create({
 		...theme.typography.mediumBody,
 	},
 	keyboardShouldPersistTaps: { flex: 1, width: '100%' },
+	subContainer: {
+		alignItems: 'center',
+		justifyContent: 'center',
+		textAlign: 'center',
+		marginVertical: 20, // Add margin to separate the buttons
+	},
+	firstButton: {
+		marginTop: theme.spacing.xxxlarge,
+		marginBottom: theme.spacing.xxlarge,
+		paddingVertical: theme.spacing.medium,
+		paddingHorizontal: '37%',
+		backgroundColor: theme.colors.primary.light,
+		borderRadius: 24,
+	},
+	secondButton: {
+		marginBottom: theme.spacing.xxxlarge,
+		paddingVertical: theme.spacing.medium,
+		paddingHorizontal: '35%',
+		backgroundColor: theme.colors.primary.light,
+		borderRadius: 24,
+	},
 });
+
+/*<Button
+						title={'Create Account'}
+						onPress={() => onRegisterPress()}
+						customBtnStyle={styles.joinButton}
+					/>*/

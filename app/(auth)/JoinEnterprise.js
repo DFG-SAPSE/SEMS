@@ -33,7 +33,7 @@ export default function JoinEnterprise() {
 	};
 	const pushNextScreen = (enterpriseObj) => {
 		router.push({
-			pathname: '/ProfileType',
+			pathname: '/ProfileCreation',
 			params: {
 				enterpriseObject: JSON.stringify(enterpriseObj),
 			},

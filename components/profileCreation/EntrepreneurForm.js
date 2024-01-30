@@ -13,24 +13,28 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import RNPickerSelect from 'react-native-picker-select';
 import { router } from 'expo-router';
 import Button from '../common/Button';
-import { Entrepreneur, enterpriseSectorsList, certificateTypeList } from '../../services/model';
+import {
+	Entrepreneur,
+	enterpriseSectorsList,
+	certificateTypeList,
+} from '../../services/model';
 import { addEntrepreneur } from '../../services/profile';
 
-const EntrepreneurForm = ({user, enterprise, pushNextScreen}) => {
-    const [fullName, setFullName] = useState('');
-    const [email, setEmail] = useState('');
-    const [enterpriseID, setEnterpriseID] = useState('');
-    const [enterpriseName, setEnterpriseName] = useState('');
-    const [enterpriseSector, setEnterpriseSector] = useState(null);
-    const [enterpriseRole, setEnterpriseRole] = useState('');
-    const [enterpriseLivelihoodActivities, setEnterpriseLivelihoodActivities] = useState('');
-    const [certificateType, setCertificateType] = useState(null);
-    const [certificateId, setCertificateId] = useState('');
-    const [description, setDescription] = useState('');
-    const [errors, setErrors] = useState({});
+const EntrepreneurForm = ({ user, enterprise, pushNextScreen }) => {
+	const [fullName, setFullName] = useState('');
+	const [email, setEmail] = useState('');
+	const [enterpriseID, setEnterpriseID] = useState('');
+	const [enterpriseName, setEnterpriseName] = useState('');
+	const [enterpriseSector, setEnterpriseSector] = useState(null);
+	const [enterpriseRole, setEnterpriseRole] = useState('');
+	const [enterpriseLivelihoodActivities, setEnterpriseLivelihoodActivities] =
+		useState('');
+	const [certificateType, setCertificateType] = useState(null);
+	const [certificateId, setCertificateId] = useState('');
+	const [description, setDescription] = useState('');
+	const [errors, setErrors] = useState({});
 
-
-    const onSubmitPress = () => {
+	const onSubmitPress = () => {
 		if (!user) {
 			Alert.alert('Sorry Try again');
 			router.replace('/LoginScreen');
@@ -38,33 +42,33 @@ const EntrepreneurForm = ({user, enterprise, pushNextScreen}) => {
 			var newUser = new Entrepreneur(user.id, fullName, email);
 			newUser.enterpriseID = enterpriseID;
 			newUser.description = description;
-            newUser.enterpriseLivelihoodActivities = enterpriseLivelihoodActivities;
-            newUser.enterpriseName = enterpriseName;
-            addEntrepreneur(newUser.id, newUser)
-			pushNextScreen();
-            router.replace('/InviteOthers');
+			newUser.enterpriseLivelihoodActivities =
+				enterpriseLivelihoodActivities;
+			newUser.enterpriseName = enterpriseName;
+			addEntrepreneur(newUser.id, newUser, pushNextScreen);
+			//router.replace('/InviteOthers');
 		}
 	};
 
-    const pickerSelectStyles = {
-        inputIOS: {
-          fontSize: 16,
-          paddingVertical: 12,
-          paddingHorizontal: 10,
-          marginTop: theme.spacing.medium,
-          marginBottom: theme.spacing.medium,
-          borderWidth: 1,
-          borderColor: 'gray',
-          borderRadius: 4,
-          color: 'black',
-          paddingRight: 30,
-        },
-        placeholder: {
-          color: 'gray',
-        },
-      };
+	const pickerSelectStyles = {
+		inputIOS: {
+			fontSize: 16,
+			paddingVertical: 12,
+			paddingHorizontal: 10,
+			marginTop: theme.spacing.medium,
+			marginBottom: theme.spacing.medium,
+			borderWidth: 1,
+			borderColor: 'gray',
+			borderRadius: 4,
+			color: 'black',
+			paddingRight: 30,
+		},
+		placeholder: {
+			color: 'gray',
+		},
+	};
 
-    const validate = () => {
+	const validate = () => {
 		let errors = {};
 		// Validate name field
 		if (!fullName) {
@@ -82,24 +86,25 @@ const EntrepreneurForm = ({user, enterprise, pushNextScreen}) => {
 			errors.description = 'Description must be at least 30 characters.';
 		}
 
-        if (!enterpriseRole) {
+		if (!enterpriseRole) {
 			errors.fullName = 'Enterprise Role is required.';
 		}
 
-        if (!enterpriseLivelihoodActivities) {
+		if (!enterpriseLivelihoodActivities) {
 			errors.fullName = 'Enterprise Liveliehood Activity is required.';
 		}
 
-        if (!enterpriseSector) {
+		if (!enterpriseSector) {
 			errors.fullName = 'Enterprise Sector is required.';
 		}
 
-        if (!certificateType) {
+		if (!certificateType) {
 			errors.fullName = 'Certificate Type or No Certificate is required.';
 		}
 
-        if (certificateType != "No Certificate" && certificateId.length < 5) {
-			errors.description = 'Certificate ID must be at least 5 characters.';
+		if (certificateType != 'No Certificate' && certificateId.length < 5) {
+			errors.description =
+				'Certificate ID must be at least 5 characters.';
 		}
 
 		// Set the errors and update form validity
@@ -108,7 +113,7 @@ const EntrepreneurForm = ({user, enterprise, pushNextScreen}) => {
 		return isFormValid;
 	};
 
-    useEffect(() => {
+	useEffect(() => {
 		setFullName(user.fullName);
 		setEmail(user.email);
 		setEnterpriseID(enterprise.enterpriseID);
@@ -120,11 +125,11 @@ const EntrepreneurForm = ({user, enterprise, pushNextScreen}) => {
 		user.fullName,
 	]);
 
-    if (!(user && enterprise)) {
+	if (!(user && enterprise)) {
 		return <Text>Loading!</Text>;
 	}
-    
-    return (
+
+	return (
 		<SafeAreaView style={styles.wrapper}>
 			<View style={styles.container}>
 				<KeyboardAwareScrollView
@@ -139,7 +144,7 @@ const EntrepreneurForm = ({user, enterprise, pushNextScreen}) => {
 					<Text style={styles.title}>
 						Complete your Entrepreneur Profile
 					</Text>
-                    <TextInput
+					<TextInput
 						style={styles.input}
 						placeholder={fullName}
 						placeholderTextColor="#aaaaaa"
@@ -149,7 +154,7 @@ const EntrepreneurForm = ({user, enterprise, pushNextScreen}) => {
 						underlineColorAndroid="transparent"
 						autoCapitalize="none"
 					/>
-                    <TextInput
+					<TextInput
 						style={styles.input}
 						placeholder={email}
 						placeholderTextColor="#aaaaaa"
@@ -159,7 +164,7 @@ const EntrepreneurForm = ({user, enterprise, pushNextScreen}) => {
 						underlineColorAndroid="transparent"
 						autoCapitalize="none"
 					/>
-                    <TextInput
+					<TextInput
 						style={styles.input}
 						placeholder="Entreprise Name"
 						placeholderTextColor="#aaaaaa"
@@ -169,9 +174,9 @@ const EntrepreneurForm = ({user, enterprise, pushNextScreen}) => {
 						underlineColorAndroid="transparent"
 						autoCapitalize="none"
 					/>
-                    <TextInput
+					<TextInput
 						style={styles.input}
-						placeholder="Enterprise Short Description"
+						placeholder="Describe yourself..."
 						placeholderTextColor="#aaaaaa"
 						onChangeText={(text) => setDescription(text)}
 						value={description}
@@ -179,30 +184,7 @@ const EntrepreneurForm = ({user, enterprise, pushNextScreen}) => {
 						underlineColorAndroid="transparent"
 						autoCapitalize="none"
 					/>
-                    <View style={{ flex: 1 }}>
-						<RNPickerSelect
-                        placeholder={{
-                            label: 'Select a Sector',
-                            value: null,
-                          }}
-                        onValueChange = {(value) => setEnterpriseSector(value)}
-                        style={pickerSelectStyles}
-                        items = {enterpriseSectorsList.map(item => ({
-                            label: item,
-                            value: item,
-                          }))}
-                        />
-					</View>
 					<TextInput
-						style={styles.input}
-						placeholder="Enterprise Livelihood Activity"
-						placeholderTextColor="#aaaaaa"
-						onChangeText={(text) => setEnterpriseLivelihoodActivities(text)}
-						value={enterpriseLivelihoodActivities}
-						underlineColorAndroid="transparent"
-						autoCapitalize="none"
-					/>
-                    <TextInput
 						style={styles.input}
 						placeholder="Enterprise Role"
 						placeholderTextColor="#aaaaaa"
@@ -211,35 +193,12 @@ const EntrepreneurForm = ({user, enterprise, pushNextScreen}) => {
 						underlineColorAndroid="transparent"
 						autoCapitalize="none"
 					/>
-                    <View style={{ flex: 1 }}>
-						<RNPickerSelect
-                        placeholder={{
-                            label: 'Select a Certificate Type',
-                            value: null,
-                          }}
-                        onValueChange = {(value) => setCertificateType(value)}
-                        style={pickerSelectStyles}
-                        items = {certificateTypeList.map(item => ({
-                            label: item,
-                            value: item,
-                          }))}
-                        />
-					</View>
-                    <TextInput
-						style={styles.input}
-						placeholder="Certificate ID"
-						placeholderTextColor="#aaaaaa"
-						onChangeText={(text) => setCertificateId(text)}
-						value={certificateId}
-						underlineColorAndroid="transparent"
-						autoCapitalize="none"
-					/>
-                    <Button
+					<Button
 						title={'Submit'}
 						onPress={() => onSubmitPress()}
 						customBtnStyle={styles.joinButton}
 					/>
-                    {/* Display error messages */}
+					{/* Display error messages */}
 					{Object.values(errors).map((error, index) => (
 						<Text key={index} style={styles.error}>
 							{error}

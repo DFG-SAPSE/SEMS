@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Image, Text, TextInput, View, SafeAreaView } from 'react-native';
+import {
+	Image,
+	Text,
+	TextInput,
+	View,
+	SafeAreaView,
+	Alert,
+} from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { StyleSheet } from 'react-native';
 import { login, getAuthChange } from '../../services/auth';
@@ -9,21 +16,22 @@ import Button from '../../components/common/Button';
 const LoginScreen = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	const [user, setUser] = useState(''); //stores currently logged in user
+	const [currentUser, setUser] = useState(''); //stores currently logged in user
 
 	const onFooterLinkPress = () => {
-		router.push('/RegistrationScreen');
+		router.replace('/RegistrationScreen');
 	};
 
-	const pushNextScreen = () => {
+	const pushNextScreen = (user) => {
 		//console.log(user);
-		if (user && user.isProfileComplete) {
-			//need to wait for user to load
+		if (user && user.isConsultant && !user.isApproved) {
+			Alert.alert('No access', 'Consultants need to wait for approval');
+		} else if (user && user.isProfileComplete) {
 			router.replace('/home');
 		} else if (user && !user.isProfileComplete) {
 			router.replace('/JoinEnterprise');
 		} else {
-			console.log('Error moving past login screen or user is loading');
+			console.log('Error moving past login screen');
 		}
 	};
 

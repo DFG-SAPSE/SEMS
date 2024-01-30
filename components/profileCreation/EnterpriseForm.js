@@ -12,20 +12,26 @@ import {
 	Alert,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { RNMultiSelect } from 'rn-multipicker';
+import RNPickerSelect from 'react-native-picker-select';
+//import { RNMultiSelect } from 'rn-multipicker';
 import { router } from 'expo-router';
 import Button from '../common/Button';
 import { addEnterprise, generateNewEnterpriseID } from '../../services/profile';
-import { Enterprise } from '../../services/model';
+import {
+	Enterprise,
+	enterpriseSectorsList,
+	certificateTypeList,
+} from '../../services/model';
 
 const EnterpriseForm = ({ handleCallback }) => {
 	const [enterpriseID, setEnterpriseID] = useState('');
 	const [enterpriseName, setEnterpriseName] = useState('');
 	const [description, setDescription] = useState('');
 	const [website, setWebsite] = useState('');
-	const [certification, setCertification] = useState('');
-	const [sector, setSector] = useState([]);
-	const [livelihoodActivities, setlivelihoodActivities] = useState([]);
+	const [sector, setSector] = useState('');
+	const [livelihoodActivities, setLivelihoodActivities] = useState('');
+	const [certificateType, setCertificateType] = useState(null);
+	const [certificateID, setCertificateID] = useState('');
 	const [errors, setErrors] = useState({});
 
 	const onSubmitPress = () => {
@@ -37,7 +43,8 @@ const EnterpriseForm = ({ handleCallback }) => {
 					description,
 				);
 				newEnterprise.website = website;
-				newEnterprise.certification = certificate;
+				newEnterprise.certificateID = certificateID;
+				newEnterprise.certificateType = certificateType;
 				newEnterprise.sector = sector;
 				newEnterprise.livelihoodActivities = livelihoodActivities;
 				addEnterprise(enterpriseID, newEnterprise);
@@ -84,16 +91,6 @@ const EnterpriseForm = ({ handleCallback }) => {
 					<Text style={styles.title}>Create an Enterprise</Text>
 					<TextInput
 						style={styles.input}
-						placeholder={enterpriseID}
-						placeholderTextColor="#aaaaaa"
-						onChangeText={(text) => setEnterpriseID(text)}
-						value={enterpriseID}
-						editable={false}
-						underlineColorAndroid="transparent"
-						autoCapitalize="none"
-					/>
-					<TextInput
-						style={styles.input}
 						placeholder="Entreprise Name"
 						placeholderTextColor="#aaaaaa"
 						onChangeText={(text) => setEnterpriseName(text)}
@@ -108,6 +105,61 @@ const EnterpriseForm = ({ handleCallback }) => {
 						onChangeText={(text) => setDescription(text)}
 						value={description}
 						multiline={true}
+						underlineColorAndroid="transparent"
+						autoCapitalize="none"
+					/>
+					<TextInput
+						style={styles.input}
+						placeholder="Website link"
+						placeholderTextColor="#aaaaaa"
+						onChangeText={(text) => setWebsite(text)}
+						value={website}
+						underlineColorAndroid="transparent"
+						autoCapitalize="none"
+					/>
+					<View style={styles.wrapper}>
+						<RNPickerSelect
+							placeholder={{
+								label: 'Select a Sector',
+								value: null,
+							}}
+							onValueChange={(value) => setSector(value)}
+							style={pickerSelectStyles}
+							items={enterpriseSectorsList.map((item) => ({
+								label: item,
+								value: item,
+							}))}
+						/>
+					</View>
+					<TextInput
+						style={styles.input}
+						placeholder="Enterprise Livelihood Activity"
+						placeholderTextColor="#aaaaaa"
+						onChangeText={(text) => setLivelihoodActivities(text)}
+						value={livelihoodActivities}
+						underlineColorAndroid="transparent"
+						autoCapitalize="none"
+					/>
+					<View style={styles.wrapper}>
+						<RNPickerSelect
+							placeholder={{
+								label: 'Select a Certificate Type',
+								value: null,
+							}}
+							onValueChange={(value) => setCertificateType(value)}
+							style={pickerSelectStyles}
+							items={certificateTypeList.map((item) => ({
+								label: item,
+								value: item,
+							}))}
+						/>
+					</View>
+					<TextInput
+						style={styles.input}
+						placeholder="Certificate ID"
+						placeholderTextColor="#aaaaaa"
+						onChangeText={(text) => setCertificateID(text)}
+						value={certificateID}
 						underlineColorAndroid="transparent"
 						autoCapitalize="none"
 					/>
@@ -211,5 +263,23 @@ const styles = StyleSheet.create({
 	},
 	keyboardShouldPersistTaps: { flex: 1, width: '100%' },
 });
+
+const pickerSelectStyles = {
+	inputIOS: {
+		fontSize: 16,
+		paddingVertical: 12,
+		paddingHorizontal: 10,
+		marginTop: theme.spacing.medium,
+		marginBottom: theme.spacing.medium,
+		borderWidth: 1,
+		borderColor: 'gray',
+		borderRadius: 4,
+		color: 'black',
+		paddingRight: 30,
+	},
+	placeholder: {
+		color: 'gray',
+	},
+};
 
 export default EnterpriseForm;
