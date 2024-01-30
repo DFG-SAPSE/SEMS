@@ -304,11 +304,23 @@ describe('filterConsultantsClientSide', () => {
 	});
 
 	it('should handle more than 10 regions correctly', async () => {
-        const consultants = await filterConsultantsServerSide(
-            ['Tech', 'Education'],
-            5,
-            ['US', 'Canada', 'UK', 'Germany', 'France', 'Italy', 'Spain', 'Netherlands', 'Belgium', 'Switzerland', 'Austria'],
-        );
+		const consultants = await filterConsultantsServerSide(
+			['Tech', 'Education'],
+			5,
+			[
+				'US',
+				'Canada',
+				'UK',
+				'Germany',
+				'France',
+				'Italy',
+				'Spain',
+				'Netherlands',
+				'Belgium',
+				'Switzerland',
+				'Austria',
+			],
+		);
 		// expect the function to get called 4 times
 		// speciality, experienceYears, regions, regions
 		expect(mockFirestore.where).toHaveBeenCalledTimes(4);
@@ -316,33 +328,33 @@ describe('filterConsultantsClientSide', () => {
 
 	it('should return an empty array when no consultants match the criteria', async () => {
 		// no Tokyo consultants
-        const consultants = await filterConsultantsClientSide(
-            ['Finance'],
-            10,
-            ['Tokyo'],
-            null,
-        );
-        expect(consultants).toEqual([]);
-    });
+		const consultants = await filterConsultantsClientSide(
+			['Finance'],
+			10,
+			['Tokyo'],
+			null,
+		);
+		expect(consultants).toEqual([]);
+	});
 
-    it('should handle errors correctly', async () => {
+	it('should handle errors correctly', async () => {
 		// we want to hide the error message
-        console.error = jest.fn();
-        expect.assertions(1);
-        mockFirestore.get.mockRejectedValueOnce(
-            new Error('Error filtering for consultants'),
-        );
-        try {
-            await filterConsultantsClientSide(
-                ['Tech', 'Education'],
-                5,
-                ['Canada'],
-                null,
-            );
-        } catch (error) {
-            expect(error).toEqual(new Error('Error filtering for consultants'));
-        }
-    });
+		console.error = jest.fn();
+		expect.assertions(1);
+		mockFirestore.get.mockRejectedValueOnce(
+			new Error('Error filtering for consultants'),
+		);
+		try {
+			await filterConsultantsClientSide(
+				['Tech', 'Education'],
+				5,
+				['Canada'],
+				null,
+			);
+		} catch (error) {
+			expect(error).toEqual(new Error('Error filtering for consultants'));
+		}
+	});
 });
 
 describe('filterConsultantsServerSide', () => {
@@ -388,14 +400,26 @@ describe('filterConsultantsServerSide', () => {
 		expect(consultants.length).toBe(2);
 	});
 
-it('should filter consultants based on parameters Test 2', async () => {
-    await filterConsultantsServerSide(['Health'], 3, ['Canada', 'US']);
-    
-    // check if where mock function was called with the correct arguments
-    expect(mockFirestore.where).toHaveBeenCalledWith('specialty', '==', 'Health');
-    expect(mockFirestore.where).toHaveBeenCalledWith('experienceYears', '>=', 3);
-    expect(mockFirestore.where).toHaveBeenCalledWith('geographic_regions', 'array-contains-any', ['Canada', 'US']);
-});
+	it('should filter consultants based on parameters Test 2', async () => {
+		await filterConsultantsServerSide(['Health'], 3, ['Canada', 'US']);
+
+		// check if where mock function was called with the correct arguments
+		expect(mockFirestore.where).toHaveBeenCalledWith(
+			'specialty',
+			'==',
+			'Health',
+		);
+		expect(mockFirestore.where).toHaveBeenCalledWith(
+			'experienceYears',
+			'>=',
+			3,
+		);
+		expect(mockFirestore.where).toHaveBeenCalledWith(
+			'geographic_regions',
+			'array-contains-any',
+			['Canada', 'US'],
+		);
+	});
 
 	it('should handle errors correctly', async () => {
 		// we want to hide the error message
