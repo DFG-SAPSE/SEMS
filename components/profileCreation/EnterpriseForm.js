@@ -22,6 +22,10 @@ const EnterpriseForm = ({ handleCallback }) => {
 	const [enterpriseID, setEnterpriseID] = useState('');
 	const [enterpriseName, setEnterpriseName] = useState('');
 	const [description, setDescription] = useState('');
+	const [website, setWebsite] = useState('');
+	const [certification, setCertification] = useState('');
+	const [sector, setSector] = useState([]);
+	const [livelihoodActivities, setlivelihoodActivities] = useState([]);
 	const [errors, setErrors] = useState({});
 
 	const onSubmitPress = () => {
@@ -32,6 +36,10 @@ const EnterpriseForm = ({ handleCallback }) => {
 					enterpriseName,
 					description,
 				);
+				newEnterprise.website = website;
+				newEnterprise.certification = certificate;
+				newEnterprise.sector = sector;
+				newEnterprise.livelihoodActivities = livelihoodActivities;
 				addEnterprise(enterpriseID, newEnterprise);
 				handleCallback(newEnterprise);
 				Alert.alert('Enterprise created successfully');
