@@ -41,7 +41,7 @@ async function searchConsultants(name) {
 
 
 /**
- * Performs a Firestore query to filter consultants based on provided criteria
+ * Performs a server-side Firestore query to filter consultants based on provided criteria
  * The filtering operation is: 
  * (speciality1) 
  * AND (yearsOfExperience >= minYearsOfExperience) 
@@ -52,7 +52,9 @@ async function searchConsultants(name) {
  * @async
  * @param {string[]} inputExpertise An array of expertise to filter by. The first expertise in the array is used for filtering
  * @param {number} inputMinYearsOfExperience The minimum years of experience to filter by
- * @param {string[]} regions An array of regions to filter by. If the array has more than 10 elements, we split into chunks of 10 and multiple queries are performed
+ * @param {string[]} inputRegions An array of regions to filter by. If the array has more than 10 elements, we split into chunks of 10 and multiple queries are performed
+ * @param {number} inputMinPrice Used as a proxy to filter pro-bono consultants. The minimum price to filter by.
+ * @param {number} inputMaxPrice The maximum price to filter by
  * @returns {Promise<Object[]>} A promise that resolves to an array of consultant objects that match the parameters
  * @throws {Error} Will throw an error if the query operation fails
  */async function filterConsultantsServerSide(
