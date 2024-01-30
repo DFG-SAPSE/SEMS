@@ -60,6 +60,8 @@ const BookTimeSlot = () => {
 				}}
 			/>
 
+			<Exceptions />
+
 			<CustomCalendar onDayPress={onDayPress} markedDates={markedDates} />
 
 			<AvailableTimes
@@ -72,6 +74,7 @@ const BookTimeSlot = () => {
 };
 
 import { theme } from '../../styles/theme';
+import Exceptions from '../../components/booking/common/Exceptions';
 
 const styles = StyleSheet.create({
 	container: {

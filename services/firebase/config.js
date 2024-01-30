@@ -4,15 +4,16 @@
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/firestore';
-
-require('dotenv').config();
+import { initializeApp } from 'firebase/app';
+// import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
+import { ReactNativeAsyncStorage } from '@react-native-async-storage/async-storage';
+import { initializeAuth, getReactNativePersistence } from '@firebase/auth';
+import { getFirestore } from 'firebase/firestore';
+import { API_KEY, AUTH_DOMAIN } from '@env';
 
 const firebaseConfig = {
-	apiKey: process.env.API_KEY,
-	authDomain: process.env.AUTH_DOMAIN,
+	apiKey: API_KEY,
+	authDomain: AUTH_DOMAIN,
 	projectId: 'dfg-sapse',
 	storageBucket: 'dfg-sapse.appspot.com',
 	messagingSenderId: '140818285182',
@@ -20,10 +21,8 @@ const firebaseConfig = {
 	measurementId: 'G-Z0XMDWF8HB',
 };
 
-if (!firebase.apps || !firebase.apps.length) {
-	firebase.initializeApp(firebaseConfig);
-} else {
-	firebase.app();
-}
-
-export { firebase };
+const app = initializeApp(firebaseConfig);
+export const firestore = getFirestore(app);
+export const auth = initializeAuth(app, {
+	persistence: getReactNativePersistence(ReactNativeAsyncStorage),
+});

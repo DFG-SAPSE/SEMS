@@ -17,6 +17,7 @@ module.exports = function (api) {
 				{ loose: true },
 			],
 			['@babel/plugin-transform-class-properties', { loose: true }],
+			'module:react-native-dotenv',
 		],
 	};
 };

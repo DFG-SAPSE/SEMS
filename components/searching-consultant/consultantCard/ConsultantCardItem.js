@@ -1,9 +1,15 @@
 // ConsultantItem.js
 import React from 'react';
-import { View, Image, Text, StyleSheet } from 'react-native';
+import { View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { router } from 'expo-router';
 //This is just responsible for the consunltants card that displays their information. This is just a UI to be filled with data
 const ConsultantCardItem = ({ consultant }) => (
-	<View style={styles.consultantCardContainer}>
+	<TouchableOpacity
+		onPress={() => {
+			router.push('ConsultantProfile');
+		}}
+		style={styles.consultantCardContainer}
+	>
 		<View style={styles.consultantInfoContainer}>
 			<Image
 				resizeMode="contain"
@@ -39,7 +45,7 @@ const ConsultantCardItem = ({ consultant }) => (
 				</View>
 			</View>
 		</View>
-	</View>
+	</TouchableOpacity>
 );
 
 import { theme } from '../../../styles/theme';
