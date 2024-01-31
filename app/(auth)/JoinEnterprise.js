@@ -18,14 +18,15 @@ import BrowseEnterprises from '../../components/profileCreation/BrowseEnterprise
 import { getAuthChange } from '../../services/auth';
 
 export default function JoinEnterprise() {
-	const [user, setUser] = useState(''); //stores currently logged in user
+	//const [user, setUser] = useState(''); //stores currently logged in user
 	//const [enterprise, setEnterprise] = useState('');
 	const [browse, setBrowse] = useState(true);
 
+	/*
 	// Handle user state changes
 	function setAuthChange(newUser) {
 		setUser(newUser);
-	}
+	}*/
 
 	const handleCallback = (childEnterpriseObject) => {
 		// Update the name in the component's state
@@ -44,13 +45,13 @@ export default function JoinEnterprise() {
 		setBrowse(!browse);
 	};
 
-	useEffect(() => {
+	/*useEffect(() => {
 		getAuthChange(setAuthChange);
-	}, []);
+	}, []);*/
 
-	if (user === null) {
+	/*if (user === null) {
 		return <div>Loading!</div>;
-	}
+	}*/
 	return (
 		<View style={styles.container}>
 			{browse ? (

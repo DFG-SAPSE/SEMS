@@ -20,12 +20,15 @@ export default function ProfileCreation() {
 	const pushNextScreen = () => {
 		router.replace('/home');
 	};
-
+	//two use effects for different purposes
 	useEffect(() => {
 		getAuthChange(setAuthChange);
+	}, []);
+
+	useEffect(() => {
 		setEnterprise(JSON.parse(enterpriseObject));
 		setIsConsultant(user.isConsultant);
-	}, [enterpriseObject, user]);
+	}, [enterpriseObject, user.isConsultant]);
 
 	return (
 		<View style={styles.container}>

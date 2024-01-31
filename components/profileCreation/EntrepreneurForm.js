@@ -25,12 +25,7 @@ const EntrepreneurForm = ({ user, enterprise, pushNextScreen }) => {
 	const [email, setEmail] = useState('');
 	const [enterpriseID, setEnterpriseID] = useState('');
 	const [enterpriseName, setEnterpriseName] = useState('');
-	const [enterpriseSector, setEnterpriseSector] = useState(null);
 	const [enterpriseRole, setEnterpriseRole] = useState('');
-	const [enterpriseLivelihoodActivities, setEnterpriseLivelihoodActivities] =
-		useState('');
-	const [certificateType, setCertificateType] = useState(null);
-	const [certificateId, setCertificateId] = useState('');
 	const [description, setDescription] = useState('');
 	const [errors, setErrors] = useState({});
 
@@ -42,9 +37,6 @@ const EntrepreneurForm = ({ user, enterprise, pushNextScreen }) => {
 			var newUser = new Entrepreneur(user.id, fullName, email);
 			newUser.enterpriseID = enterpriseID;
 			newUser.description = description;
-			newUser.enterpriseLivelihoodActivities =
-				enterpriseLivelihoodActivities;
-			newUser.enterpriseName = enterpriseName;
 			addEntrepreneur(newUser.id, newUser, pushNextScreen);
 			//router.replace('/InviteOthers');
 		}
@@ -88,23 +80,6 @@ const EntrepreneurForm = ({ user, enterprise, pushNextScreen }) => {
 
 		if (!enterpriseRole) {
 			errors.fullName = 'Enterprise Role is required.';
-		}
-
-		if (!enterpriseLivelihoodActivities) {
-			errors.fullName = 'Enterprise Liveliehood Activity is required.';
-		}
-
-		if (!enterpriseSector) {
-			errors.fullName = 'Enterprise Sector is required.';
-		}
-
-		if (!certificateType) {
-			errors.fullName = 'Certificate Type or No Certificate is required.';
-		}
-
-		if (certificateType != 'No Certificate' && certificateId.length < 5) {
-			errors.description =
-				'Certificate ID must be at least 5 characters.';
 		}
 
 		// Set the errors and update form validity

@@ -171,7 +171,7 @@ const ConsultantForm = ({ user, enterprise, pushNextScreen }) => {
 						onChangeText={(text) =>
 							setExperienceYears(Number(text))
 						}
-						value={experienceYears.toString()}
+						//value={experienceYears.toString()}
 						underlineColorAndroid="transparent"
 						autoCapitalize="none"
 					/>
@@ -181,7 +181,7 @@ const ConsultantForm = ({ user, enterprise, pushNextScreen }) => {
 						placeholderTextColor="#aaaaaa"
 						inputMode="decimal"
 						onChangeText={(text) => setMinPrice(Number(text))}
-						value={minPrice.toString()}
+						//value={minPrice.toString()}
 						underlineColorAndroid="transparent"
 						autoCapitalize="none"
 					/>
@@ -191,7 +191,7 @@ const ConsultantForm = ({ user, enterprise, pushNextScreen }) => {
 						placeholderTextColor="#aaaaaa"
 						inputMode="decimal"
 						onChangeText={(text) => setMaxPrice(Number(text))}
-						value={maxPrice.toString()}
+						//value={maxPrice.toString()}
 						underlineColorAndroid="transparent"
 						autoCapitalize="none"
 					/>

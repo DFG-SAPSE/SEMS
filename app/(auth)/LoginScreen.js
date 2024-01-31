@@ -39,6 +39,7 @@ const LoginScreen = () => {
 		login(email, password, pushNextScreen);
 	};
 
+	/*
 	// Handle user state changes
 	function setAuthChange(newUser) {
 		setUser(newUser);
@@ -46,7 +47,7 @@ const LoginScreen = () => {
 
 	useEffect(() => {
 		getAuthChange(setAuthChange);
-	}, []);
+	}, []);*/
 
 	return (
 		<SafeAreaView style={styles.wrapper}>

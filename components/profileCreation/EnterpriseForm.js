@@ -73,7 +73,8 @@ const EnterpriseForm = ({ handleCallback }) => {
 	};
 
 	useEffect(() => {
-		setEnterpriseID(generateNewEnterpriseID());
+		//setEnterpriseID(generateNewEnterpriseID());
+		setEnterpriseID('absjwb');
 	}, []);
 
 	return (
