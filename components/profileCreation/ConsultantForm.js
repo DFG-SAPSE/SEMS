@@ -41,6 +41,7 @@ const ConsultantForm = ({ user, enterprise, pushNextScreen }) => {
 			newUser.description = description;
 			newUser.experienceYears = experienceYears;
 			newUser.geographic_regions = geographic_regions;
+			newUser.enterpriseRole = enterpriseRole;
 			newUser.minPrice = minPrice;
 			newUser.maxPrice = maxPrice;
 			addConsultant(newUser.id, newUser, pushNextScreen);

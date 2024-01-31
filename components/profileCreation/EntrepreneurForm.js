@@ -37,6 +37,7 @@ const EntrepreneurForm = ({ user, enterprise, pushNextScreen }) => {
 			var newUser = new Entrepreneur(user.id, fullName, email);
 			newUser.enterpriseID = enterpriseID;
 			newUser.description = description;
+			newUser.enterpriseRole = enterpriseRole;
 			addEntrepreneur(newUser.id, newUser, pushNextScreen);
 			//router.replace('/InviteOthers');
 		}
