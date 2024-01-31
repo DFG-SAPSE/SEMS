@@ -21,7 +21,7 @@ export const addConsultant = async (
 ) => {
 	const consultantRef = doc(
 		firestore,
-		'ConsultantTest',
+		'Consultants',
 		consultantID,
 	).withConverter(consultantConverter);
 	await setDoc(consultantRef, dataObject)
@@ -53,7 +53,7 @@ export const addEntrepreneur = async (
 ) => {
 	const entrepreneurRef = doc(
 		firestore,
-		'EntrepreneurTest',
+		'Entrepreneurs',
 		entrepreneurID,
 	).withConverter(entrepreneurConverter);
 	await setDoc(entrepreneurRef, dataObject)
