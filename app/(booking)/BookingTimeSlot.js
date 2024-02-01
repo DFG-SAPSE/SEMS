@@ -7,6 +7,8 @@ import CustomCalendar from '../../components/booking/timeSlot/CustomCalendar';
 import AvailableTimes from '../../components/booking/timeSlot/AvailableTimes';
 import { fetchAvailableTimes } from '../../services/scheduling';
 import { convertTo24HourFormat } from '../../utils/dateAndTime';
+import { theme } from '../../styles/theme';
+import Exceptions from '../../components/booking/common/Exceptions';
 
 const BookTimeSlot = () => {
 	const [selectedDate, setSelectedDate] = useState('');
@@ -14,17 +16,10 @@ const BookTimeSlot = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const { chooseTimeSlot, consultantData } = useContext(BookingContext);
 
-	const markedDates = {
-		[selectedDate]: {
-			selected: true,
-			disableTouchEvent: true,
-		},
-	};
-
 	const onDayPress = async (day) => {
+		setSelectedDate(day.dateString);
 		setIsLoading(true);
 		const times = await fetchAvailableTimes(day.dateString);
-		setSelectedDate(day.dateString);
 		setAvailableTimes(times);
 		setIsLoading(false);
 	};
@@ -60,9 +55,12 @@ const BookTimeSlot = () => {
 				}}
 			/>
 
-			<Exceptions />
+			{/* <Exceptions /> */}
 
-			<CustomCalendar onDayPress={onDayPress} markedDates={markedDates} />
+			<CustomCalendar
+				onDayPress={onDayPress}
+				selectedDate={selectedDate}
+			/>
 
 			<AvailableTimes
 				availableTimes={availableTimes}
@@ -73,13 +71,10 @@ const BookTimeSlot = () => {
 	);
 };
 
-import { theme } from '../../styles/theme';
-import Exceptions from '../../components/booking/common/Exceptions';
-
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: theme.colors.background.white,
+		backgroundColor: theme.colors.white,
 	},
 });
 

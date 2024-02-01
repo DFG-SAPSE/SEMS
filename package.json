@@ -9,7 +9,9 @@
     "web": "expo start --web",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "linter": "eslint . && eslint --fix . && prettier --write . && echo 'Linting and formatting completed successfully!'",
+    "test": "NODE_ENV=test jest --coverage"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "1.18.2",
@@ -50,12 +52,17 @@
   "devDependencies": {
     "@babel/core": "^7.19.3",
     "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
+    "@babel/preset-env": "^7.23.8",
+    "@firebase/rules-unit-testing": "^3.0.1",
     "@react-native-community/eslint-config": "^3.2.0",
+    "react-native-dotenv": "^3.4.9",
+    "babel-jest": "^29.7.0",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.0.1",
-    "prettier": "^3.1.1",
-    "react-native-dotenv": "^3.4.9"
+    "jest": "^29.7.0",
+    "jest-expo": "^49.0.0",
+    "prettier": "^3.1.1"
   },
   "resolutions": {
     "metro": "^0.73.7",

@@ -8,6 +8,8 @@ import CancelConfirmModal from '../../components/booking/common/CancelConfirmMod
 import ConsultantProfile from '../../components/booking/common/ConsultantProfile';
 import CancelBookingButton from '../../components/booking/common/CancelBookingButton';
 import { BookingContext } from '../../context/BookingContext';
+import { theme } from '../../styles/theme';
+import Divider from '../../components/common/Divider';
 
 const BookingQuestions = () => {
 	const { consultantData } = useContext(BookingContext);
@@ -19,27 +21,28 @@ const BookingQuestions = () => {
 					options={{ title: `Booking with ${consultantData.name}` }}
 				/>
 				<ConsultantProfile />
+
+				<Divider />
+
 				<QuestionList />
 
 				<View style={styles.footer}>
 					<CancelBookingButton />
-					<NextButton nextRoute={'/Payment'} />
+					<NextButton nextRoute={'/PaymentForm'} />
 				</View>
 			</ScrollView>
 		</ScrollView>
 	);
 };
 
-import { theme } from '../../styles/theme';
-
 const styles = StyleSheet.create({
 	wrapper: {
-		backgroundColor: theme.colors.background.white,
+		backgroundColor: 'white',
 	},
 	container: {
 		flex: 1,
-		padding: theme.spacing.large,
-		backgroundColor: theme.colors.background.white,
+		padding: theme.spacing.medium,
+		backgroundColor: 'white',
 	},
 	footer: {
 		flexDirection: 'row',
