@@ -11,7 +11,6 @@ const DaySchedule = ({
 	openTimePickerModal,
 }) => {
 	const daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-
 	return (
 		<View style={styles.dayContainer}>
 			<Text style={styles.dayText}>{daysOfWeek[dayIndex]}</Text>
@@ -28,7 +27,6 @@ const DaySchedule = ({
 						/>
 					))}
 				</View>
-
 				<TouchableOpacity
 					style={styles.addButton}
 					onPress={() => addTimeSlot(dayIndex)}
@@ -54,11 +52,21 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 	},
 	addButton: {
-		paddingTop: theme.spacing.small,
-		paddingLeft: theme.spacing.small,
+		marginTop: theme.spacing.tiny,
+		borderRadius: 5,
+		borderWidth: 1,
+		paddingHorizontal: theme.spacing.medium,
+		paddingVertical: theme.spacing.tiny,
+		backgroundColor: theme.colors.white,
+		borderColor: theme.colors.primary.light,
+		height: 38,
 	},
+
 	addButtonText: {
-		...theme.typography.large,
+		fontSize: 20,
+		backgroundColor: theme.colors.white,
+		color: theme.colors.primary.light,
+		paddingHorizontal: theme.spacing.tiny,
 	},
 });
 

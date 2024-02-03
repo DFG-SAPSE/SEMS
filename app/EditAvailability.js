@@ -20,6 +20,7 @@ import Button from '../components/common/Button';
 import MeetingConfig from '../components/availability/MeetingConfig';
 import CustomPicker from '../components/availability/CustomPicker';
 import PricingConfig from '../components/availability/PricingConfig';
+import { sortAvailability } from '../utils/checkOrderPicker';
 
 const BREAK_TIME = 'BREAK_TIME';
 const START_TIME_INCREMENT = 'START_TIME_INCREMENT';
@@ -55,6 +56,7 @@ const EditAvailability = () => {
 	const [isMeetingConfigPickerOpen, setIsMeetingConfigPickerOpen] =
 		useState(false);
 	const [meetingConfigType, setMeetingConfigType] = useState(null);
+	const [error, setError] = useState('');
 
 	useEffect(() => {
 		setTempAvail(userData.availability);
@@ -62,15 +64,23 @@ const EditAvailability = () => {
 
 	// UPDATE TO CONTEXT
 	const handleSave = () => {
-		updateAvailability(tempAvail);
-		updateMeetingConfig(
-			tempMeetingConfig.startTimeIncrement,
-			tempMeetingConfig.breakTimeLength,
-		);
-		updatePricing(tempMeetingConfig.price);
-		updateMeetingLength(tempMeetingConfig.meetingLength);
-		updateExceptions(tempExceptions);
-		router.back();
+		const sorting = sortAvailability(tempAvail);
+		console.log(sorting[0]);
+		if (sorting[0] === false) {
+			setError('Invalid time slots');
+			return;
+		} else {
+			updateAvailability(sorting);
+			updateMeetingConfig(
+				tempMeetingConfig.startTimeIncrement,
+				tempMeetingConfig.breakTimeLength,
+			);
+			updatePricing(tempMeetingConfig.price);
+			updateMeetingLength(tempMeetingConfig.meetingLength);
+			updateExceptions(tempExceptions);
+			setError('');
+			router.back();
+		}
 	};
 
 	const handleCancel = () => {
@@ -210,7 +220,11 @@ const EditAvailability = () => {
 						/>
 					</View>
 				</View>
-
+				{error && (
+					<View style={styles.errorMessageContainer}>
+						<Text style={styles.errorMessageText}>{error}</Text>
+					</View>
+				)}
 				<View style={styles.buttonContainer}>
 					<Button
 						title={'Cancel'}
@@ -323,6 +337,17 @@ const styles = StyleSheet.create({
 		borderRadius: 4,
 		padding: theme.spacing.mediumSmall,
 		...theme.typography.mediumBody,
+	},
+	errorMessageContainer: {
+		backgroundColor: '#FFCCCC',
+		padding: theme.spacing.large,
+		borderRadius: 8,
+		marginVertical: theme.spacing.large,
+	},
+	errorMessageText: {
+		...theme.typography.largeBold,
+		color: '#FF0000',
+		textAlign: 'center',
 	},
 });
 
