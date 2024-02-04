@@ -1,18 +1,21 @@
-import * as React from 'react';
+import React, { useContext } from 'react';
 import { ScrollView, View, StyleSheet } from 'react-native';
-import { Stack } from 'expo-router';
+import { Stack, router } from 'expo-router';
 
 import { useFonts } from 'expo-font';
 import { fonts } from '../../styles/fonts';
+import { theme } from '../../styles/theme';
 import Button from '../../components/common/Button';
 import ConsultantProfileHeader from '../../components/consultantProfile/ConsultantProfileHeader';
 import ConsultantProfileDetails from '../../components/consultantProfile/ConsultantProfileDetails';
 import AvailabilitySchedule from '../../components/consultantProfile/AvailabilitySchedule';
 import ConsultantDetails from '../../components/consultantProfile/ConsultantDetails';
 import ReviewSection from '../../components/consultantProfile/ReviewsSection';
+import { BookingContext } from '../../context/BookingContext';
 
 function ConsultantProfile() {
 	const [fontsLoaded] = useFonts(fonts);
+	const { consultantData } = useContext(BookingContext);
 
 	if (!fontsLoaded) {
 		return null;
@@ -22,7 +25,7 @@ function ConsultantProfile() {
 		<ScrollView style={styles.container}>
 			<Stack.Screen
 				options={{
-					title: `Andrea Beatrice`,
+					title: consultantData.name,
 					headerTitleStyle: styles.name,
 				}}
 			/>
@@ -35,21 +38,22 @@ function ConsultantProfile() {
 
 				<ConsultantDetails />
 
-				<ReviewSection />
+				{/* <ReviewSection /> */}
 			</View>
 
 			<View styles={styles.marginButton}>
 				<Button
 					customBtnStyle={{ margin: theme.spacing.large }}
 					title={'Book Consultation'}
+					onPress={() => {
+						router.push('BookingTimeSlot');
+					}}
 				/>
 			</View>
 			<Stack.Screen />
 		</ScrollView>
 	);
 }
-
-import { theme } from '../../styles/theme';
 
 const styles = StyleSheet.create({
 	marginButton: {

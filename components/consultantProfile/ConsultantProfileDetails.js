@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { useFonts } from 'expo-font';
 import { fonts } from '../../styles/fonts';
 
 const ConsultantProfileDetails = () => {
 	const [fontsLoaded] = useFonts(fonts);
+	const { consultantData } = useContext(BookingContext);
 
 	if (!fontsLoaded) {
 		return null;
@@ -14,13 +15,15 @@ const ConsultantProfileDetails = () => {
 			<View style={styles.container}>
 				<View style={styles.detailContainer}>
 					<Text style={styles.detailTitle}>Social Enterprise</Text>
-					<Text style={styles.detailSubTitleLink}>EcoHarvest</Text>
+					<Text style={styles.detailSubTitleLink}>
+						{consultantData.enterpriseID}
+					</Text>
 				</View>
 
 				<View style={styles.detailContainer}>
-					<Text style={styles.detailTitle}>Industry</Text>
+					<Text style={styles.detailTitle}>Expertise</Text>
 					<Text style={styles.detailSubTitle}>
-						Community Development
+						{consultantData.expertise}
 					</Text>
 				</View>
 
@@ -36,6 +39,7 @@ const ConsultantProfileDetails = () => {
 };
 
 import { theme } from '../../styles/theme';
+import { BookingContext } from '../../context/BookingContext';
 
 const styles = StyleSheet.create({
 	container: {
