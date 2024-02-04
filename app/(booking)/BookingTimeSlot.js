@@ -5,44 +5,59 @@ import { StyleSheet, ScrollView } from 'react-native';
 import { BookingContext } from '../../context/BookingContext';
 import CustomCalendar from '../../components/booking/timeSlot/CustomCalendar';
 import AvailableTimes from '../../components/booking/timeSlot/AvailableTimes';
-import { fetchAvailableTimes } from '../../services/scheduling';
+import { getAvailableStartTimes } from '../../services/scheduling';
 import { convertTo24HourFormat } from '../../utils/dateAndTime';
-import { theme } from '../../styles/theme';
-import Exceptions from '../../components/booking/common/Exceptions';
 
 const BookTimeSlot = () => {
-	const [selectedDate, setSelectedDate] = useState('');
 	const [availableTimes, setAvailableTimes] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
-	const { chooseTimeSlot, consultantData } = useContext(BookingContext);
+	const { bookingData, chooseDate, chooseTimeSlot, consultantData } =
+		useContext(BookingContext);
 
-	const onDayPress = async (day) => {
-		setSelectedDate(day.dateString);
+	const markedDates = {
+		[bookingData.date]: {
+			selected: true,
+			disableTouchEvent: true,
+		},
+	};
+
+	/**
+	 *
+	 * @param dateData: DateData from react-native-calendars
+	 */
+	const onDayPress = async (dateData) => {
 		setIsLoading(true);
-		const times = await fetchAvailableTimes(day.dateString);
+		const {
+			availability,
+			bookedMeetings,
+			// meetingConfig: { startTimeIncrement, breakTimeLength },
+			services,
+		} = consultantData;
+
+		const meetingLength = services[0].meetingLength;
+		const startTimeIncrement = 15; // dummy data, waiting for Iyi to update database, this cannot be 0
+		const breakTimeLength = 15; // dummy data, waiting for Iyi to update database
+
+		const times = getAvailableStartTimes(
+			new Date(dateData.timestamp),
+			JSON.parse(availability),
+			bookedMeetings,
+			startTimeIncrement,
+			breakTimeLength,
+			meetingLength,
+		);
+
+		chooseDate(new Date(dateData.timestamp));
 		setAvailableTimes(times);
 		setIsLoading(false);
 	};
 
-	const handleTimePress = async (time) => {
-		// Conver time to 24-hour format, combine the date and time
-		// and parse into Date
-		const startDateString = `${selectedDate} ${convertTo24HourFormat(
-			time,
-		)}`;
-		const startTime = new Date(startDateString);
+	const handleTimePress = async (startTime) => {
+		const { services } = consultantData;
+		const meetingLength = services[0].meetingLength;
+		const endTime = startTime + meetingLength;
 
-		// Dummy: Clone the Date object and add 45 minutes for the end time
-		// This will be changed when we give consultants the ability
-		// to customize their meeting length
-		const endTime = new Date(startTime);
-		endTime.setMinutes(startTime.getMinutes() + 45);
-
-		// Convert start and end times to timestamps
-		const startTimeStamp = startTime.getTime();
-		const endTimeStamp = endTime.getTime();
-
-		await chooseTimeSlot(startTimeStamp, endTimeStamp);
+		chooseTimeSlot(startTime, endTime);
 
 		router.push('/BookingQuestions');
 	};
@@ -55,12 +70,9 @@ const BookTimeSlot = () => {
 				}}
 			/>
 
-			{/* <Exceptions /> */}
+			<Exceptions />
 
-			<CustomCalendar
-				onDayPress={onDayPress}
-				selectedDate={selectedDate}
-			/>
+			<CustomCalendar onDayPress={onDayPress} markedDates={markedDates} />
 
 			<AvailableTimes
 				availableTimes={availableTimes}
@@ -71,10 +83,13 @@ const BookTimeSlot = () => {
 	);
 };
 
+import { theme } from '../../styles/theme';
+import Exceptions from '../../components/booking/common/Exceptions';
+
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: theme.colors.white,
+		backgroundColor: theme.colors.background.white,
 	},
 });
 

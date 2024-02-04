@@ -18,7 +18,7 @@ const PricingConfig = ({ meetingPrice, setMeetingPrice }) => {
 				<TextInput
 					style={styles.configInput}
 					onChangeText={setMeetingPrice}
-					value={meetingPrice}
+					value={meetingPrice.toString()}
 				/>
 			</View>
 		</View>

@@ -1,54 +1,62 @@
 // ConsultantItem.js
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { router } from 'expo-router';
-//This is just responsible for the consunltants card that displays their information. This is just a UI to be filled with data
-const ConsultantCardItem = ({ consultant }) => (
-	<TouchableOpacity
-		onPress={() => {
-			router.push('ConsultantProfile');
-		}}
-		style={styles.consultantCardContainer}
-	>
-		<View style={styles.consultantInfoContainer}>
-			<Image
-				resizeMode="contain"
-				source={{ uri: consultant.uri }}
-				style={styles.consultantImage}
-			/>
-			<View style={styles.textInfoContainer}>
-				<Text style={styles.consultantNameText}>{consultant.name}</Text>
-			</View>
-			<View style={styles.textInfoContainer}>
-				<Text style={styles.companyNameText}>
-					{consultant.companyName}
-				</Text>
-			</View>
-			<View style={styles.textInfoContainer}>
-				<Text
-					style={styles.industryText}
-					numberOfLines={1}
-					ellipsizeMode="tail"
-				>
-					{consultant.industry}
-				</Text>
-			</View>
-			<View style={styles.consultantSessionInfo}>
-				<View style={styles.sessionInfoBorderTop} />
-				<View style={styles.sessionInfoTextContainer}>
-					<Text style={styles.sessionInfoText}>
-						{consultant.sessions}
-					</Text>
-					<Text style={styles.sessionInfoText}>
-						{consultant.reviews}
-					</Text>
-				</View>
-			</View>
-		</View>
-	</TouchableOpacity>
-);
 
 import { theme } from '../../../styles/theme';
+import { BookingContext } from '../../../context/BookingContext';
+
+const ConsultantCardItem = ({ consultant }) => {
+	const { setConsultantData } = useContext(BookingContext);
+
+	return (
+		<TouchableOpacity
+			onPress={async () => {
+				await setConsultantData(consultant);
+				router.push('ConsultantProfile');
+			}}
+			style={styles.consultantCardContainer}
+		>
+			<View style={styles.consultantInfoContainer}>
+				<Image
+					resizeMode="contain"
+					source={{ uri: consultant.photoURL }}
+					style={styles.consultantImage}
+				/>
+				<View style={styles.textInfoContainer}>
+					<Text style={styles.consultantNameText}>
+						{consultant.name}
+					</Text>
+				</View>
+				<View style={styles.textInfoContainer}>
+					<Text style={styles.companyNameText}>
+						{consultant.enterpriseID}
+					</Text>
+				</View>
+				<View style={styles.textInfoContainer}>
+					<Text
+						style={styles.industryText}
+						numberOfLines={1}
+						ellipsizeMode="tail"
+					>
+						{consultant.industry}
+					</Text>
+				</View>
+				<View style={styles.consultantSessionInfo}>
+					<View style={styles.sessionInfoBorderTop} />
+					<View style={styles.sessionInfoTextContainer}>
+						<Text style={styles.sessionInfoText}>
+							{consultant.sessions}
+						</Text>
+						<Text style={styles.sessionInfoText}>
+							{consultant.reviews}
+						</Text>
+					</View>
+				</View>
+			</View>
+		</TouchableOpacity>
+	);
+};
 
 const styles = StyleSheet.create({
 	consultantSessionInfo: {

@@ -10,16 +10,17 @@ import {
 	TextInput,
 } from 'react-native';
 
-import { theme } from '../styles/theme';
+import { theme } from '../../styles/theme';
 
-import { UserContext } from '../context/UserContext';
-import DaySchedule from '../components/availability/DaySchedule';
-import TimePicker from '../components/availability/TimePicker';
-import CustomModal from '../components/common/CustomModal';
-import Button from '../components/common/Button';
-import MeetingConfig from '../components/availability/MeetingConfig';
-import CustomPicker from '../components/availability/CustomPicker';
-import PricingConfig from '../components/availability/PricingConfig';
+import { UserContext } from '../../context/UserContext';
+import DaySchedule from '../../components/availability/DaySchedule';
+import TimePicker from '../../components/availability/TimePicker';
+import CustomModal from '../../components/common/CustomModal';
+import Button from '../../components/common/Button';
+import MeetingConfig from '../../components/availability/MeetingConfig';
+import CustomPicker from '../../components/availability/CustomPicker';
+import PricingConfig from '../../components/availability/PricingConfig';
+import { updateUserData } from '../../services/user';
 
 const BREAK_TIME = 'BREAK_TIME';
 const START_TIME_INCREMENT = 'START_TIME_INCREMENT';
@@ -61,7 +62,8 @@ const EditAvailability = () => {
 	}, [userData.availability, setTempAvail]);
 
 	// UPDATE TO CONTEXT
-	const handleSave = () => {
+	const handleSave = async () => {
+		// update to UserContext
 		updateAvailability(tempAvail);
 		updateMeetingConfig(
 			tempMeetingConfig.startTimeIncrement,
@@ -70,7 +72,15 @@ const EditAvailability = () => {
 		updatePricing(tempMeetingConfig.price);
 		updateMeetingLength(tempMeetingConfig.meetingLength);
 		updateExceptions(tempExceptions);
-		router.back();
+
+		// call to firebase
+		const res = await updateUserData(userData);
+		if (res.ok) {
+			router.back();
+		} else {
+			// TODO: Develop UI for errors
+			console.error(res.error);
+		}
 	};
 
 	const handleCancel = () => {

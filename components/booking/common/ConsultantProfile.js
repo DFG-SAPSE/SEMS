@@ -4,17 +4,17 @@ import { BookingContext } from '../../../context/BookingContext';
 
 const ConsultantProfile = () => {
 	const { consultantData } = useContext(BookingContext);
-	const { name, company, title, avatar } = consultantData;
+	const { name, enterpriseId, title, photoURL } = consultantData;
 
 	return (
 		<View style={styles.profileContainer}>
 			<View style={styles.textContainer}>
 				<Text style={styles.name}>{name}</Text>
-				<Text style={styles.company}>{company}</Text>
+				<Text style={styles.company}>{enterpriseId}</Text>
 				<Text style={styles.title}>{title}</Text>
 			</View>
 			<Image
-				source={{ uri: avatar }}
+				source={{ uri: photoURL }}
 				style={styles.image}
 				resizeMode="cover"
 			/>
@@ -37,18 +37,18 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 	},
 	name: {
-		...theme.typography.largeBold,
+		...theme.typography.extraLargeBold,
+		marginTop: theme.spacing.medium,
 		marginBottom: theme.spacing.medium,
 	},
 	company: {
 		...theme.typography.mediumBody,
 		marginBottom: theme.spacing.small,
-		fontWeight: '600',
+		fontWeight: '500',
 	},
 	title: {
-		...theme.typography.mediumBody,
-		fontWeight: '600',
-		color: theme.colors.text.gray,
+		...theme.typography.smallBody,
+		marginBottom: theme.spacing.small,
 	},
 	image: {
 		height: '90%',
