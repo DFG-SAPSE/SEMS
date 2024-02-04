@@ -10,6 +10,7 @@ const Question = ({ index, question, answer, handleAnswerChange }) => {
 				value={answer || ''}
 				onChangeText={(text) => handleAnswerChange(text, index)}
 				placeholder="Type your answer here"
+				multiline={true}
 			/>
 		</View>
 	);
@@ -23,14 +24,18 @@ const styles = StyleSheet.create({
 	},
 	question: {
 		...theme.typography.mediumBodyBold,
+		color: theme.colors.text.gray,
 	},
 	input: {
 		// Style for the TextInput
 		borderWidth: 1,
 		borderColor: 'gray',
-		borderRadius: 5,
-		padding: 10,
-		marginTop: 5, // Space between question and input
+		borderRadius: 8,
+		padding: theme.spacing.medium,
+		paddingTop: theme.spacing.medium,
+		marginTop: theme.spacing.medium,
+		...theme.typography.mediumBody,
+		minHeight: 100,
 	},
 });
 
