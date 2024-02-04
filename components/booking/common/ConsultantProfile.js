@@ -37,18 +37,18 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 	},
 	name: {
-		...theme.typography.largeBold,
+		...theme.typography.extraLargeBold,
+		marginTop: theme.spacing.medium,
 		marginBottom: theme.spacing.medium,
 	},
 	company: {
 		...theme.typography.mediumBody,
 		marginBottom: theme.spacing.small,
-		fontWeight: '600',
+		fontWeight: '500',
 	},
 	title: {
-		...theme.typography.mediumBody,
-		fontWeight: '600',
-		color: theme.colors.text.gray,
+		...theme.typography.smallBody,
+		marginBottom: theme.spacing.small,
 	},
 	image: {
 		height: '90%',

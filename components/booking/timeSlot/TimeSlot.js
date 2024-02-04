@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 		borderColor: 'black',
 		borderRadius: 8,
-		width: '45%',
+		width: '30%',
 		marginBottom: theme.spacing.medium,
 		marginRight: theme.spacing.small,
 	},
