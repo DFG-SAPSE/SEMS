@@ -14,16 +14,14 @@ import { theme } from '../../../styles/theme';
 
 const styles = StyleSheet.create({
 	detailRow: {
-		marginTop: theme.spacing.large,
+		marginBottom: theme.spacing.large,
 	},
 	title: {
 		...theme.typography.mediumBodyBold,
 		marginBottom: theme.spacing.small,
-		color: theme.colors.text.gray,
 	},
 	content: {
 		...theme.typography.mediumBody,
-		fontWeight: '500',
 	},
 });
 

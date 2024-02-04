@@ -12,10 +12,8 @@ const VoucherForm = ({ voucher, setVoucher, handleApplyVoucher }) => {
 				style={styles.voucherInput}
 			/>
 
-			<View style={styles.voucherInfoTextContainer}>
-				<Text style={styles.voucherInfoText}>
-					You have 2 vouchers available.{' '}
-				</Text>
+			<View style={styles.voucherInfoText}>
+				<Text>You have 2 vouchers available. </Text>
 				<Text
 					onPress={handleApplyVoucher}
 					style={styles.applyVoucherText}
@@ -34,31 +32,23 @@ const styles = StyleSheet.create({
 		marginBottom: theme.spacing.xlarge,
 	},
 	voucherTitle: {
-		...theme.typography.mediumHeader,
+		...theme.typography.mediumBodyBold,
 		marginBottom: theme.spacing.small,
-		fontWeight: 'bold',
-		color: theme.colors.text.gray,
 	},
 	voucherInput: {
 		borderWidth: 1,
 		borderColor: '#ccc',
-		borderRadius: 8,
-		padding: theme.spacing.medium,
-		marginBottom: theme.spacing.medium,
-		...theme.typography.mediumBody,
-	},
-	voucherInfoTextContainer: {
-		flexDirection: 'row',
-		alignItems: 'center',
+		borderRadius: 5,
+		padding: 10,
+		marginBottom: 10,
 	},
 	voucherInfoText: {
-		...theme.typography.mediumBody,
-		color: theme.colors.text.gray,
+		flexDirection: 'row',
+		alignItems: 'center',
 	},
 	applyVoucherText: {
 		textDecorationLine: 'underline',
 		color: theme.colors.primary.default,
-		...theme.typography.mediumBody,
 	},
 });
 
