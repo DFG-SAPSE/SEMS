@@ -7,6 +7,8 @@ import CustomCalendar from '../../components/booking/timeSlot/CustomCalendar';
 import AvailableTimes from '../../components/booking/timeSlot/AvailableTimes';
 import { getAvailableStartTimes } from '../../services/scheduling';
 import { convertTo24HourFormat } from '../../utils/dateAndTime';
+import { theme } from '../../styles/theme';
+import Exceptions from '../../components/booking/common/Exceptions';
 
 const BookTimeSlot = () => {
 	const [availableTimes, setAvailableTimes] = useState([]);
@@ -26,6 +28,7 @@ const BookTimeSlot = () => {
 	 * @param dateData: DateData from react-native-calendars
 	 */
 	const onDayPress = async (dateData) => {
+    chooseDate(new Date(dateData.timestamp));
 		setIsLoading(true);
 		const {
 			availability,
@@ -46,8 +49,6 @@ const BookTimeSlot = () => {
 			breakTimeLength,
 			meetingLength,
 		);
-
-		chooseDate(new Date(dateData.timestamp));
 		setAvailableTimes(times);
 		setIsLoading(false);
 	};
@@ -70,9 +71,12 @@ const BookTimeSlot = () => {
 				}}
 			/>
 
-			<Exceptions />
+			{/* <Exceptions /> */}
 
-			<CustomCalendar onDayPress={onDayPress} markedDates={markedDates} />
+			<CustomCalendar
+				onDayPress={onDayPress}
+				selectedDate={selectedDate}
+			/>
 
 			<AvailableTimes
 				availableTimes={availableTimes}
@@ -83,13 +87,10 @@ const BookTimeSlot = () => {
 	);
 };
 
-import { theme } from '../../styles/theme';
-import Exceptions from '../../components/booking/common/Exceptions';
-
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: theme.colors.background.white,
+		backgroundColor: theme.colors.white,
 	},
 });
 
