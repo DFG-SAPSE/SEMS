@@ -6,7 +6,8 @@ import { BookingContext } from '../../context/BookingContext';
 import CustomCalendar from '../../components/booking/timeSlot/CustomCalendar';
 import AvailableTimes from '../../components/booking/timeSlot/AvailableTimes';
 import { getAvailableStartTimes } from '../../services/scheduling';
-import { convertTo24HourFormat } from '../../utils/dateAndTime';
+import { theme } from '../../styles/theme';
+import Exceptions from '../../components/booking/common/Exceptions';
 
 const BookTimeSlot = () => {
 	const [availableTimes, setAvailableTimes] = useState([]);
@@ -14,19 +15,13 @@ const BookTimeSlot = () => {
 	const { bookingData, chooseDate, chooseTimeSlot, consultantData } =
 		useContext(BookingContext);
 
-	const markedDates = {
-		[bookingData.date]: {
-			selected: true,
-			disableTouchEvent: true,
-		},
-	};
-
 	/**
 	 *
 	 * @param dateData: DateData from react-native-calendars
 	 */
 	const onDayPress = async (dateData) => {
 		setIsLoading(true);
+		chooseDate(new Date(dateData.timestamp));
 		const {
 			availability,
 			bookedMeetings,
@@ -46,8 +41,6 @@ const BookTimeSlot = () => {
 			breakTimeLength,
 			meetingLength,
 		);
-
-		chooseDate(new Date(dateData.timestamp));
 		setAvailableTimes(times);
 		setIsLoading(false);
 	};
@@ -70,9 +63,12 @@ const BookTimeSlot = () => {
 				}}
 			/>
 
-			<Exceptions />
+			{/* <Exceptions /> */}
 
-			<CustomCalendar onDayPress={onDayPress} markedDates={markedDates} />
+			<CustomCalendar
+				onDayPress={onDayPress}
+				selectedDate={bookingData.date}
+			/>
 
 			<AvailableTimes
 				availableTimes={availableTimes}
@@ -83,13 +79,10 @@ const BookTimeSlot = () => {
 	);
 };
 
-import { theme } from '../../styles/theme';
-import Exceptions from '../../components/booking/common/Exceptions';
-
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: theme.colors.background.white,
+		backgroundColor: theme.colors.white,
 	},
 });
 

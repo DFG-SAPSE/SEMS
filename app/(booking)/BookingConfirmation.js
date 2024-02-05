@@ -15,8 +15,8 @@ const BookingConfirmation = () => {
 
 	const footerComponent = (
 		<>
-			<View style={styles.divider} />
-			<View>
+			<Divider />
+			<View style={styles.cancelMeetingContainer}>
 				<Text
 					style={styles.cancelMeetingLink}
 					onPress={handleCancelMeeting}
@@ -46,12 +46,14 @@ const BookingConfirmation = () => {
 };
 
 import { theme } from '../../styles/theme';
+import Divider from '../../components/common/Divider';
 
 const styles = StyleSheet.create({
 	container: {
 		flexGrow: 1,
 		paddingTop: theme.spacing.medium,
 		paddingBottom: theme.spacing.medium,
+		marginBottom: theme.spacing.medium,
 	},
 	section: {
 		marginTop: theme.spacing.medium,
@@ -62,6 +64,9 @@ const styles = StyleSheet.create({
 	},
 	adviceText: {
 		...theme.typography.mediumBody,
+	},
+	cancelMeetingContainer: {
+		marginVertical: theme.spacing.xlarge,
 	},
 	cancelMeetingLink: {
 		textDecorationLine: 'underline',
