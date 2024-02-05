@@ -52,7 +52,11 @@ const CustomDayComponent = ({ date, state, selectedDate, onDayPress }) => {
 	}
 
 	// If the date is selected
-	if (selectedDate === currentDate.toISOString().slice(0, 10)) {
+	if (
+		selectedDate &&
+		selectedDate.toISOString().slice(0, 10) ===
+			currentDate.toISOString().slice(0, 10)
+	) {
 		dayWrapperStyle.backgroundColor = theme.colors.secondary.default;
 		dayWrapperStyle.borderRadius = 4;
 
