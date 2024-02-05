@@ -20,7 +20,7 @@ export const login = (email, password, router) => {
 				router.replace('/home');
 			} else {
 				// docSnap.data() will be undefined in this case
-				Alert('User does not exist anymore.');
+				Alert.alert('User does not exist anymore.');
 			}
 		})
 		.catch((error) => {
@@ -61,7 +61,7 @@ export const getAuthChange = (setAuthChange) => {
 		if (currentUser) {
 			// User is signed in
 			const uid = currentUser.uid;
-			const usersRef = doc(firestore, 'users', uid); //get profile info from database
+			const usersRef = doc(firestore, 'users', uid);
 			await getDoc(usersRef)
 				.then((userSnap) => {
 					const user = userSnap.data();
@@ -69,7 +69,7 @@ export const getAuthChange = (setAuthChange) => {
 					setAuthChange(user);
 				})
 				.catch((error) => {
-					Alert('Error fetching user data:', error);
+					Alert.alert('Error fetching user data:', error);
 				});
 			// ...
 		}
