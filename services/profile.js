@@ -1,4 +1,4 @@
-import { firestore, auth } from './firebase/config.js';
+import { firestore, auth } from './config.js';
 import {
 	doc,
 	getDoc,
@@ -68,14 +68,14 @@ export const addEntrepreneur = async (
 
 export const generateNewEnterpriseID = () => {
 	// Add a new document with a generated id
-	const newEnterpriseRef = doc(collection(firestore, 'Enterprise'));
+	const newEnterpriseRef = doc(collection(firestore, 'Enterprises'));
 	return newEnterpriseRef.id;
 };
 
 export const addEnterprise = async (newEnterpriseID, dataObject) => {
 	const enterpriseRef = doc(
 		firestore,
-		'Enterprise',
+		'Enterprises',
 		newEnterpriseID,
 	).withConverter(enterpriseConverter);
 	await setDoc(enterpriseRef, dataObject)
@@ -88,10 +88,10 @@ export const addEnterprise = async (newEnterpriseID, dataObject) => {
 };
 
 export const getAllEnterprises = async () => {
-	const querySnapshot = await getDocs(collection(firestore, 'Enterprise'));
+	const querySnapshot = await getDocs(collection(firestore, 'Enterprises'));
 	const tempDoc = [];
-	querySnapshot.forEach((doc) => {
-		tempDoc.push({ id: doc.id, ...doc.data() });
+	querySnapshot.forEach((snapDoc) => {
+		tempDoc.push({ id: snapDoc.id, ...snapDoc.data() });
 	});
 	return tempDoc;
 };

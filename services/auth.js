@@ -74,11 +74,9 @@ export const getAuthChange = (setAuthChange) => {
 			await getDoc(usersRef)
 				.then((userSnap) => {
 					const user = userSnap.data();
-					user.availability = JSON.parse(user.availability);
 					setAuthChange(user);
 				})
 				.catch((error) => {
-					Alert.alert('Error fetching user data:', error);
 					Alert.alert('Error fetching user data:', error);
 				});
 			// ...
