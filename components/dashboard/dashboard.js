@@ -49,6 +49,8 @@ const Dashboard = () => {
 
 						<Text style={styles.iconText}>Meeting Dashboard</Text>
 					</TouchableOpacity>
+
+					{/* {userData.isConsultant ? ( */}
 					<TouchableOpacity
 						onPress={() => {
 							router.push('EditAvailability');

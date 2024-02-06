@@ -34,6 +34,7 @@ const EditAvailability = () => {
 		updateMeetingLength,
 		updatePricing,
 		updateExceptions,
+		updateMeetingLink,
 	} = useContext(UserContext);
 
 	const [tempAvail, setTempAvail] = useImmer(userData.availability);
@@ -44,6 +45,7 @@ const EditAvailability = () => {
 		price: userData.services[0].price,
 	});
 	const [tempExceptions, setTempExceptions] = useState(userData.exceptions);
+	const [tempMeetingLink, setMeetingLink] = useState(userData.meetingLink);
 
 	const [timerPickerVisibility, setTimePickerVisibility] = useState(false);
 	const [timePickerState, setTimePickerState] = useState({
@@ -72,6 +74,7 @@ const EditAvailability = () => {
 		updatePricing(tempMeetingConfig.price);
 		updateMeetingLength(tempMeetingConfig.meetingLength);
 		updateExceptions(tempExceptions);
+		updateMeetingLink(tempMeetingLink);
 
 		// call to firebase
 		const res = await updateUserData(userData);
@@ -138,6 +141,22 @@ const EditAvailability = () => {
 
 				<View style={styles.titleWrapper}>
 					<Text style={styles.title}>Scheduling settings</Text>
+				</View>
+
+				<View style={{ marginTop: theme.spacing.large }}>
+					<Text style={{ ...theme.typography.largeBold }}>
+						Permanent meeting link
+					</Text>
+					<View style={styles.exceptionsContainer}>
+						<TextInput
+							style={styles.exceptionInput}
+							onChangeText={(meetingLink) => {
+								setMeetingLink(meetingLink);
+							}}
+							value={tempExceptions}
+							multiline={true}
+						/>
+					</View>
 				</View>
 
 				<Text

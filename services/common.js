@@ -70,13 +70,15 @@ export const fetchDocumentById = async (collectionName, documentId) => {
 			return {
 				data: { id: docSnapshot.id, ...docSnapshot.data() },
 				error: null,
+				ok: true,
 			};
 
-		return { data: 'Document does not exists', error: null };
+		return { data: null, error: 'Document does not exists', ok: false };
 	} catch (error) {
 		return {
 			data: null,
 			error: 'Error fetching document: ' + error.message,
+			ok: false,
 		};
 	}
 };

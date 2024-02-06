@@ -58,12 +58,20 @@ export const getAvailableStartTimes = (
 };
 
 export const finalizeBooking = async (bookingData, consultantId) => {
+	// retrieve the current user's id, add the meeting to the bookedMeetings field
+	const user = auth.currentUser;
+	if (!user) return { data: null, error: 'No user logged in', ok: false };
+	const entrepreneurId = user.uid;
+
 	// add the meeting to the bookedMeetings field of the consultant
+
 	try {
 		const docRef = createDocRef(
 			collection(firestore, COLLECTION_NAMES.CONSULTANTS),
 			consultantId,
 		);
+
+		bookingData.invitee = entrepreneurId;
 
 		await updateDoc(docRef, {
 			bookedMeetings: arrayUnion(bookingData),
@@ -76,16 +84,13 @@ export const finalizeBooking = async (bookingData, consultantId) => {
 		};
 	}
 
-	// retrieve the current user's id, add the meeting to the bookedMeetings field
-	const user = auth.currentUser;
-	if (!user) return { data: null, error: 'No user logged in', ok: false };
-
-	const entrepreneurId = user.uid;
 	try {
 		const docRef = createDocRef(
 			collection(firestore, COLLECTION_NAMES.ENTREPRENEURS),
 			entrepreneurId,
 		);
+
+		bookingData.invitee = consultantId;
 
 		await updateDoc(docRef, {
 			bookedMeetings: arrayUnion(bookingData),

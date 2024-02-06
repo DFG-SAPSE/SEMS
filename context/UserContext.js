@@ -131,6 +131,12 @@ const UserProvider = ({ children }) => {
 		});
 	};
 
+	const updateMeetingLink = (meetingLink) => {
+		setUserData((prev) => {
+			prev.meetingLink = meetingLink;
+		});
+	};
+
 	const contextValue = {
 		userData,
 		updateAvailability,
@@ -138,6 +144,7 @@ const UserProvider = ({ children }) => {
 		updatePricing,
 		updateMeetingLength,
 		updateExceptions,
+		updateMeetingLink,
 	};
 
 	return (

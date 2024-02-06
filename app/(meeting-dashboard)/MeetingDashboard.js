@@ -1,16 +1,45 @@
 import React, { useContext } from 'react';
 import { Stack, router } from 'expo-router';
-import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, Linking } from 'react-native';
 import { UserContext } from '../../context/UserContext';
 import Button from '../../components/common/Button';
 import { theme } from '../../styles/theme';
 import { convertMinutesToTime } from '../../utils/dateAndTime';
+import { fetchOtherInMeeting } from '../../services/user';
 
 const MeetingDashboard = () => {
 	const { userData } = useContext(UserContext);
 
-	const renderMeeting = (meeting, index) => {
+	const renderMeeting = async (meeting, index) => {
 		const serviceName = userData.services[meeting.service].name;
+		const res = await fetchOtherInMeeting(
+			userData.isConsultant,
+			meeting.invitee,
+		);
+
+		if (!res.ok) {
+			return null;
+		}
+
+		const { permanentMeetingLink } = res.data;
+
+		const handleJoinMeeting = async () => {
+			try {
+				const supported =
+					await Linking.canOpenURL(permanentMeetingLink);
+				if (supported) {
+					await Linking.openURL(permanentMeetingLink);
+				} else {
+					console.log(
+						"Don't know how to open this URL: " +
+							permanentMeetingLink,
+					);
+				}
+			} catch (error) {
+				console.error('An error occurred', error);
+			}
+		};
+
 		return (
 			<View style={styles.meetingContainer} key={index}>
 				<View style={styles.meetingInfoContainer}>
@@ -24,7 +53,11 @@ const MeetingDashboard = () => {
 					</Text>
 				</View>
 				<View style={styles.joinButtonWrapper}>
-					<Button title={'Join'} customBtnStyle={styles.joinButton} />
+					<Button
+						title={'Join'}
+						customBtnStyle={styles.joinButton}
+						onPress={handleJoinMeeting}
+					/>
 				</View>
 			</View>
 		);
