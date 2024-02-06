@@ -1,19 +1,21 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, Pressable } from 'react-native';
+import { theme } from '../../../styles/theme';
+import { convertMinutesToTime } from '../../../utils/dateAndTime';
 
 const TimeSlot = ({ index, time, handleTimePress }) => {
 	return (
-		<TouchableOpacity
+		<Pressable
 			key={index}
 			style={styles.timeSlot}
 			onPress={() => handleTimePress(time)}
 		>
-			<Text style={styles.timeSlotText}>{time}</Text>
-		</TouchableOpacity>
+			<Text style={styles.timeSlotText}>
+				{convertMinutesToTime(time)}
+			</Text>
+		</Pressable>
 	);
 };
-
-import { theme } from '../../../styles/theme';
 
 const styles = StyleSheet.create({
 	timeSlot: {

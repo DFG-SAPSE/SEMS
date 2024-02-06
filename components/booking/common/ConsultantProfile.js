@@ -4,17 +4,17 @@ import { BookingContext } from '../../../context/BookingContext';
 
 const ConsultantProfile = () => {
 	const { consultantData } = useContext(BookingContext);
-	const { name, company, title, avatar } = consultantData;
+	const { name, enterpriseID, title, photoURL } = consultantData;
 
 	return (
 		<View style={styles.profileContainer}>
 			<View style={styles.textContainer}>
 				<Text style={styles.name}>{name}</Text>
-				<Text style={styles.company}>{company}</Text>
+				<Text style={styles.company}>{enterpriseID}</Text>
 				<Text style={styles.title}>{title}</Text>
 			</View>
 			<Image
-				source={{ uri: avatar }}
+				source={{ uri: photoURL }}
 				style={styles.image}
 				resizeMode="cover"
 			/>

@@ -1,4 +1,4 @@
-import { firestore, auth } from './firebase/config.js';
+import { firestore, auth } from './config.js';
 import {
 	signInWithEmailAndPassword,
 	createUserWithEmailAndPassword,
@@ -6,6 +6,7 @@ import {
 } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { Alert } from 'react-native';
+//import User from '../schema/user.js';
 
 //Login and Registration Functions
 export const login = (email, password, pushNextScreen) => {
@@ -47,6 +48,7 @@ export const register = (
 				isEmailVerified: false,
 				isApproved: !isConsultant, //Need approval if consultant
 			};
+
 			const usersRef = doc(firestore, 'users', uid);
 			await setDoc(usersRef, user)
 				.then(() => {
@@ -68,13 +70,15 @@ export const getAuthChange = (setAuthChange) => {
 		if (currentUser) {
 			// User is signed in
 			const uid = currentUser.uid;
-			const usersRef = doc(firestore, 'users', uid); //get profile info from database
+			const usersRef = doc(firestore, 'users', uid);
 			await getDoc(usersRef)
 				.then((userSnap) => {
 					const user = userSnap.data();
+					user.availability = JSON.parse(user.availability);
 					setAuthChange(user);
 				})
 				.catch((error) => {
+					Alert.alert('Error fetching user data:', error);
 					Alert.alert('Error fetching user data:', error);
 				});
 			// ...
