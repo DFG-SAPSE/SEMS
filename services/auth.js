@@ -65,6 +65,7 @@ export const getAuthChange = (setAuthChange) => {
 			await getDoc(usersRef)
 				.then((userSnap) => {
 					const user = userSnap.data();
+					user.id = uid;
 					user.availability = JSON.parse(user.availability);
 					setAuthChange(user);
 				})

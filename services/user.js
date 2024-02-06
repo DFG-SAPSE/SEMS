@@ -25,16 +25,6 @@ export const fetchEntrepreneurById = async (consultantId) => {
 	return res;
 };
 
-export const fetchOtherInMeeting = async (isConsultant, id) => {
-	// if current person is consultant, the other person in the meeting
-	// must be an entrepreneur, and vice versa
-	if (isConsultant) {
-		return await fetchEntrepreneurById(id);
-	} else {
-		return await fetchConsultantById(id);
-	}
-};
-
 export const fetchConsultants = async () => {
 	const res = await fetchAllDocuments(COLLECTION_NAMES.CONSULTANTS);
 	return res;

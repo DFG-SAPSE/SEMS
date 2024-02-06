@@ -5,23 +5,22 @@ import { UserContext } from '../../context/UserContext';
 import Button from '../../components/common/Button';
 import { theme } from '../../styles/theme';
 import { convertMinutesToTime } from '../../utils/dateAndTime';
-import { fetchOtherInMeeting } from '../../services/user';
+import { fetchConsultantById } from '../../services/user';
 
 const MeetingDashboard = () => {
-	const { userData } = useContext(UserContext);
+	const { userData, handleCancelMeeting } = useContext(UserContext);
 
 	const renderMeeting = async (meeting, index) => {
 		const serviceName = userData.services[meeting.service].name;
-		const res = await fetchOtherInMeeting(
-			userData.isConsultant,
-			meeting.invitee,
-		);
 
-		if (!res.ok) {
-			return null;
+		let permanentMeetingLink;
+		if (userData.isConsultant) {
+			permanentMeetingLink = userData.permanentMeetingLink;
+		} else {
+			// TODO: Handle error here
+			const consultantData = await fetchConsultantById(meeting.invitee);
+			permanentMeetingLink = consultantData.data.permanentMeetingLink;
 		}
-
-		const { permanentMeetingLink } = res.data;
 
 		const handleJoinMeeting = async () => {
 			try {
@@ -57,6 +56,16 @@ const MeetingDashboard = () => {
 						title={'Join'}
 						customBtnStyle={styles.joinButton}
 						onPress={handleJoinMeeting}
+					/>
+					<Button
+						title={'Cancel'}
+						customBtnStyle={styles.joinButton}
+						onPress={() =>
+							handleCancelMeeting(
+								meeting.invitee,
+								meeting.startTime,
+							)
+						}
 					/>
 				</View>
 			</View>

@@ -7,6 +7,7 @@ import {
 	arrayUnion,
 } from 'firebase/firestore';
 import COLLECTION_NAMES from './collectionNames.js';
+import { fetchOtherInMeeting } from './user.js';
 
 export const getAvailableStartTimes = (
 	date,
@@ -107,22 +108,59 @@ export const finalizeBooking = async (bookingData, consultantId) => {
 	return { data: 'Success!', error: null, ok: true };
 };
 
-export const cancelMeeting = (meetingId) => {
-	return new Promise((resolve, reject) => {
-		setTimeout(() => {
-			const success = true;
+export const cancelMeeting = async (
+	currentUserId,
+	otherUserId,
+	startTime,
+	isConsultant,
+) => {
+	// Cancel meeting for current user
+	await _cancelMeeting(currentUserId, otherUserId, startTime, isConsultant);
 
-			if (success) {
-				resolve({
-					ok: true,
-					message: `Meeting with ID ${meetingId} was successfully cancelled.`,
-				});
-			} else {
-				reject({
-					ok: false,
-					message: `Failed to cancel meeting with ID ${meetingId}.`,
-				});
-			}
-		}, 2000);
-	});
+	// Cancel meeting for the other user
+	await _cancelMeeting(otherUserId, currentUserId, startTime, !isConsultant);
+};
+
+const _cancelMeeting = async (
+	currentUserId,
+	otherUserId,
+	startTime,
+	isConsultant,
+) => {
+	const collectionName = isConsultant
+		? COLLECTION_NAMES.CONSULTANTS
+		: COLLECTION_NAMES.ENTREPRENEURS;
+
+	const docRef = createDocRef(firestore, collectionName, currentUserId);
+
+	try {
+		const docSnap = await getDoc(docRef);
+
+		if (docSnap.exists()) {
+			const data = docSnap.data();
+			const bookedMeetings = data.bookedMeetings || [];
+
+			// Remove the meeting that matches the criteria
+			const updatedMeetings = bookedMeetings.filter((meeting) => {
+				return !(
+					meeting.invitee === otherUserId &&
+					meeting.startTime === startTime
+				);
+			});
+
+			await updateDoc(docRef, {
+				bookedMeetings: updatedMeetings,
+			});
+
+			return { data: null, error: null, ok: true };
+		}
+
+		return { data: null, error: 'Document does not exist', ok: false };
+	} catch (error) {
+		return {
+			data: null,
+			error: 'Error canceling meeting for current user',
+			ok: false,
+		};
+	}
 };

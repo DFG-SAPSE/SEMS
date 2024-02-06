@@ -37,8 +37,9 @@ const BookingConfirmation = () => {
 					You're going to meet {consultantData.name}!
 				</Text>
 				<Text style={styles.adviceText}>
-					We've sent booking confirmation to your email. Please
-					consider adding this event to your calendar.
+					Here's the meeting link:{' '}
+					{consultantData.permanentMeetingLink}. Please consider add
+					this event to your calendar.
 				</Text>
 			</View>
 		</BookingReview>
