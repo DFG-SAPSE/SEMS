@@ -53,6 +53,7 @@ export class Consultant {
 			startTimeIncrement: 0,
 			breakTimeLength: 0,
 		};
+		this.permanentMeetingLink = "";
 		this.bookedMeetings = [];
 		this.services = [];
 		this.geographic_regions = [];
@@ -78,6 +79,7 @@ export class Consultant {
 		this.experienceYears = data.experienceYears;
 		this.availability = data.availability;
 		this.meetingConfig = data.meetingConfig;
+		this.permanentMeetingLink = data.permanentMeetingLink;
 		this.bookedMeetings = data.bookedMeetings;
 		this.services = data.services;
 		this.geographic_regions = data.geographic_regions;
@@ -103,6 +105,7 @@ export const consultantConverter = {
 			experienceYears: consultant.experienceYears,
 			availability: consultant.availability,
 			meetingConfig: consultant.meetingConfig,
+			permanentMeetingLink: consultant.permanentMeetingLink,
 			bookedMeetings: consultant.bookedMeetings,
 			services: consultant.services,
 			geographic_regions: consultant.geographic_regions,
