@@ -10,31 +10,41 @@ const DaySchedule = ({
 	deleteTimeSlot,
 	openTimePickerModal,
 }) => {
-	const daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+	const daysOfWeek = [
+		'Monday',
+		'Tuesday',
+		'Wednesday',
+		'Thursday',
+		'Friday',
+		'Saturday',
+		'Sunday',
+	];
 	return (
-		<View style={styles.dayContainer}>
+		<>
 			<Text style={styles.dayText}>{daysOfWeek[dayIndex]}</Text>
-			<View style={styles.timeSlotsContainer}>
-				<View>
-					{todayTimeSlots.map((timeSlot, timeSlotIndex) => (
-						<TimeSlot
-							key={timeSlotIndex}
-							dayIndex={dayIndex}
-							timeSlot={timeSlot}
-							timeSlotIndex={timeSlotIndex}
-							openTimePickerModal={openTimePickerModal}
-							deleteTimeSlot={deleteTimeSlot}
-						/>
-					))}
+			<View style={styles.dayContainer}>
+				<View style={styles.timeSlotsContainer}>
+					<View>
+						{todayTimeSlots.map((timeSlot, timeSlotIndex) => (
+							<TimeSlot
+								key={timeSlotIndex}
+								dayIndex={dayIndex}
+								timeSlot={timeSlot}
+								timeSlotIndex={timeSlotIndex}
+								openTimePickerModal={openTimePickerModal}
+								deleteTimeSlot={deleteTimeSlot}
+							/>
+						))}
+					</View>
+					<TouchableOpacity
+						style={styles.addButton}
+						onPress={() => addTimeSlot(dayIndex)}
+					>
+						<Text style={styles.addButtonText}>+</Text>
+					</TouchableOpacity>
 				</View>
-				<TouchableOpacity
-					style={styles.addButton}
-					onPress={() => addTimeSlot(dayIndex)}
-				>
-					<Text style={styles.addButtonText}>+</Text>
-				</TouchableOpacity>
 			</View>
-		</View>
+		</>
 	);
 };
 
@@ -45,7 +55,7 @@ const styles = StyleSheet.create({
 		paddingVertical: theme.spacing.small,
 	},
 	dayText: {
-		...theme.typography.mediumHeader,
+		fontSize: theme.typography.large.fontSize,
 		marginTop: theme.spacing.small,
 	},
 	timeSlotsContainer: {

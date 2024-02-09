@@ -55,6 +55,7 @@ const styles = StyleSheet.create({
 	timeSlotContainer: {
 		flexDirection: 'row',
 		alignItems: 'center',
+		justifyContent: 'center',
 		marginVertical: theme.spacing.tiny,
 	},
 	timeInput: {
