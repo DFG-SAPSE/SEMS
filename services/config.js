@@ -5,7 +5,6 @@
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 
 import { initializeApp } from 'firebase/app';
-// import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
 import { ReactNativeAsyncStorage } from '@react-native-async-storage/async-storage';
 import { initializeAuth, getReactNativePersistence } from '@firebase/auth';
 import { getFirestore } from 'firebase/firestore';
