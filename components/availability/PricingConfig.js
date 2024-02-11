@@ -6,19 +6,14 @@ const PricingConfig = ({ meetingPrice, setMeetingPrice }) => {
 	return (
 		<View style={styles.configContainer}>
 			<View>
-				<Text
-					style={{
-						...theme.typography.mediumHeader,
-					}}
-				>
-					Price per meeting
-				</Text>
+				<Text style={styles.pricingHeader}>Price per meeting</Text>
 			</View>
-			<View style={styles.timeSlotContainer}>
+			<View>
 				<TextInput
 					style={styles.configInput}
 					onChangeText={setMeetingPrice}
 					value={meetingPrice.toString()}
+					keyboardType="numeric"
 				/>
 			</View>
 		</View>
@@ -27,20 +22,18 @@ const PricingConfig = ({ meetingPrice, setMeetingPrice }) => {
 
 const styles = StyleSheet.create({
 	configContainer: {
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		alignItems: 'center',
 		marginBottom: theme.spacing.xlarge,
 	},
-	timeSlotContainer: {
-		width: '30%',
-		flexDirection: 'flex-end',
+	pricingHeader: {
+		...theme.typography.mediumBody,
+		opacity: 0.6,
+		marginBottom: theme.spacing.small,
 	},
 	configInput: {
 		borderWidth: 1,
 		borderColor: theme.colors.border,
 		borderRadius: 4,
-		padding: theme.spacing.small,
+		padding: theme.spacing.mediumSmall,
 		...theme.typography.mediumBody,
 	},
 });

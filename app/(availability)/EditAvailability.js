@@ -77,7 +77,11 @@ const EditAvailability = () => {
 		updateMeetingLink(tempMeetingLink);
 
 		// call to firebase
-		const res = await updateUserData(userData);
+		const userDataToDatabase = { ...userData };
+		userDataToDatabase.availability = JSON.stringify(
+			userDataToDatabase.availability,
+		);
+		const res = await updateUserData(userDataToDatabase);
 		if (res.ok) {
 			router.back();
 		} else {
@@ -140,33 +144,57 @@ const EditAvailability = () => {
 				<Stack.Screen options={{ headerShown: false }} />
 
 				<View style={styles.titleWrapper}>
-					<Text style={styles.title}>Scheduling settings</Text>
+					<Text style={styles.title}>Meeting settings</Text>
 				</View>
 
-				<View style={{ marginTop: theme.spacing.large }}>
-					<Text style={{ ...theme.typography.largeBold }}>
-						Permanent meeting link
-					</Text>
-					<View style={styles.exceptionsContainer}>
-						<TextInput
-							style={styles.exceptionInput}
-							onChangeText={(meetingLink) => {
-								setMeetingLink(meetingLink);
-							}}
-							value={tempExceptions}
-							multiline={true}
-						/>
+				<View>
+					<Text style={styles.bigHeader}>Event details</Text>
+				</View>
+
+				<View style={{ marginBottom: theme.spacing.large }}>
+					<View style={{ marginBottom: theme.spacing.large }}>
+						<Text style={styles.header}>
+							Permanent meeting link
+						</Text>
+						<View>
+							<TextInput
+								style={styles.meetingLinkInput}
+								onChangeText={(meetingLink) => {
+									setMeetingLink(meetingLink);
+								}}
+								value={tempMeetingLink}
+							/>
+						</View>
+					</View>
+
+					<PricingConfig
+						meetingPrice={tempMeetingConfig.price}
+						setMeetingPrice={(newPrice) => {
+							setTempMeetingConfig((prev) => ({
+								...prev,
+								price: Number(newPrice),
+							}));
+						}}
+					/>
+
+					<View>
+						<Text style={styles.header}>Exceptions</Text>
+						<View>
+							<TextInput
+								style={styles.exceptionInput}
+								onChangeText={(newExceptionText) => {
+									setTempExceptions(newExceptionText);
+								}}
+								value={tempExceptions}
+								multiline={true}
+							/>
+						</View>
 					</View>
 				</View>
 
-				<Text
-					style={{
-						...theme.typography.largeBold,
-						marginBottom: theme.spacing.large,
-					}}
-				>
-					Meeting configuration
-				</Text>
+				<View>
+					<Text style={styles.bigHeader}>Scheduling settings</Text>
+				</View>
 
 				<MeetingConfig
 					currentlySelected={tempMeetingConfig.startTimeIncrement}
@@ -198,16 +226,6 @@ const EditAvailability = () => {
 					Meeting length
 				</MeetingConfig>
 
-				<PricingConfig
-					meetingPrice={tempMeetingConfig.price}
-					setMeetingPrice={(newPrice) => {
-						setTempMeetingConfig((prev) => ({
-							...prev,
-							price: Number(newPrice),
-						}));
-					}}
-				/>
-
 				<View style={styles.availabilityContainer}>
 					<Text style={{ ...theme.typography.largeBold }}>Hours</Text>
 					{tempAvail.map((todayTimeSlots, dayIndex) => {
@@ -222,22 +240,6 @@ const EditAvailability = () => {
 							/>
 						);
 					})}
-				</View>
-
-				<View style={{ marginTop: theme.spacing.large }}>
-					<Text style={{ ...theme.typography.largeBold }}>
-						Exceptions
-					</Text>
-					<View style={styles.exceptionsContainer}>
-						<TextInput
-							style={styles.exceptionInput}
-							onChangeText={(newExceptionText) => {
-								setTempExceptions(newExceptionText);
-							}}
-							value={tempExceptions}
-							multiline={true}
-						/>
-					</View>
 				</View>
 
 				<View style={styles.buttonContainer}>
@@ -317,11 +319,20 @@ const styles = StyleSheet.create({
 	titleWrapper: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
+		marginBottom: theme.spacing.large,
 	},
 	title: {
-		...theme.typography.extraLargeBold,
+		...theme.typography.titleBold,
 		marginTop: theme.spacing.xlarge,
-		marginBottom: theme.spacing.xxlarge,
+		marginBottom: theme.spacing.large,
+	},
+	bigHeader: {
+		...theme.typography.extraLargeBold,
+	},
+	header: {
+		...theme.typography.mediumBody,
+		opacity: 0.6,
+		marginBottom: theme.spacing.small,
 	},
 	buttonContainer: {
 		flexDirection: 'row',
@@ -343,8 +354,12 @@ const styles = StyleSheet.create({
 		...theme.typography.mediumBodyBold,
 		color: theme.colors.primary.light,
 	},
-	exceptionsContainer: {
-		marginVertical: theme.spacing.large,
+	meetingLinkInput: {
+		borderWidth: 1,
+		borderColor: theme.colors.border,
+		borderRadius: 4,
+		padding: theme.spacing.mediumSmall,
+		...theme.typography.mediumBody,
 	},
 	exceptionInput: {
 		borderWidth: 1,
@@ -352,6 +367,7 @@ const styles = StyleSheet.create({
 		borderRadius: 4,
 		padding: theme.spacing.mediumSmall,
 		...theme.typography.mediumBody,
+		minHeight: 80,
 	},
 });
 

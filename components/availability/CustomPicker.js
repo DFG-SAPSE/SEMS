@@ -12,10 +12,14 @@ const CustomPicker = ({ updateSelect, cancel, currentlySelected }) => {
 			<Picker
 				style={styles.picker}
 				selectedValue={newVal}
-				onValueChange={(itemValue) => setNewVal(Number(itemValue))}
+				onValueChange={(itemValue) => setNewVal(itemValue)}
 			>
 				{incrementOptions.map((option) => (
-					<Picker.Item key={option} label={option} value={option} />
+					<Picker.Item
+						key={option}
+						label={String(option)}
+						value={option}
+					/>
 				))}
 			</Picker>
 			<View style={styles.buttonContainer}>
