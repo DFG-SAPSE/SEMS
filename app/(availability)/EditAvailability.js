@@ -10,19 +10,19 @@ import {
 	TextInput,
 } from 'react-native';
 
-import { theme } from '../styles/theme';
+import { theme } from '../../styles/theme';
 
-import { UserContext } from '../context/UserContext';
-import DaySchedule from '../components/availability/DaySchedule';
-import TimePicker from '../components/availability/TimePicker';
-import CustomModal from '../components/common/CustomModal';
-import Button from '../components/common/Button';
-import MeetingConfig from '../components/availability/MeetingConfig';
-import CustomPicker from '../components/availability/CustomPicker';
-import PricingConfig from '../components/availability/PricingConfig';
-import { sortAvailability } from '../utils/checkOrderPicker';
-import WarningIcon from '../assets/svg/WarningIcon';
-
+import { UserContext } from '../../context/UserContext';
+import DaySchedule from '../../components/availability/DaySchedule';
+import TimePicker from '../../components/availability/TimePicker';
+import CustomModal from '../../components/common/CustomModal';
+import Button from '../../components/common/Button';
+import MeetingConfig from '../../components/availability/MeetingConfig';
+import CustomPicker from '../../components/availability/CustomPicker';
+import PricingConfig from '../../components/availability/PricingConfig';
+import { updateUserData } from '../../services/user';
+import { sortAvailability } from '../../utils/checkOrderPicker';
+import WarningIcon from '../../assets/svg/WarningIcon';
 const BREAK_TIME = 'BREAK_TIME';
 const START_TIME_INCREMENT = 'START_TIME_INCREMENT';
 const MEETING_LENGTH = 'MEETING_LENGTH';
@@ -64,7 +64,8 @@ const EditAvailability = () => {
 	}, [userData.availability, setTempAvail]);
 
 	// UPDATE TO CONTEXT
-	const handleSave = () => {
+	const handleSave = async () => {
+		// update to UserContext
 		const sorting = sortAvailability(tempAvail);
 		console.log(sorting[0]);
 		if (sorting[0] === false) {
@@ -79,8 +80,15 @@ const EditAvailability = () => {
 			updatePricing(tempMeetingConfig.price);
 			updateMeetingLength(tempMeetingConfig.meetingLength);
 			updateExceptions(tempExceptions);
-			setError('');
-			router.back();
+
+			// call to firebase
+			const res = await updateUserData(userData);
+			if (res.ok) {
+				router.back();
+			} else {
+				// TODO: Develop UI for errors
+				console.error(res.error);
+			}
 		}
 	};
 
