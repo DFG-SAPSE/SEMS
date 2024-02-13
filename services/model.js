@@ -132,6 +132,7 @@ export class Entrepreneur {
 		this.enterpriseID = '';
 		this.enterpriseRole = '';
 		this.description = '';
+		this.bookedMeetings = [];
 	}
 
 	setObjectFromDatabase(data) {
@@ -139,6 +140,7 @@ export class Entrepreneur {
 		this.enterpriseID = data.enterpriseID;
 		this.description = data.description;
 		this.enterpriseRole = data.enterpriseRole;
+		this.bookedMeetings = data.bookedMeetings;
 	}
 }
 
