@@ -51,11 +51,17 @@ export class Consultant {
 		this.permanentMeetingLink = '';
 		this.availability = JSON.stringify([[], [], [], [], [], [], []]);
 		this.meetingConfig = {
-			startTimeIncrement: 0,
+			startTimeIncrement: 15,
 			breakTimeLength: 0,
 		};
 		this.bookedMeetings = [];
-		this.services = [];
+		this.services = [
+			{
+				price: 0,
+				meetingLength: 45,
+				questions: ['Tell me everything helpful for this meeting!'],
+			},
+		];
 		this.geographic_regions = [];
 		this.minPrice = 0;
 		this.maxPrice = 0;
@@ -156,6 +162,7 @@ export const entrepreneurConverter = {
 			enterpriseID: entrepreneur.enterpriseID,
 			enterpriseRole: entrepreneur.enterpriseRole,
 			description: entrepreneur.description,
+			bookedMeetings: entrepreneur.bookedMeetings,
 		};
 	},
 	fromFirestore: (snapshot, options) => {
