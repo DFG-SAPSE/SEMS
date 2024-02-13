@@ -17,16 +17,18 @@ const useConsultants = (
 
 		const fetchData = async () => {
 			try {
-				const data = await fetchConsultants();
-				const filters = {
-					searchQuery,
-					selectedSpecialities,
-					experience,
-					price,
-					selectedRegions,
-				};
-				const filteredData = filterConsultants(data, filters);
-				setFilteredConsultants(filteredData);
+				const res = await fetchConsultants();
+				if (res.ok) {
+					const filters = {
+						searchQuery,
+						selectedSpecialities,
+						experience,
+						price,
+						selectedRegions,
+					};
+					const filteredData = filterConsultants(res.data, filters);
+					setFilteredConsultants(filteredData);
+				}
 				setIsLoading(false);
 			} catch (error) {
 				setFetchError(error);

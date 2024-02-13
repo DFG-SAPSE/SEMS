@@ -34,3 +34,9 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+
+# jest unit testing
+coverage/
+
+# log files
+*.log

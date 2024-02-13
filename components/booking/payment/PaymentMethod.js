@@ -1,27 +1,31 @@
 import React from 'react';
-import { Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, Pressable, StyleSheet } from 'react-native';
 
-const PaymentMethod = ({ handleSelectPaymentMethod, methodName }) => {
+const PaymentMethod = ({ handleSelectPaymentMethod, methodName, logo }) => {
 	return (
-		<TouchableOpacity
-			style={styles.paymentOption}
+		<Pressable
+			style={styles.paymentOptionContainer}
 			onPress={() => handleSelectPaymentMethod(methodName)}
 		>
-			<Text>{methodName}</Text>
-		</TouchableOpacity>
+			{logo(styles.logoSize)}
+			<Text style={styles.option}>{methodName}</Text>
+		</Pressable>
 	);
 };
 
 import { theme } from '../../../styles/theme';
 
 const styles = StyleSheet.create({
-	paymentOption: {
+	paymentOptionContainer: {
 		padding: theme.spacing.medium,
 		marginTop: theme.spacing.medium,
 		borderWidth: 1,
 		borderColor: '#ccc',
 		borderRadius: 5,
+		flexDirection: 'row',
 	},
+	option: { marginLeft: 12, ...theme.typography.mediumBody },
+	logoSize: 20,
 });
 
 export default PaymentMethod;

@@ -30,7 +30,13 @@ const Layout = () => {
 					}}
 				/>
 				<Tabs.Screen
-					name="EditAvailability"
+					name="(availability)"
+					options={{
+						href: null,
+					}}
+				/>
+				<Tabs.Screen
+					name="(meeting-dashboard)"
 					options={{
 						href: null,
 					}}
@@ -77,12 +83,6 @@ const Layout = () => {
 						href: '/message',
 						tabBarIcon: MessageIcon,
 						tabBarLabel: '',
-					}}
-				/>
-				<Tabs.Screen
-					name="MeetingDashboard"
-					options={{
-						href: null,
 					}}
 				/>
 			</Tabs>
