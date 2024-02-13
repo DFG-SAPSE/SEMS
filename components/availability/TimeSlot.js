@@ -45,7 +45,7 @@ const TimeSlot = ({
 				style={styles.deleteTimeSlot}
 				onPress={() => deleteTimeSlot(dayIndex, timeSlotIndex)}
 			>
-				<Text style={{ ...theme.typography.mediumBody }}> X </Text>
+				<Text style={styles.removeTimeSlot}> X </Text>
 			</TouchableOpacity>
 		</View>
 	);
@@ -55,11 +55,12 @@ const styles = StyleSheet.create({
 	timeSlotContainer: {
 		flexDirection: 'row',
 		alignItems: 'center',
+		justifyContent: 'center',
 		marginVertical: theme.spacing.tiny,
 	},
 	timeInput: {
 		borderWidth: 1,
-		borderColor: theme.colors.border,
+		borderColor: theme.colors.primary.light,
 		borderRadius: 4,
 		padding: theme.spacing.small,
 		width: 86,
@@ -67,9 +68,23 @@ const styles = StyleSheet.create({
 	},
 	timeText: {
 		...theme.typography.mediumBody,
+		color: theme.colors.primary.light,
 	},
 	deleteTimeSlot: {
 		marginHorizontal: theme.spacing.medium,
+		height: 38,
+		paddingHorizontal: theme.spacing.medium,
+		paddingVertical: theme.spacing.tiny,
+		borderRadius: 5,
+		borderWidth: 1,
+		backgroundColor: theme.colors.text,
+		borderColor: theme.colors.primary.light,
+	},
+	removeTimeSlot: {
+		fontSize: 15,
+		marginTop: theme.spacing.tiny,
+		color: theme.colors.primary.light,
+		backgroundColor: theme.colors.text,
 	},
 });
 

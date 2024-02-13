@@ -1,22 +1,52 @@
-import React, { useState } from 'react';
-import { Image, Text, TextInput, View, SafeAreaView } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import {
+	Image,
+	Text,
+	TextInput,
+	View,
+	SafeAreaView,
+	Alert,
+} from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { StyleSheet } from 'react-native';
-import { login } from '../../services/auth';
+import { login, getAuthChange } from '../../services/auth';
 import { router } from 'expo-router';
 import Button from '../../components/common/Button';
 
 const LoginScreen = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
+	const [currentUser, setUser] = useState(''); //stores currently logged in user
 
 	const onFooterLinkPress = () => {
-		router.push('/RegistrationScreen');
+		router.replace('/RegistrationScreen');
+	};
+
+	const pushNextScreen = (user) => {
+		if (user && user.isConsultant && !user.isApproved) {
+			Alert.alert('No access', 'Consultants need to wait for approval');
+		} else if (user && user.isProfileComplete) {
+			router.replace('/home');
+		} else if (user && !user.isProfileComplete) {
+			router.replace('/JoinEnterprise');
+		} else {
+			Alert.alert('Error', 'Please try again or contact admin');
+		}
 	};
 
 	const onLoginPress = () => {
-		login(email, password, router);
+		login(email, password, pushNextScreen);
 	};
+
+	/*
+	// Handle user state changes
+	function setAuthChange(newUser) {
+		setUser(newUser);
+	}
+
+	useEffect(() => {
+		getAuthChange(setAuthChange);
+	}, []);*/
 
 	return (
 		<SafeAreaView style={styles.wrapper}>

@@ -30,7 +30,7 @@ const ConsultantCardItem = ({ consultant }) => {
 				</View>
 				<View style={styles.textInfoContainer}>
 					<Text style={styles.companyNameText}>
-						{consultant.enterpriseID}
+						{consultant.enterpriseRole}
 					</Text>
 				</View>
 				<View style={styles.textInfoContainer}>
@@ -39,7 +39,7 @@ const ConsultantCardItem = ({ consultant }) => {
 						numberOfLines={1}
 						ellipsizeMode="tail"
 					>
-						{consultant.industry}
+						{consultant.expertise[0]} {consultant.expertise[1]}
 					</Text>
 				</View>
 				<View style={styles.consultantSessionInfo}>
@@ -49,7 +49,7 @@ const ConsultantCardItem = ({ consultant }) => {
 							{consultant.sessions}
 						</Text>
 						<Text style={styles.sessionInfoText}>
-							{consultant.reviews}
+							Booked Meetings {consultant.bookedMeetings.length}
 						</Text>
 					</View>
 				</View>
