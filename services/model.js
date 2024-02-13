@@ -48,6 +48,7 @@ export class Consultant {
 		this.exceptions = '';
 		this.expertise = [];
 		this.experienceYears = 0;
+		this.permanentMeetingLink = '';
 		this.availability = JSON.stringify([[], [], [], [], [], [], []]);
 		this.meetingConfig = {
 			startTimeIncrement: 0,
@@ -76,6 +77,7 @@ export class Consultant {
 		this.exceptions = data.exceptions;
 		this.expertise = data.expertise;
 		this.experienceYears = data.experienceYears;
+		this.permanentMeetingLink = data.permanentMeetingLink;
 		this.availability = data.availability;
 		this.meetingConfig = data.meetingConfig;
 		this.bookedMeetings = data.bookedMeetings;
@@ -101,6 +103,7 @@ export const consultantConverter = {
 			expertise: consultant.expertise,
 			description: consultant.description,
 			experienceYears: consultant.experienceYears,
+			permanentMeetingLink: consultant.permanentMeetingLink,
 			availability: consultant.availability,
 			meetingConfig: consultant.meetingConfig,
 			bookedMeetings: consultant.bookedMeetings,
