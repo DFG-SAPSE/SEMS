@@ -21,7 +21,8 @@ import MeetingConfig from '../../components/availability/MeetingConfig';
 import CustomPicker from '../../components/availability/CustomPicker';
 import PricingConfig from '../../components/availability/PricingConfig';
 import { updateUserData } from '../../services/user';
-
+import { sortAvailability } from '../../utils/checkOrderPicker';
+import WarningIcon from '../../assets/svg/WarningIcon';
 const BREAK_TIME = 'BREAK_TIME';
 const START_TIME_INCREMENT = 'START_TIME_INCREMENT';
 const MEETING_LENGTH = 'MEETING_LENGTH';
@@ -56,6 +57,7 @@ const EditAvailability = () => {
 	const [isMeetingConfigPickerOpen, setIsMeetingConfigPickerOpen] =
 		useState(false);
 	const [meetingConfigType, setMeetingConfigType] = useState(null);
+	const [error, setError] = useState('');
 
 	useEffect(() => {
 		setTempAvail(userData.availability);
@@ -64,22 +66,29 @@ const EditAvailability = () => {
 	// UPDATE TO CONTEXT
 	const handleSave = async () => {
 		// update to UserContext
-		updateAvailability(tempAvail);
-		updateMeetingConfig(
-			tempMeetingConfig.startTimeIncrement,
-			tempMeetingConfig.breakTimeLength,
-		);
-		updatePricing(tempMeetingConfig.price);
-		updateMeetingLength(tempMeetingConfig.meetingLength);
-		updateExceptions(tempExceptions);
-
-		// call to firebase
-		const res = await updateUserData(userData);
-		if (res.ok) {
-			router.back();
+		const sorting = sortAvailability(tempAvail);
+		console.log(sorting[0]);
+		if (sorting[0] === false) {
+			setError('Invalid time slots');
+			return;
 		} else {
-			// TODO: Develop UI for errors
-			console.error(res.error);
+			updateAvailability(sorting);
+			updateMeetingConfig(
+				tempMeetingConfig.startTimeIncrement,
+				tempMeetingConfig.breakTimeLength,
+			);
+			updatePricing(tempMeetingConfig.price);
+			updateMeetingLength(tempMeetingConfig.meetingLength);
+			updateExceptions(tempExceptions);
+
+			// call to firebase
+			const res = await updateUserData(userData);
+			if (res.ok) {
+				router.back();
+			} else {
+				// TODO: Develop UI for errors
+				console.error(res.error);
+			}
 		}
 	};
 
@@ -205,10 +214,18 @@ const EditAvailability = () => {
 					})}
 				</View>
 
-				<View style={{ marginTop: theme.spacing.large }}>
-					<Text style={{ ...theme.typography.largeBold }}>
-						Exceptions
-					</Text>
+				<View style={styles.exceptionsFullContainer}>
+					<View style={styles.exceptionTextContainer}>
+						<WarningIcon width={30} height={30} color="red" />
+						<Text
+							style={{
+								...theme.typography.largeBold,
+								marginLeft: theme.spacing.small,
+							}}
+						>
+							Exceptions
+						</Text>
+					</View>
 					<View style={styles.exceptionsContainer}>
 						<TextInput
 							style={styles.exceptionInput}
@@ -220,7 +237,11 @@ const EditAvailability = () => {
 						/>
 					</View>
 				</View>
-
+				{error && (
+					<View style={styles.errorMessageContainer}>
+						<Text style={styles.errorMessageText}>{error}</Text>
+					</View>
+				)}
 				<View style={styles.buttonContainer}>
 					<Button
 						title={'Cancel'}
@@ -307,6 +328,7 @@ const styles = StyleSheet.create({
 	buttonContainer: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
+		marginBottom: theme.spacing.xxlarge,
 	},
 	button: {
 		width: '46%',
@@ -325,14 +347,35 @@ const styles = StyleSheet.create({
 		color: theme.colors.primary.light,
 	},
 	exceptionsContainer: {
-		marginVertical: theme.spacing.large,
+		marginVertical: theme.spacing.small,
 	},
 	exceptionInput: {
-		borderWidth: 1,
-		borderColor: theme.colors.border,
-		borderRadius: 4,
-		padding: theme.spacing.mediumSmall,
-		...theme.typography.mediumBody,
+		fontSize: theme.typography.smallBody.fontSize,
+	},
+	errorMessageContainer: {
+		backgroundColor: '#FFCCCC',
+		padding: theme.spacing.large,
+		borderRadius: 8,
+		marginVertical: theme.spacing.large,
+	},
+	errorMessageText: {
+		...theme.typography.largeBold,
+		color: '#FF0000',
+		textAlign: 'center',
+	},
+	exceptionTextContainer: {
+		flex: 1,
+		flexDirection: 'row',
+		justifyContent: 'left',
+		alignItems: 'center',
+	},
+	exceptionsFullContainer: {
+		marginTop: theme.spacing.medium,
+		padding: theme.spacing.medium,
+		borderColor: theme.colors.black,
+		borderWidth: 2,
+		borderRadius: theme.spacing.large,
+		backgroundColor: '#ffe066',
 	},
 });
 

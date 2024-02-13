@@ -10,33 +10,41 @@ const DaySchedule = ({
 	deleteTimeSlot,
 	openTimePickerModal,
 }) => {
-	const daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-
+	const daysOfWeek = [
+		'Monday',
+		'Tuesday',
+		'Wednesday',
+		'Thursday',
+		'Friday',
+		'Saturday',
+		'Sunday',
+	];
 	return (
-		<View style={styles.dayContainer}>
+		<>
 			<Text style={styles.dayText}>{daysOfWeek[dayIndex]}</Text>
-			<View style={styles.timeSlotsContainer}>
-				<View>
-					{todayTimeSlots.map((timeSlot, timeSlotIndex) => (
-						<TimeSlot
-							key={timeSlotIndex}
-							dayIndex={dayIndex}
-							timeSlot={timeSlot}
-							timeSlotIndex={timeSlotIndex}
-							openTimePickerModal={openTimePickerModal}
-							deleteTimeSlot={deleteTimeSlot}
-						/>
-					))}
+			<View style={styles.dayContainer}>
+				<View style={styles.timeSlotsContainer}>
+					<View>
+						{todayTimeSlots.map((timeSlot, timeSlotIndex) => (
+							<TimeSlot
+								key={timeSlotIndex}
+								dayIndex={dayIndex}
+								timeSlot={timeSlot}
+								timeSlotIndex={timeSlotIndex}
+								openTimePickerModal={openTimePickerModal}
+								deleteTimeSlot={deleteTimeSlot}
+							/>
+						))}
+					</View>
+					<TouchableOpacity
+						style={styles.addButton}
+						onPress={() => addTimeSlot(dayIndex)}
+					>
+						<Text style={styles.addButtonText}>+</Text>
+					</TouchableOpacity>
 				</View>
-
-				<TouchableOpacity
-					style={styles.addButton}
-					onPress={() => addTimeSlot(dayIndex)}
-				>
-					<Text style={styles.addButtonText}>+</Text>
-				</TouchableOpacity>
 			</View>
-		</View>
+		</>
 	);
 };
 
@@ -47,18 +55,28 @@ const styles = StyleSheet.create({
 		paddingVertical: theme.spacing.small,
 	},
 	dayText: {
-		...theme.typography.mediumHeader,
+		fontSize: theme.typography.large.fontSize,
 		marginTop: theme.spacing.small,
 	},
 	timeSlotsContainer: {
 		flexDirection: 'row',
 	},
 	addButton: {
-		paddingTop: theme.spacing.small,
-		paddingLeft: theme.spacing.small,
+		marginTop: theme.spacing.tiny,
+		borderRadius: 5,
+		borderWidth: 1,
+		paddingHorizontal: theme.spacing.medium,
+		paddingVertical: theme.spacing.tiny,
+		backgroundColor: theme.colors.white,
+		borderColor: theme.colors.primary.light,
+		height: 38,
 	},
+
 	addButtonText: {
-		...theme.typography.large,
+		fontSize: 20,
+		backgroundColor: theme.colors.white,
+		color: theme.colors.primary.light,
+		paddingHorizontal: theme.spacing.tiny,
 	},
 });
 
