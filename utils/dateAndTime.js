@@ -78,3 +78,18 @@ export const generate15MinuteIntervals = () => {
 
 	return intervals;
 };
+
+export const formatDate = (date) => {
+	var year = date.getFullYear();
+
+	// getMonth() returns 0-11, add 1 to make it 1-12
+	// Use 'padStart' to add a leading zero for months 1-9
+	var month = (date.getMonth() + 1).toString().padStart(2, '0');
+
+	// getDate() returns 1-31
+	// Use 'padStart' to add a leading zero for days 1-9
+	var day = date.getDate().toString().padStart(2, '0');
+
+	// Construct the formatted date string
+	return year + '-' + month + '-' + day;
+};

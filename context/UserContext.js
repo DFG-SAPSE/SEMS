@@ -1,6 +1,6 @@
-import React, { createContext } from 'react';
+import React, { createContext, useEffect } from 'react';
 import { useImmer } from 'use-immer';
-import { fetchUserProfilev2 } from '../services/user';
+import { getAuthChange } from '../services/auth';
 
 const DEFAULT_USER_DATA = {
 	name: 'Jane Doe',
@@ -89,12 +89,11 @@ export const UserContext = createContext(null);
 const UserProvider = ({ children }) => {
 	const [userData, setUserData] = useImmer(DEFAULT_USER_DATA);
 
-	// use a useEffect to make call to firebase whenever userData changes
+	useEffect(() => {
+		getAuthChange(setUserData);
 
-	const login = async (username, password) => {
-		const res = await fetchUserProfilev2(username);
-		setUserData(res);
-	};
+		// TODO: Add clean up function to unsub from onAuthStateChanged
+	}, [setUserData]);
 
 	const updateAvailability = (newAvailability) => {
 		setUserData((prevUserData) => ({
@@ -134,7 +133,6 @@ const UserProvider = ({ children }) => {
 
 	const contextValue = {
 		userData,
-		login,
 		updateAvailability,
 		updateMeetingConfig,
 		updatePricing,
