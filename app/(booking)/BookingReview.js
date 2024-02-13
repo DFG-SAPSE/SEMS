@@ -8,21 +8,23 @@ import ConfirmButton from '../../components/booking/common/ConfirmButton';
 import ConsultantProfile from '../../components/booking/common/ConsultantProfile';
 import CancelConfirmModal from '../../components/booking/common/CancelConfirmModal';
 import CancelBookingButton from '../../components/booking/common/CancelBookingButton';
+import Divider from '../../components/common/Divider';
 
-import { formatDateAndTime } from '../../utils/dateAndTime';
+import { convertMinutesToTime, formatDate } from '../../utils/dateAndTime';
 import { camelCaseToNormalText } from '../../utils/stringFormat';
 
 const BookingReview = ({ pageTitle, children, footerComponent }) => {
 	const { bookingData, consultantData } = useContext(BookingContext);
+	const { date, startTime, endTime } = bookingData;
 
-	// Preparing data for date and time of booking
-	const { date: bookingDate, time: startTime } = formatDateAndTime(
-		bookingData.startTime,
-	);
-	const { time: endTime } = formatDateAndTime(bookingData.endTime);
 	const dateAndTime = [
-		['Date', `${bookingDate} (YYYY-MM-DD)`],
-		['Time and duration', `${startTime} - ${endTime}`],
+		['Date', `${formatDate(date)} (YYYY-MM-DD)`],
+		[
+			'Time and duration',
+			`${convertMinutesToTime(startTime)} - ${convertMinutesToTime(
+				endTime,
+			)}`,
+		],
 	];
 
 	const service = consultantData.services[bookingData.service];
@@ -40,7 +42,7 @@ const BookingReview = ({ pageTitle, children, footerComponent }) => {
 
 				<ConsultantProfile />
 
-				<View style={styles.divider} />
+				<Divider />
 
 				<View style={styles.section}>
 					{dateAndTime.map((d, index) => (
@@ -48,7 +50,7 @@ const BookingReview = ({ pageTitle, children, footerComponent }) => {
 					))}
 				</View>
 
-				<View style={styles.divider} />
+				<Divider />
 
 				<View style={styles.section}>
 					{service.questions.map((question, index) => (
@@ -65,7 +67,7 @@ const BookingReview = ({ pageTitle, children, footerComponent }) => {
 				<Text key={index}>{file}</Text>
 			))} */}
 
-				<View style={styles.divider} />
+				<Divider />
 
 				<View style={styles.section}>
 					{Object.entries(bookingData.payment).map(
@@ -102,14 +104,7 @@ const styles = StyleSheet.create({
 		flexGrow: 1,
 		padding: theme.spacing.large,
 	},
-	section: {
-		marginTop: theme.spacing.medium,
-	},
-	divider: {
-		height: 1,
-		backgroundColor: '#e1e1e1',
-		marginVertical: 10,
-	},
+	section: {},
 	footer: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
