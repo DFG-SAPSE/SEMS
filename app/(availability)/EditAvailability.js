@@ -41,6 +41,7 @@ const EditAvailability = () => {
 	} = useContext(UserContext);
 
 	const [tempAvail, setTempAvail] = useImmer(userData.availability);
+	console.log('tempAvail', tempAvail);
 	const [tempMeetingConfig, setTempMeetingConfig] = useState({
 		startTimeIncrement: userData.meetingConfig.startTimeIncrement,
 		breakTimeLength: userData.meetingConfig.breakTimeLength,
@@ -76,8 +77,6 @@ const EditAvailability = () => {
 			setError('Invalid time slots');
 			return;
 		}
-
-		console.log('sortedTimeSlots', sortedTimeSlots);
 
 		// Attempt to update Firebase
 
@@ -194,6 +193,7 @@ const EditAvailability = () => {
 								}}
 								value={tempMeetingLink}
 								placeholder="https://meet.google.com/oxr-qjoc-ijq"
+								placeholderTextColor="#aaaaaa"
 							/>
 						</View>
 					</View>
@@ -219,6 +219,7 @@ const EditAvailability = () => {
 								value={tempExceptions}
 								multiline={true}
 								placeholder="I am not available on Wednesday Jan 18"
+								placeholderTextColor="#aaaaaa"
 							/>
 						</View>
 					</View>

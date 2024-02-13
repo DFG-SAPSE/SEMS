@@ -27,7 +27,7 @@ const TimeSlot = ({
 				}
 			>
 				<Text style={styles.timeText}>
-					{convertMinutesToTime(startHour) || 'Start Time'}
+					{convertMinutesToTime(startHour)}
 				</Text>
 			</TouchableOpacity>
 			<Text> - </Text>
@@ -38,7 +38,7 @@ const TimeSlot = ({
 				}
 			>
 				<Text style={styles.timeText}>
-					{convertMinutesToTime(endHour) || 'End Time'}
+					{convertMinutesToTime(endHour)}
 				</Text>
 			</TouchableOpacity>
 			<TouchableOpacity
