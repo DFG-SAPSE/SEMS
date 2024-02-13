@@ -91,16 +91,16 @@ const MeetingDashboard = () => {
 					)}
 				</View>
 
-				{/* {userData.isConsultant ? null : ( */}
-				<Button
-					title={'Schedule New Meeting'}
-					customBtnStyle={styles.scheduleButton}
-					onPress={() => {
-						// Push to the consultant profile page
-						router.push('/SearchConsultant');
-					}}
-				/>
-				{/* )} */}
+				{userData.isConsultant ? null : (
+					<Button
+						title={'Schedule New Meeting'}
+						customBtnStyle={styles.scheduleButton}
+						onPress={() => {
+							// Push to the consultant profile page
+							router.push('/SearchConsultant');
+						}}
+					/>
+				)}
 			</View>
 		</SafeAreaView>
 	);

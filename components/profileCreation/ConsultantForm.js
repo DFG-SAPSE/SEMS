@@ -66,6 +66,10 @@ const ConsultantForm = ({ user, enterprise, pushNextScreen }) => {
 			newUser.enterpriseRole = enterpriseRole;
 			newUser.minPrice = minPrice;
 			newUser.maxPrice = maxPrice;
+			newUser.services[0] = {
+				price: minPrice,
+				meetingLength: 45,
+			};
 			addConsultant(newUser.id, newUser, pushNextScreen);
 		}
 	};

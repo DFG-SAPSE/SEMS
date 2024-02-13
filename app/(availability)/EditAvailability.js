@@ -23,6 +23,8 @@ import PricingConfig from '../../components/availability/PricingConfig';
 import { updateUserData } from '../../services/user';
 import { sortAvailability } from '../../utils/checkOrderPicker';
 import WarningIcon from '../../assets/svg/WarningIcon';
+
+// enums
 const BREAK_TIME = 'BREAK_TIME';
 const START_TIME_INCREMENT = 'START_TIME_INCREMENT';
 const MEETING_LENGTH = 'MEETING_LENGTH';
@@ -46,7 +48,9 @@ const EditAvailability = () => {
 		price: userData.services[0].price,
 	});
 	const [tempExceptions, setTempExceptions] = useState(userData.exceptions);
-	const [tempMeetingLink, setMeetingLink] = useState(userData.meetingLink);
+	const [tempMeetingLink, setMeetingLink] = useState(
+		userData.permanentMeetingLink,
+	);
 
 	const [timerPickerVisibility, setTimePickerVisibility] = useState(false);
 	const [timePickerState, setTimePickerState] = useState({
@@ -65,16 +69,41 @@ const EditAvailability = () => {
 		setTempAvail(userData.availability);
 	}, [userData.availability, setTempAvail]);
 
-	// UPDATE TO CONTEXT
 	const handleSave = async () => {
-		// update to UserContext
-		const sorting = sortAvailability(tempAvail);
-		console.log(sorting[0]);
-		if (sorting[0] === false) {
+		// Ensure the availability is sorted
+		const sortedTimeSlots = sortAvailability(tempAvail);
+		if (sortedTimeSlots[0] === false) {
 			setError('Invalid time slots');
 			return;
-		} else {
-			updateAvailability(sorting);
+		}
+
+		console.log('sortedTimeSlots', sortedTimeSlots);
+
+		// Attempt to update Firebase
+
+		// Prepare data for backend update
+		const userDataToUpdate = {
+			...userData,
+			availability: JSON.stringify(sortedTimeSlots),
+			meetingConfig: {
+				startTimeIncrement: tempMeetingConfig.startTimeIncrement,
+				breakTimeLength: tempMeetingConfig.breakTimeLength,
+			},
+			exceptions: tempExceptions,
+			permanentMeetingLink: tempMeetingLink,
+		};
+
+		userDataToUpdate.services[0] = {
+			price: tempMeetingConfig.price,
+			meetingLength: tempMeetingConfig.meetingLength,
+		};
+
+		// Call Firebase to update
+		const res = await updateUserData(userDataToUpdate);
+
+		if (res.ok) {
+			// If the Firebase update is successful, update context and redirect to home
+			updateAvailability(sortedTimeSlots);
 			updateMeetingConfig(
 				tempMeetingConfig.startTimeIncrement,
 				tempMeetingConfig.breakTimeLength,
@@ -83,19 +112,11 @@ const EditAvailability = () => {
 			updateMeetingLength(tempMeetingConfig.meetingLength);
 			updateExceptions(tempExceptions);
 			updateMeetingLink(tempMeetingLink);
-		}
-
-		// call to firebase
-		const userDataToDatabase = { ...userData };
-		userDataToDatabase.availability = JSON.stringify(
-			userDataToDatabase.availability,
-		);
-		const res = await updateUserData(userDataToDatabase);
-		if (res.ok) {
-			router.back();
+			router.replace('/home');
 		} else {
-			// TODO: Develop UI for errors
-			console.error(res.error);
+			// If Firebase update fails, log the error
+			console.error('Failed to save changes to Firebase:', res.error);
+			setError('Failed to update settings. Please try again.');
 		}
 	};
 
@@ -172,6 +193,7 @@ const EditAvailability = () => {
 									setMeetingLink(meetingLink);
 								}}
 								value={tempMeetingLink}
+								placeholder="https://meet.google.com/oxr-qjoc-ijq"
 							/>
 						</View>
 					</View>
@@ -196,6 +218,7 @@ const EditAvailability = () => {
 								}}
 								value={tempExceptions}
 								multiline={true}
+								placeholder="I am not available on Wednesday Jan 18"
 							/>
 						</View>
 					</View>
@@ -226,7 +249,7 @@ const EditAvailability = () => {
 				</MeetingConfig>
 
 				<MeetingConfig
-					currentlySelected={tempMeetingConfig.breakTimeLength}
+					currentlySelected={tempMeetingConfig.meetingLength}
 					openPicker={() => {
 						setMeetingConfigType(MEETING_LENGTH);
 						setIsMeetingConfigPickerOpen(true);
@@ -236,7 +259,7 @@ const EditAvailability = () => {
 				</MeetingConfig>
 
 				<View style={styles.availabilityContainer}>
-					<Text style={{ ...theme.typography.largeBold }}>Hours</Text>
+					<Text style={styles.bigHeader}>Hours</Text>
 					{tempAvail.map((todayTimeSlots, dayIndex) => {
 						return (
 							<DaySchedule
@@ -251,7 +274,7 @@ const EditAvailability = () => {
 					})}
 				</View>
 
-				<View style={styles.exceptionsFullContainer}>
+				{/* <View style={styles.exceptionsFullContainer}>
 					<View style={styles.exceptionTextContainer}>
 						<WarningIcon width={30} height={30} color="red" />
 						<Text
@@ -273,7 +296,8 @@ const EditAvailability = () => {
 							multiline={true}
 						/>
 					</View>
-				</View>
+				</View> */}
+
 				{error && (
 					<View style={styles.errorMessageContainer}>
 						<Text style={styles.errorMessageText}>{error}</Text>
@@ -374,7 +398,7 @@ const styles = StyleSheet.create({
 	buttonContainer: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
-		marginBottom: theme.spacing.xxlarge,
+		marginVertical: theme.spacing.xxlarge,
 	},
 	button: {
 		width: '46%',
@@ -393,15 +417,24 @@ const styles = StyleSheet.create({
 		color: theme.colors.primary.light,
 	},
 	meetingLinkInput: {
-		marginVertical: theme.spacing.small,
+		borderWidth: 1,
+		borderColor: theme.colors.border,
+		borderRadius: 4,
+		padding: theme.spacing.mediumSmall,
+		...theme.typography.mediumBody,
 	},
 	exceptionInput: {
-		fontSize: theme.typography.smallBody.fontSize,
+		borderWidth: 1,
+		borderColor: theme.colors.border,
+		borderRadius: 4,
+		padding: theme.spacing.mediumSmall,
+		paddingTop: theme.spacing.medium,
+		paddingBottom: theme.spacing.medium,
+		minHeight: 120,
+		...theme.typography.mediumBody,
 	},
 	errorMessageContainer: {
 		backgroundColor: '#FFCCCC',
-		padding: theme.spacing.large,
-		borderRadius: 8,
 		borderWidth: 1,
 		borderColor: theme.colors.border,
 		borderRadius: 4,
