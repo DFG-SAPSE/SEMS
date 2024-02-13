@@ -6,9 +6,11 @@ import {
 	TouchableOpacity,
 	StyleSheet,
 } from 'react-native';
-import CallServer from '../../common/CallServer';
+
 import { router } from 'expo-router';
 import Loading from '../../common/Loading';
+import { app } from '../../../services/firebase/config';
+import { httpsCallable, getFunctions } from 'firebase/functions';
 
 const CardForm = () => {
 	const [cardNumber, setCardNumber] = useState('');
@@ -16,6 +18,8 @@ const CardForm = () => {
 	const [securityCode, setSecurityCode] = useState('');
 	const [nameOnCard, setNameOnCard] = useState('');
 	const [load, setLoad] = useState(false);
+	const functions = getFunctions(app);
+	const paymentsFunction = httpsCallable(functions, 'payments');
 
 	const handleSubmit = async () => {
 		if (!cardNumber || !expiryDate || !securityCode || !nameOnCard) {
@@ -31,14 +35,13 @@ const CardForm = () => {
 				currency: 'USD',
 				value: 1000,
 			};
+
 			setLoad(true);
-			const res = await CallServer(
-				'https://a6c9-142-117-88-178.ngrok-free.app/payments',
-				data,
-				'POST',
-			);
-			setLoad(false);
+			var res = await paymentsFunction(data);
+			res = res.data;
 			console.log(res);
+			setLoad(false);
+
 			if (res.resultCode == 'Authorised') {
 				router.push('/PaymentSuccess');
 			} else if (res.resultCode == 'Received') {
@@ -50,6 +53,7 @@ const CardForm = () => {
 				router.push('/PaymentFailed');
 			}
 		} catch (error) {
+			console.log(error);
 			router.push('/PaymentFailed');
 			setLoad(false);
 		}

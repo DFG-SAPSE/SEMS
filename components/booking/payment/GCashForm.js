@@ -9,20 +9,23 @@ import {
 
 import { useEffect } from 'react';
 import { router } from 'expo-router';
-import CallServer from '../../common/CallServer';
 import Loading from '../../../components/common/Loading';
+import { httpsCallable, getFunctions } from 'firebase/functions';
+import { app } from '../../../services/firebase/config';
 
 const GCashForm = () => {
 	// const [appState, setAppState] = useState(AppState.currentState);
 	const [load, setLoad] = useState(false);
-	const ngrok = 'https://4883-142-117-88-178.ngrok-free.app';
+	const functions = getFunctions(app);
+	const paymentsFunction = httpsCallable(functions, 'payments');
+	const paymentsDetailsFunction = httpsCallable(functions, 'paymentsDetails');
 
 	useEffect(() => {
 		const link = Linking.addEventListener('url', handleDeepLink);
 		return () => {
 			link.remove('url', handleDeepLink);
 		};
-	}, []);
+	});
 
 	const handleDeepLink = async (event) => {
 		try {
@@ -31,13 +34,11 @@ const GCashForm = () => {
 			let data = {
 				redirectResult: redirectResult,
 			};
-			const res = await CallServer(
-				`${ngrok}/payments/details`,
-				data,
-				'POST',
-			);
-
+			var res = await paymentsDetailsFunction(data);
+			console.log(res);
+			res = res.data;
 			if (res.resultCode == 'Authorised') {
+				// router.push('/PaymentSuccess');
 			} else if (
 				res.resultCode == 'Cancelled' ||
 				res.resultCode == 'Error' ||
@@ -56,20 +57,24 @@ const GCashForm = () => {
 		// setLoad(true);
 		try {
 			setLoad(true);
-			const res = await CallServer(
-				`${ngrok}/payments`,
-				{ type: 'GCash' },
-				'POST',
-			);
-			const url = res.action.url;
+			const data = {
+				type: 'GCash',
+				currency: 'PHP',
+				value: 1000,
+			};
+			var res = await paymentsFunction(data);
+			res = res.data;
+			let url = res.action.url;
+			console.log(res);
 			setLoad(false);
+
 			Linking.canOpenURL(url)
 				.then((supported) => {
 					if (supported) {
 						Linking.openURL(url);
 					}
 				})
-				.catch((err) => router.push('/PaymentFailed'));
+				.catch((err) => console.log('handlegcash error'));
 		} catch (error) {
 			router.push('/PaymentFailed');
 		}

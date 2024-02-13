@@ -57,10 +57,12 @@ const PaymentMethod = () => {
 
 				<View style={styles.footer}>
 					<CancelBookingButton />
-					{bookingData.payment.paymentMethod == 'GCash' ? (
+
+					{bookingData.payment.paymentMethod == 'GCash' ||
+					bookingData.payment.paymentMethod == 'Card' ? (
 						<NextButton nextRoute={'/PaymentForm'} />
 					) : (
-						<NextButton nextRoute={'/PaymentForm'} />
+						<></>
 					)}
 				</View>
 			</ScrollView>
