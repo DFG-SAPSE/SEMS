@@ -35,7 +35,29 @@ const ConsultantForm = ({ user, enterprise, pushNextScreen }) => {
 		if (!user) {
 			Alert.alert('Sorry Try again');
 			router.replace('/LoginScreen');
-		} else if (validate()) {
+		} else {
+			Alert.alert(
+				'Confirm Service Price',
+				'Please confirm you set minimum price to 0 if you offer ProBono services',
+				[
+					{
+						text: 'Yes',
+						onPress: () => complete(),
+					},
+					{
+						text: 'No',
+						onPress: () =>
+							(errors.minPrice =
+								'Please set the minimum price correctly'),
+					},
+				],
+				{ cancelable: false },
+			);
+		}
+	};
+
+	const complete = () => {
+		if (validate()) {
 			var newUser = new Consultant(user.id, fullName, email);
 			newUser.enterpriseID = enterpriseID;
 			newUser.description = description;
@@ -45,7 +67,6 @@ const ConsultantForm = ({ user, enterprise, pushNextScreen }) => {
 			newUser.minPrice = minPrice;
 			newUser.maxPrice = maxPrice;
 			addConsultant(newUser.id, newUser, pushNextScreen);
-			//pushNextScreen();
 		}
 	};
 
@@ -67,6 +88,10 @@ const ConsultantForm = ({ user, enterprise, pushNextScreen }) => {
 			errors.description = 'Description must be at least 30 characters.';
 		}
 
+		if (!enterpriseRole) {
+			errors.enterpriseRolee = 'Enterprise Role is required.';
+		}
+
 		if (experienceYears < 1) {
 			errors.experienceYears = 'Must have at least 1 year of experience';
 		} else if (!Number.isInteger(experienceYears)) {
@@ -76,6 +101,10 @@ const ConsultantForm = ({ user, enterprise, pushNextScreen }) => {
 		if (geographic_regions.length < 1) {
 			errors.geographic_regions =
 				'Must set at least one geographic region';
+		}
+
+		if (minPrice < 0) {
+			errors.minPrice = 'Please set the minimum price correctly';
 		}
 
 		// Set the errors and update form validity

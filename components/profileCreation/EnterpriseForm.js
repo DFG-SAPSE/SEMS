@@ -23,7 +23,7 @@ import {
 	certificateTypeList,
 } from '../../services/model';
 
-const EnterpriseForm = ({ handleCallback }) => {
+const EnterpriseForm = ({ handleCallback, onFooterLinkPress }) => {
 	const [enterpriseID, setEnterpriseID] = useState('');
 	const [enterpriseName, setEnterpriseName] = useState('');
 	const [description, setDescription] = useState('');
@@ -63,7 +63,19 @@ const EnterpriseForm = ({ handleCallback }) => {
 			errors.enterpriseName = 'Enterprise is required';
 		}
 		if (description.length < 15) {
-			errors.description = 'Description must be at least 30 characters.';
+			errors.description = 'Description must be at least 15 characters.';
+		}
+
+		if (!sector) {
+			errors.sector = 'Please select a sector';
+		}
+
+		if (!livelihoodActivities) {
+			errors.livelihoodActivities = 'Livelihood Activities is required';
+		}
+
+		if (!certificateType) {
+			errors.certificateType = 'Please select a certificate type';
 		}
 
 		// Set the errors and update form validity
@@ -73,8 +85,7 @@ const EnterpriseForm = ({ handleCallback }) => {
 	};
 
 	useEffect(() => {
-		//setEnterpriseID(generateNewEnterpriseID());
-		setEnterpriseID('absjwb');
+		setEnterpriseID(generateNewEnterpriseID());
 	}, []);
 
 	return (
@@ -92,7 +103,7 @@ const EnterpriseForm = ({ handleCallback }) => {
 					<Text style={styles.title}>Create an Enterprise</Text>
 					<TextInput
 						style={styles.input}
-						placeholder="Entreprise Name"
+						placeholder="Enterprise Name"
 						placeholderTextColor="#aaaaaa"
 						onChangeText={(text) => setEnterpriseName(text)}
 						value={enterpriseName}
@@ -175,6 +186,22 @@ const EnterpriseForm = ({ handleCallback }) => {
 							{error}
 						</Text>
 					))}
+					<View style={styles.footerView}>
+						<Text style={styles.footerText}>
+							Having trouble?{' '}
+							<Text
+								onPress={onFooterLinkPress}
+								style={styles.footerLink}
+							>
+								Browse Enterprises
+							</Text>
+						</Text>
+						<Text style={styles.footerTextSmall}>
+							{' '}
+							If your enterprise does not exist on our app, please
+							create an enterprise.{' '}
+						</Text>
+					</View>
 				</KeyboardAwareScrollView>
 			</View>
 		</SafeAreaView>
@@ -250,6 +277,10 @@ const styles = StyleSheet.create({
 	},
 	footerText: {
 		...theme.typography.mediumBody,
+		color: theme.colors.text.dark,
+	},
+	footerTextSmall: {
+		...theme.typography.tinyBody,
 		color: theme.colors.text.dark,
 	},
 	footerLink: {

@@ -23,7 +23,6 @@ const LoginScreen = () => {
 	};
 
 	const pushNextScreen = (user) => {
-		//console.log(user);
 		if (user && user.isConsultant && !user.isApproved) {
 			Alert.alert('No access', 'Consultants need to wait for approval');
 		} else if (user && user.isProfileComplete) {
@@ -31,7 +30,7 @@ const LoginScreen = () => {
 		} else if (user && !user.isProfileComplete) {
 			router.replace('/JoinEnterprise');
 		} else {
-			console.log('Error moving past login screen');
+			Alert.alert('Error', 'Please try again or contact admin');
 		}
 	};
 

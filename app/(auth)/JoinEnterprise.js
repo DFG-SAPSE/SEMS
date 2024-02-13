@@ -20,7 +20,7 @@ import { getAuthChange } from '../../services/auth';
 export default function JoinEnterprise() {
 	//const [user, setUser] = useState(''); //stores currently logged in user
 	//const [enterprise, setEnterprise] = useState('');
-	const [browse, setBrowse] = useState(true);
+	const [browse, setBrowse] = useState(false);
 
 	/*
 	// Handle user state changes
@@ -30,6 +30,7 @@ export default function JoinEnterprise() {
 
 	const handleCallback = (childEnterpriseObject) => {
 		// Update the name in the component's state
+		console.log(childEnterpriseObject);
 		pushNextScreen(childEnterpriseObject);
 	};
 	const pushNextScreen = (enterpriseObj) => {
@@ -56,33 +57,17 @@ export default function JoinEnterprise() {
 		<View style={styles.container}>
 			{browse ? (
 				<>
-					<BrowseEnterprises handleCallback={handleCallback} />
-					<View style={styles.footerView}>
-						<Text style={styles.footerText}>
-							Having trouble?{' '}
-							<Text
-								onPress={onFooterLinkPress}
-								style={styles.footerLink}
-							>
-								Create Enterprise
-							</Text>
-						</Text>
-					</View>
+					<BrowseEnterprises
+						handleCallback={handleCallback}
+						onFooterLinkPress={onFooterLinkPress}
+					/>
 				</>
 			) : (
 				<>
-					<EnterpriseForm handleCallback={handleCallback} />
-					<View style={styles.footerView}>
-						<Text style={styles.footerText}>
-							Having trouble?{' '}
-							<Text
-								onPress={onFooterLinkPress}
-								style={styles.footerLink}
-							>
-								Browse Enterprises
-							</Text>
-						</Text>
-					</View>
+					<EnterpriseForm
+						handleCallback={handleCallback}
+						onFooterLinkPress={onFooterLinkPress}
+					/>
 				</>
 			)}
 		</View>
@@ -99,7 +84,6 @@ const styles = StyleSheet.create({
 	footerView: {
 		flex: 1,
 		alignItems: 'center',
-		marginTop: theme.spacing.xlarge,
 	},
 	footerText: {
 		...theme.typography.mediumBody,

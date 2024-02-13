@@ -58,6 +58,7 @@ const SearchBar = ({ clicked, searchPhrase, setSearchPhrase, setClicked }) => {
 	);
 };
 export default SearchBar;
+import { theme } from '../../../styles/theme';
 
 // styles
 const styles = StyleSheet.create({
@@ -86,7 +87,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-evenly',
 	},
 	input: {
-		fontSize: 20,
+		...theme.typography.large,
 		marginLeft: 10,
 		width: '90%',
 	},

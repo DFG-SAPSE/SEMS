@@ -1,5 +1,5 @@
 // List.js
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, FlatList, SafeAreaView } from 'react-native';
 
 // definition of the Item, which will be rendered in the FlatList
@@ -26,6 +26,14 @@ const EnterpriseList = ({ searchPhrase, setClicked, data }) => {
 		}
 	};
 
+	const emptyComponent = () => {
+		return (
+			<View style={styles.emptyList}>
+				<Text style={styles.title}>No existing Enterprises yet!</Text>
+			</View>
+		);
+	};
+
 	return (
 		<SafeAreaView style={styles.list__container}>
 			<View
@@ -36,6 +44,7 @@ const EnterpriseList = ({ searchPhrase, setClicked, data }) => {
 				<FlatList
 					data={data}
 					renderItem={renderItem}
+					ListEmptyComponent={emptyComponent}
 					keyExtractor={(item) => item.id}
 				/>
 			</View>
@@ -44,20 +53,26 @@ const EnterpriseList = ({ searchPhrase, setClicked, data }) => {
 };
 
 export default EnterpriseList;
+import { theme } from '../../../styles/theme';
 
 const styles = StyleSheet.create({
 	list__container: {
-		margin: 10,
+		margin: theme.spacing.mediumSmall,
 		height: '85%',
 		width: '100%',
 	},
 	item: {
-		margin: 30,
+		margin: theme.spacing.xlarge,
+		borderBottomWidth: 2,
+		borderBottomColor: 'lightgrey',
+	},
+	emptyList: {
+		margin: theme.spacing.xlarge,
 		borderBottomWidth: 2,
 		borderBottomColor: 'lightgrey',
 	},
 	title: {
-		fontSize: 20,
+		...theme.typography.large,
 		fontWeight: 'bold',
 		marginBottom: 5,
 		fontStyle: 'italic',

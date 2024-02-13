@@ -24,7 +24,8 @@ export const login = (email, password, pushNextScreen) => {
 			}
 		})
 		.catch((error) => {
-			// alert(error);
+			Alert.alert('Invalid login.');
+			console.log(error);
 		});
 	//return user;
 };
@@ -63,10 +64,12 @@ export const register = (
 					pushNextScreen();
 				})
 				.catch((error) => {
+					Alert.alert('An error occured');
 					console.log(error);
 				});
 		})
 		.catch((error) => {
+			Alert.alert('Invalid registration credential');
 			console.log(error);
 		});
 };

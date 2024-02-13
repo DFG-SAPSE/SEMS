@@ -76,11 +76,11 @@ const EntrepreneurForm = ({ user, enterprise, pushNextScreen }) => {
 		}
 
 		if (description.length < 15) {
-			errors.description = 'Description must be at least 30 characters.';
+			errors.description = 'Description must be at least 15 characters.';
 		}
 
 		if (!enterpriseRole) {
-			errors.fullName = 'Enterprise Role is required.';
+			errors.enterpriseRole = 'Enterprise Role is required.';
 		}
 
 		// Set the errors and update form validity
