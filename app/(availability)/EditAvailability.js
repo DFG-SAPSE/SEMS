@@ -41,7 +41,6 @@ const EditAvailability = () => {
 	} = useContext(UserContext);
 
 	const [tempAvail, setTempAvail] = useImmer(userData.availability);
-	console.log('tempAvail', tempAvail);
 	const [tempMeetingConfig, setTempMeetingConfig] = useState({
 		startTimeIncrement: userData.meetingConfig.startTimeIncrement,
 		breakTimeLength: userData.meetingConfig.breakTimeLength,

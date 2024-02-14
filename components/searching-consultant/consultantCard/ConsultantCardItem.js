@@ -5,16 +5,30 @@ import { router } from 'expo-router';
 
 import { theme } from '../../../styles/theme';
 import { BookingContext } from '../../../context/BookingContext';
+import { fetchConsultantById } from '../../../services/user';
 
 const ConsultantCardItem = ({ consultant }) => {
 	const { setConsultantData } = useContext(BookingContext);
 
+	const handlePress = async () => {
+		// Although we have already had the consultant data
+		// we fetch whenever the user chooses this consultant
+		// to get the newest data. Because between the first time
+		// this consultant is fetched and the time the user view the
+		// data of this consultant, somebody might have booked a meeting with them
+		const res = await fetchConsultantById(consultant.id);
+		if (!res.ok) {
+			// TODO: need to handle this case
+			return;
+		}
+
+		setConsultantData(res.data);
+		router.push('/ConsultantProfile');
+	};
+
 	return (
 		<TouchableOpacity
-			onPress={async () => {
-				await setConsultantData(consultant);
-				router.push('ConsultantProfile');
-			}}
+			onPress={handlePress}
 			style={styles.consultantCardContainer}
 		>
 			<View style={styles.consultantInfoContainer}>

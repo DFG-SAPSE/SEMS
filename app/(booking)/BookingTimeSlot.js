@@ -61,7 +61,7 @@ const BookTimeSlot = () => {
 				}}
 			/>
 
-			{/* <Exceptions /> */}
+			<Exceptions />
 
 			<CustomCalendar
 				onDayPress={onDayPress}

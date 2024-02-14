@@ -7,7 +7,6 @@ import {
 	arrayUnion,
 } from 'firebase/firestore';
 import COLLECTION_NAMES from './collectionNames.js';
-import { fetchOtherInMeeting } from './user.js';
 
 export const getAvailableStartTimes = (
 	date,
@@ -19,9 +18,11 @@ export const getAvailableStartTimes = (
 ) => {
 	// Check if a potential meeting slot overlaps with any booked meeting
 	const isOverlap = (potentialStart, meeting) => {
+		// potentialStart = 7pm, meeting: 6-7pm
 		const potentialEnd = potentialStart + meetingLength + breakTimeLength;
 		return (
-			potentialStart < meeting.endTime && potentialEnd > meeting.startTime
+			potentialStart < meeting.endTime + breakTimeLength &&
+			potentialEnd > meeting.startTime
 		);
 	};
 
@@ -114,11 +115,31 @@ export const cancelMeeting = async (
 	startTime,
 	isConsultant,
 ) => {
+	let res;
 	// Cancel meeting for current user
-	await _cancelMeeting(currentUserId, otherUserId, startTime, isConsultant);
+	res = await _cancelMeeting(
+		currentUserId,
+		otherUserId,
+		startTime,
+		isConsultant,
+	);
+	if (!res.ok) {
+		return res;
+	}
 
 	// Cancel meeting for the other user
-	await _cancelMeeting(otherUserId, currentUserId, startTime, !isConsultant);
+	res = await _cancelMeeting(
+		otherUserId,
+		currentUserId,
+		startTime,
+		!isConsultant,
+	);
+	if (!res.ok) {
+		res.error = 'Already canceled meeting for current user' + res.ok;
+		return res;
+	}
+
+	return res;
 };
 
 const _cancelMeeting = async (

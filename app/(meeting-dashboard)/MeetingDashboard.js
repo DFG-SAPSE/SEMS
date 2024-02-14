@@ -11,7 +11,8 @@ import {
 } from '../../services/user';
 
 const MeetingDashboard = () => {
-	const { userData, handleCancelMeeting } = useContext(UserContext);
+	const { userData, handleCancelMeeting, fetchUserData } =
+		useContext(UserContext);
 	const [otherNames, setOtherNames] = useState([]);
 	const [meetingLinks, setMeetingLinks] = useState([]);
 
@@ -56,11 +57,17 @@ const MeetingDashboard = () => {
 			setMeetingLinks(tempMeetingLinks);
 		};
 
-		fetchMeetingData();
+		const fetch = async () => {
+			await fetchUserData();
+			await fetchMeetingData();
+		};
+
+		fetch();
 	}, [
 		userData.bookedMeetings,
 		userData.isConsultant,
 		userData.permanentMeetingLink,
+		fetchUserData,
 	]);
 
 	const renderMeeting = (meeting, index) => {
@@ -75,6 +82,10 @@ const MeetingDashboard = () => {
 		).toDateString();
 
 		const handleJoinMeeting = async () => {
+			if (permanentMeetingLink == null) {
+				return;
+			}
+
 			try {
 				const supported =
 					await Linking.canOpenURL(permanentMeetingLink);
@@ -106,7 +117,12 @@ const MeetingDashboard = () => {
 				<View style={styles.joinButtonWrapper}>
 					<Button
 						title={'Join'}
-						customBtnStyle={styles.joinButton}
+						customBtnStyle={[
+							styles.joinButton,
+							permanentMeetingLink === ''
+								? styles.disabledButton
+								: {},
+						]}
 						onPress={handleJoinMeeting}
 					/>
 					<Button
@@ -201,6 +217,9 @@ const styles = StyleSheet.create({
 		paddingHorizontal: theme.spacing.large,
 		backgroundColor: theme.colors.primary.light,
 		borderRadius: 24,
+	},
+	disabledButton: {
+		backgroundColor: theme.colors.text.gray,
 	},
 	cancelButton: {
 		paddingVertical: theme.spacing.small,

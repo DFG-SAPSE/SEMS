@@ -2,6 +2,7 @@ import React, { createContext, useEffect } from 'react';
 import { useImmer } from 'use-immer';
 import { getAuthChange } from '../services/auth';
 import { cancelMeeting } from '../services/scheduling';
+import { fetchConsultantById, fetchEntrepreneurById } from '../services/user';
 
 export const UserContext = createContext(null);
 
@@ -84,6 +85,15 @@ const UserProvider = ({ children }) => {
 		}
 	};
 
+	const fetchUserData = async () => {
+		const fetchPerson = userData.isConsultant
+			? fetchConsultantById
+			: fetchEntrepreneurById;
+
+		const res = await fetchPerson(userData.id);
+		if (res.ok) setUserData(res.data);
+	};
+
 	const contextValue = {
 		userData,
 		updateAvailability,
@@ -94,6 +104,7 @@ const UserProvider = ({ children }) => {
 		updateMeetingLink,
 		handleAddMeeting,
 		handleCancelMeeting,
+		fetchUserData,
 	};
 
 	return (

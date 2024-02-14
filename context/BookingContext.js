@@ -92,7 +92,10 @@ const BookingProvider = ({ children }) => {
 	// except for the payment method
 
 	const bookAppointment = async () => {
-		const res = await finalizeBooking(bookingData, consultantData.id);
+		const res = await finalizeBooking(
+			{ ...bookingData },
+			consultantData.id,
+		);
 		if (res.ok) {
 			// setRecentlyBookedMeetingId(data.meetingId);
 		} else console.error('Error booking', res.error);
