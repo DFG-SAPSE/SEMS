@@ -16,6 +16,7 @@ import { UserContext } from '../../context/UserContext';
 
 const Dashboard = () => {
 	const { userData } = useContext(UserContext);
+	console.log(userData.isConsultant);
 	const [fontsLoaded] = useFonts(fonts);
 
 	if (!fontsLoaded) {
@@ -26,7 +27,7 @@ const Dashboard = () => {
 			<SafeAreaView style={styles.wrapper}>
 				<View style={styles.header}>
 					<Text style={styles.headerText}>Welcome,</Text>
-					<Text style={styles.headerName}>{userData.name}</Text>
+					<Text style={styles.headerName}>{userData.fullName}</Text>
 					<Text style={styles.headerText}> !</Text>
 				</View>
 
@@ -49,13 +50,15 @@ const Dashboard = () => {
 
 						<Text style={styles.iconText}>Meeting Dashboard</Text>
 					</TouchableOpacity>
-					<TouchableOpacity
-						onPress={() => {
-							router.push('EditAvailability');
-						}}
-						style={styles.iconContainer}
-					>
-						<View style={styles.iconContainer}>
+					{userData.isConsultant === false ? (
+						<></>
+					) : (
+						<TouchableOpacity
+							onPress={() => {
+								router.push('EditAvailability');
+							}}
+							style={styles.iconContainer}
+						>
 							<View style={styles.iconWrapper}>
 								<Image
 									resizeMode="contain"
@@ -68,8 +71,8 @@ const Dashboard = () => {
 							<Text style={styles.iconText}>
 								Edit Availability
 							</Text>
-						</View>
-					</TouchableOpacity>
+						</TouchableOpacity>
+					)}
 				</View>
 				<Text style={styles.otherServicesText}>Other Services</Text>
 				<View style={styles.layer}>
@@ -83,7 +86,7 @@ const Dashboard = () => {
 								style={styles.icon}
 							/>
 						</View>
-						<Text style={styles.iconText}>
+						<Text style={styles.iconTextTemp}>
 							Funding Opportunities & Capacity Building
 						</Text>
 					</View>
@@ -98,7 +101,7 @@ const Dashboard = () => {
 								style={styles.icon}
 							/>
 						</View>
-						<Text style={styles.iconText}>
+						<Text style={styles.iconTextTemp}>
 							Research & Grant Writing
 						</Text>
 					</View>
@@ -115,7 +118,7 @@ const Dashboard = () => {
 								style={styles.icon}
 							/>
 						</View>
-						<Text style={styles.iconText}>
+						<Text style={styles.iconTextTemp}>
 							{' '}
 							Project Management Data
 						</Text>
@@ -130,7 +133,7 @@ const Dashboard = () => {
 								style={styles.icon}
 							/>
 						</View>
-						<Text style={styles.iconText}>
+						<Text style={styles.iconTextTemp}>
 							Social Enterprise Registry
 						</Text>
 					</View>
@@ -204,6 +207,15 @@ const styles = StyleSheet.create({
 	},
 	iconText: {
 		color: theme.colors.primary.dark,
+		fontFamily: 'Roboto-Bold',
+		fontSize: theme.spacing.medium,
+		textAlign: 'center',
+		marginTop: theme.spacing.small,
+		padding: theme.spacing.small,
+		height: 75,
+	},
+	iconTextTemp: {
+		color: theme.colors.text.gray,
 		fontFamily: 'Roboto-Bold',
 		fontSize: theme.spacing.medium,
 		textAlign: 'center',

@@ -17,7 +17,9 @@ const Layout = () => {
 					tabBarStyle: {
 						display:
 							currentRouteName === '/LoginScreen' ||
-							currentRouteName === '/RegistrationScreen'
+							currentRouteName === '/RegistrationScreen' ||
+							currentRouteName === '/JoinEnterprise' ||
+							currentRouteName === '/ProfileCreation'
 								? 'none'
 								: 'flex',
 					},
