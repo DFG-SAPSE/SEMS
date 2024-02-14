@@ -150,7 +150,7 @@ const MeetingDashboard = () => {
 
 				<Text style={styles.welcomeText}>Upcoming meetings</Text>
 
-				<View style={styles.meetingListContainer}>
+				{/* <View style={styles.meetingListContainer}>
 					{userData.bookedMeetings.length > 0 ? (
 						userData.bookedMeetings.map((meeting, index) =>
 							renderMeeting(meeting, index),
@@ -160,7 +160,7 @@ const MeetingDashboard = () => {
 							You currently have no meeting.
 						</Text>
 					)}
-				</View>
+				</View> */}
 
 				{userData.isConsultant ? null : (
 					<Button

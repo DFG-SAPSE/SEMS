@@ -16,6 +16,7 @@ import { UserContext } from '../../context/UserContext';
 
 const Dashboard = () => {
 	const { userData } = useContext(UserContext);
+	console.log(userData.isConsultant);
 	const [fontsLoaded] = useFonts(fonts);
 
 	if (!fontsLoaded) {
@@ -87,7 +88,7 @@ const Dashboard = () => {
 								style={styles.icon}
 							/>
 						</View>
-						<Text style={styles.iconText}>
+						<Text style={styles.iconTextTemp}>
 							Funding Opportunities & Capacity Building
 						</Text>
 					</View>
@@ -102,7 +103,7 @@ const Dashboard = () => {
 								style={styles.icon}
 							/>
 						</View>
-						<Text style={styles.iconText}>
+						<Text style={styles.iconTextTemp}>
 							Research & Grant Writing
 						</Text>
 					</View>
@@ -119,7 +120,7 @@ const Dashboard = () => {
 								style={styles.icon}
 							/>
 						</View>
-						<Text style={styles.iconText}>
+						<Text style={styles.iconTextTemp}>
 							{' '}
 							Project Management Data
 						</Text>
@@ -134,7 +135,7 @@ const Dashboard = () => {
 								style={styles.icon}
 							/>
 						</View>
-						<Text style={styles.iconText}>
+						<Text style={styles.iconTextTemp}>
 							Social Enterprise Registry
 						</Text>
 					</View>
@@ -208,6 +209,15 @@ const styles = StyleSheet.create({
 	},
 	iconText: {
 		color: theme.colors.primary.dark,
+		fontFamily: 'Roboto-Bold',
+		fontSize: theme.spacing.medium,
+		textAlign: 'center',
+		marginTop: theme.spacing.small,
+		padding: theme.spacing.small,
+		height: 75,
+	},
+	iconTextTemp: {
+		color: theme.colors.text.gray,
 		fontFamily: 'Roboto-Bold',
 		fontSize: theme.spacing.medium,
 		textAlign: 'center',
