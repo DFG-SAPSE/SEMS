@@ -56,6 +56,12 @@ const UserProvider = ({ children }) => {
 		});
 	};
 
+	const handleAddMeeting = async (bookingData) => {
+		userData.bookedMeetings.push({
+			...bookingData,
+		});
+	};
+
 	const handleCancelMeeting = async (invitee, startTime) => {
 		const res = await cancelMeeting(
 			userData.id,
@@ -86,6 +92,7 @@ const UserProvider = ({ children }) => {
 		updateMeetingLength,
 		updateExceptions,
 		updateMeetingLink,
+		handleAddMeeting,
 		handleCancelMeeting,
 	};
 

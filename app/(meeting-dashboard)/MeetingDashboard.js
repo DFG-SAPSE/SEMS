@@ -1,26 +1,78 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Stack, router } from 'expo-router';
 import { View, Text, StyleSheet, SafeAreaView, Linking } from 'react-native';
 import { UserContext } from '../../context/UserContext';
 import Button from '../../components/common/Button';
 import { theme } from '../../styles/theme';
 import { convertMinutesToTime } from '../../utils/dateAndTime';
-import { fetchConsultantById } from '../../services/user';
+import {
+	fetchConsultantById,
+	fetchEntrepreneurById,
+} from '../../services/user';
 
 const MeetingDashboard = () => {
 	const { userData, handleCancelMeeting } = useContext(UserContext);
+	const [otherNames, setOtherNames] = useState([]);
+	const [meetingLinks, setMeetingLinks] = useState([]);
 
-	const renderMeeting = async (meeting, index) => {
-		const serviceName = userData.services[meeting.service].name;
+	useEffect(() => {
+		// We are fetching the name the other person and the meeting link
+		// based on the field meeting.invitee, which is the document id
+		// of the other person.
+		// A better way to do this is to denormalize the database:
+		// Every bookedMeeting should not only have the document id
+		// of the other person, but also the name and the meeting link
+		// That way we don't have to do this fetching upfront, which
+		// might take time and is error prone
+		const fetchMeetingData = async () => {
+			const tempOtherNames = {};
+			const tempMeetingLinks = {};
 
-		let permanentMeetingLink;
-		if (userData.isConsultant) {
-			permanentMeetingLink = userData.permanentMeetingLink;
-		} else {
-			// TODO: Handle error here
-			const consultantData = await fetchConsultantById(meeting.invitee);
-			permanentMeetingLink = consultantData.data.permanentMeetingLink;
-		}
+			const promises = userData.bookedMeetings.map(
+				async (meeting, index) => {
+					let fetchPersonById;
+					if (userData.isConsultant)
+						fetchPersonById = fetchEntrepreneurById;
+					else fetchPersonById = fetchConsultantById;
+
+					const res = await fetchPersonById(meeting.invitee);
+
+					if (!res.ok) {
+						tempOtherNames[index] = null;
+						tempMeetingLinks[index] = null;
+						return;
+					}
+
+					const other = res.data;
+					tempOtherNames[index] = other.name;
+					tempMeetingLinks[index] = userData.isConsultant
+						? userData.permanentMeetingLink
+						: other.permanentMeetingLink;
+				},
+			);
+
+			await Promise.all(promises);
+			setOtherNames(tempOtherNames);
+			setMeetingLinks(tempMeetingLinks);
+		};
+
+		fetchMeetingData();
+	}, [
+		userData.bookedMeetings,
+		userData.isConsultant,
+		userData.permanentMeetingLink,
+	]);
+
+	const renderMeeting = (meeting, index) => {
+		const permanentMeetingLink = meetingLinks[index];
+		const otherName = otherNames[index];
+		// We save the meeting.date field as timestamp in Firebase
+		// When timestamp fields are fetched from Firebase, they are returned
+		// in form {nanoseconds: number, seconds: number}
+		// Here we need to convert that timestamp into the date
+		const meetingDate = new Date(
+			meeting.date.seconds * 1000,
+		).toDateString();
 
 		const handleJoinMeeting = async () => {
 			try {
@@ -43,10 +95,10 @@ const MeetingDashboard = () => {
 			<View style={styles.meetingContainer} key={index}>
 				<View style={styles.meetingInfoContainer}>
 					<Text style={styles.meetingText}>
-						{serviceName} with {meeting.invitee}{' '}
+						Meeting with {otherName}{' '}
 					</Text>
 					<Text style={styles.meetingTimeText}>
-						{meeting.date} at{' '}
+						{meetingDate} at{' '}
 						{convertMinutesToTime(meeting.startTime)} -{' '}
 						{convertMinutesToTime(meeting.endTime)}
 					</Text>
@@ -59,7 +111,10 @@ const MeetingDashboard = () => {
 					/>
 					<Button
 						title={'Cancel'}
-						customBtnStyle={styles.joinButton}
+						customBtnStyle={styles.cancelButton}
+						customTextStyle={{
+							color: theme.colors.primary.default,
+						}}
 						onPress={() =>
 							handleCancelMeeting(
 								meeting.invitee,
@@ -125,8 +180,6 @@ const styles = StyleSheet.create({
 		marginVertical: theme.spacing.xlarge,
 	},
 	meetingContainer: {
-		flexDirection: 'row',
-		justifyContent: 'space-between',
 		marginBottom: theme.spacing.xlarge,
 	},
 	meetingInfoContainer: {
@@ -147,6 +200,12 @@ const styles = StyleSheet.create({
 		paddingVertical: theme.spacing.small,
 		paddingHorizontal: theme.spacing.large,
 		backgroundColor: theme.colors.primary.light,
+		borderRadius: 24,
+	},
+	cancelButton: {
+		paddingVertical: theme.spacing.small,
+		paddingHorizontal: theme.spacing.large,
+		backgroundColor: theme.colors.white,
 		borderRadius: 24,
 	},
 	scheduleButton: {

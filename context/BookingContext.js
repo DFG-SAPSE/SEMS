@@ -91,13 +91,12 @@ const BookingProvider = ({ children }) => {
 	// TODO: Payment team write the event handler to handle other information
 	// except for the payment method
 
-	const book = async () => {
-		console.log('consultantData', consultantData);
+	const bookAppointment = async () => {
 		const res = await finalizeBooking(bookingData, consultantData.id);
 		if (res.ok) {
 			// setRecentlyBookedMeetingId(data.meetingId);
 		} else console.error('Error booking', res.error);
-		return { ok: res.ok };
+		return { ok: res.ok, data: bookingData };
 	};
 
 	const changeConsultant = async (consultantId) => {
@@ -127,7 +126,7 @@ const BookingProvider = ({ children }) => {
 		updateAnswers,
 		uploadFile,
 		updatePaymentMethod,
-		book,
+		bookAppointment,
 		changeConsultant,
 		setConsultantData,
 		showModal,
