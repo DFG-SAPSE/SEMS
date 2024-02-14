@@ -26,14 +26,14 @@ export const filterConsultants = (data, filters) => {
 	// Filter by Experience
 	if (experience) {
 		filteredData = filteredData.filter(
-			(consultant) => consultant.experience >= experience,
+			(consultant) => consultant.experienceYears >= experience,
 		);
 	}
 
 	// Filter by price
 	if (price) {
 		filteredData = filteredData.filter(
-			(consultant) => consultant.price >= price,
+			(consultant) => consultant.maxPrice <= price,
 		);
 	}
 
@@ -41,7 +41,7 @@ export const filterConsultants = (data, filters) => {
 	if (selectedRegions && selectedRegions.length > 0) {
 		filteredData = filteredData.filter((consultant) =>
 			selectedRegions.some((selectedRegion) =>
-				consultant.region.includes(selectedRegion),
+				consultant.geographic_regions.includes(selectedRegion),
 			),
 		);
 	}

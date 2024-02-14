@@ -5,7 +5,7 @@ import React from 'react';
 export default function Grant() {
 	return (
 		<View style={styles.container}>
-			<Text>This is the grant page</Text>
+			<Text>Coming soon!</Text>
 			<StatusBar style="auto" />
 		</View>
 	);
