@@ -49,11 +49,11 @@ const MasterFilter = ({ closeModal }) => {
 			</View>
 			<View style={styles.divider} />
 			<Text style={styles.experience}>Experience</Text>
-			<SpecialtyComponent
+			{/* <SpecialtyComponent
 				selectedSpecialities={selectedSpecialities}
 				removeSpecialty={removeSpecialty}
 				addSpecialty={addSpecialty}
-			/>
+			/> */}
 			<ExperienceModal
 				experience={experience}
 				setExperience={setExperience}

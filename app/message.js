@@ -5,7 +5,7 @@ import React from 'react';
 export default function Message() {
 	return (
 		<View style={styles.container}>
-			<Text>This is the Message</Text>
+			<Text>Coming soon!</Text>
 			<StatusBar style="auto" />
 		</View>
 	);
