@@ -16,7 +16,6 @@ import { UserContext } from '../../context/UserContext';
 
 const Dashboard = () => {
 	const { userData } = useContext(UserContext);
-	console.log(userData.isConsultant);
 	const [fontsLoaded] = useFonts(fonts);
 
 	if (!fontsLoaded) {
