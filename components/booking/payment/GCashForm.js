@@ -11,7 +11,8 @@ import { useEffect } from 'react';
 import { router } from 'expo-router';
 import Loading from '../../../components/common/Loading';
 import { httpsCallable, getFunctions } from 'firebase/functions';
-import { app } from '../../../services/firebase/config';
+// import { app } from '../../../services/firebase/config';
+import { app } from '../../../services/config';
 
 const GCashForm = () => {
 	// const [appState, setAppState] = useState(AppState.currentState);

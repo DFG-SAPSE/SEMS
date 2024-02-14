@@ -9,7 +9,8 @@ import {
 
 import { router } from 'expo-router';
 import Loading from '../../common/Loading';
-import { app } from '../../../services/firebase/config';
+// import { app } from '../../../services/firebase/config';
+import { app } from '../../../services/config';
 import { httpsCallable, getFunctions } from 'firebase/functions';
 
 const CardForm = () => {
