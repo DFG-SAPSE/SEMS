@@ -13,7 +13,7 @@ const QuestionList = () => {
 		updateAnswers(newAnswers);
 	};
 
-	const service = consultantData.services[bookingData.service];
+	const service = consultantData.services[0];
 
 	return (
 		<View>
