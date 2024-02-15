@@ -5,14 +5,8 @@ import { theme } from '../../styles/theme';
 const MeetingConfig = ({ children, currentlySelected, openPicker }) => {
 	return (
 		<View style={styles.configContainer}>
-			<View>
-				<Text
-					style={{
-						...theme.typography.mediumHeader,
-					}}
-				>
-					{children}
-				</Text>
+			<View style={styles.configHeaderContainer}>
+				<Text style={styles.configHeader}>{children}</Text>
 			</View>
 			<View style={styles.timeSlotContainer}>
 				<Pressable style={styles.configInput} onPress={openPicker}>
@@ -27,16 +21,20 @@ const MeetingConfig = ({ children, currentlySelected, openPicker }) => {
 
 const styles = StyleSheet.create({
 	configContainer: {
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		alignItems: 'center',
-		marginBottom: theme.spacing.xlarge,
+		marginBottom: theme.spacing.large,
+	},
+	configHeaderContainer: {
+		marginBottom: theme.spacing.small,
+	},
+	configHeader: {
+		...theme.typography.mediumBody,
+		opacity: 0.6,
 	},
 	configInput: {
 		borderWidth: 1,
 		borderColor: theme.colors.border,
 		borderRadius: 4,
-		padding: theme.spacing.small,
+		padding: theme.spacing.mediumSmall,
 		flexDirection: 'row',
 	},
 	inputText: {

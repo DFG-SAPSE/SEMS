@@ -28,7 +28,7 @@ const BookingQuestions = () => {
 
 				<View style={styles.footer}>
 					<CancelBookingButton />
-					<NextButton nextRoute={'/PaymentForm'} />
+					<NextButton nextRoute={'/payment'} />
 				</View>
 			</ScrollView>
 		</ScrollView>

@@ -14,7 +14,6 @@ import errorMessages from '../../../locales/en/ErrorMessages.json';
 //3.he last return statement just returns the card that shows the consultant
 const ConsultantCardList = ({ consultantData, isLoading, errorMessage }) => {
 	const [fontsLoaded] = useFonts(fonts);
-	console.log(consultantData);
 	if (!fontsLoaded) {
 		return null;
 	}

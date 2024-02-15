@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
 import BookingReview from './BookingReview';
@@ -6,12 +6,18 @@ import { BookingContext } from '../../context/BookingContext';
 import { cancelMeeting } from '../../services/scheduling';
 
 const BookingConfirmation = () => {
-	const { consultantData, recentlyBookedMeetingId } =
+	const { consultantData, recentlyBookedMeetingId, resetBookingContext } =
 		useContext(BookingContext);
 
 	const handleCancelMeeting = async () => {
 		await cancelMeeting(recentlyBookedMeetingId);
 	};
+
+	useEffect(() => {
+		return () => {
+			resetBookingContext();
+		};
+	}, [resetBookingContext]);
 
 	const footerComponent = (
 		<>
@@ -37,8 +43,9 @@ const BookingConfirmation = () => {
 					You're going to meet {consultantData.name}!
 				</Text>
 				<Text style={styles.adviceText}>
-					We've sent booking confirmation to your email. Please
-					consider adding this event to your calendar.
+					Here's the meeting link:{' '}
+					{consultantData.permanentMeetingLink}. Please consider add
+					this event to your calendar.
 				</Text>
 			</View>
 		</BookingReview>
