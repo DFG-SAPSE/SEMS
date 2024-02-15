@@ -1,63 +1,23 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useState } from 'react';
 
 import { fetchConsultantById } from '../services/user';
 import { finalizeBooking } from '../services/scheduling';
 
-export const BookingContext = createContext(null);
-
-const DEFAULT_BOOKING_DATA = {
-	service: 0,
-	date: null,
-	startTime: null,
-	endTime: null,
-	answers: [],
-	fileAttachments: [],
-	payment: {
-		paymentMethod: '',
-		// other information TBD
-		// TODO: consult with payment team
-	},
-};
-
-const DEFAULT_CONSULTANT_DATA = {
-	consultantId: '',
-	name: '',
-	avatar: '',
-	title: '',
-	company: '',
-	services: [],
-};
-
+const DEFAULT_BOOKING_DATA = {};
+const DEFAULT_CONSULTANT_DATA = {};
 const DEFAULT_MODAL_VISIBLE = false;
+
+export const BookingContext = createContext(null);
 
 const BookingProvider = ({ children }) => {
 	// Booking information user provides
 	const [bookingData, setBookingData] = useState(DEFAULT_BOOKING_DATA);
-
 	// Information about the consultant that user is booking
 	const [consultantData, setConsultantData] = useState(
 		DEFAULT_CONSULTANT_DATA,
 	);
-
 	// Control the ConfirmCancelModal
 	const [modalVisible, setModalVisible] = useState(DEFAULT_MODAL_VISIBLE);
-
-	// After we book the meeting, we save the meeting id in case user wants to
-	// reschedule or cancel
-	const [recentlyBookedMeetingId, setRecentlyBookedMeetingId] =
-		useState(null);
-
-	/**
-	 * TODO
-	 * This is a dummy useEffect. In the future, the moment social entrepreneurs
-	 * choose a consultant, the consulting filtering team has to call
-	 * `changeConsultant` function below to update the consultantProfile
-	 * and the list of questions. Delete this dummy when the consultant filtering
-	 * team has done so.
-	 */
-	useEffect(() => {
-		changeConsultant('123');
-	}, []);
 
 	const chooseDate = (date) => {
 		setBookingData((prev) => ({ ...prev, date }));
@@ -97,14 +57,18 @@ const BookingProvider = ({ children }) => {
 			consultantData.id,
 		);
 		if (res.ok) {
-			// setRecentlyBookedMeetingId(data.meetingId);
+			resetBookingContext();
 		} else console.error('Error booking', res.error);
 		return { ok: res.ok, data: bookingData };
 	};
 
 	const changeConsultant = async (consultantId) => {
-		const userProfile = await fetchConsultantById(consultantId);
-		setConsultantData(userProfile);
+		const res = await fetchConsultantById(consultantId);
+		if (res.ok) {
+			setConsultantData(res.data);
+		}
+
+		return res;
 	};
 
 	const showModal = () => setModalVisible(true);
@@ -114,8 +78,6 @@ const BookingProvider = ({ children }) => {
 		setBookingData(DEFAULT_BOOKING_DATA);
 		setConsultantData(DEFAULT_CONSULTANT_DATA);
 		setModalVisible(DEFAULT_MODAL_VISIBLE);
-		// Dummy, delete once consultant filtering team implements their part
-		changeConsultant('123');
 	};
 
 	// The context value that will be supplied to any descendants of this provider
@@ -123,7 +85,6 @@ const BookingProvider = ({ children }) => {
 		bookingData,
 		consultantData,
 		modalVisible,
-		recentlyBookedMeetingId,
 		chooseDate,
 		chooseTimeSlot,
 		updateAnswers,

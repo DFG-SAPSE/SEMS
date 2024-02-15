@@ -5,10 +5,9 @@ import { router } from 'expo-router';
 
 import { theme } from '../../../styles/theme';
 import { BookingContext } from '../../../context/BookingContext';
-import { fetchConsultantById } from '../../../services/user';
 
 const ConsultantCardItem = ({ consultant }) => {
-	const { setConsultantData } = useContext(BookingContext);
+	const { changeConsultant } = useContext(BookingContext);
 
 	const handlePress = async () => {
 		// Although we have already had the consultant data
@@ -16,14 +15,12 @@ const ConsultantCardItem = ({ consultant }) => {
 		// to get the newest data. Because between the first time
 		// this consultant is fetched and the time the user view the
 		// data of this consultant, somebody might have booked a meeting with them
-		const res = await fetchConsultantById(consultant.id);
-		if (!res.ok) {
-			// TODO: need to handle this case
-			return;
+		const res = await changeConsultant(consultant.id);
+		if (res.ok) {
+			router.push('/ConsultantProfile');
+		} else {
+			console.error('Cannot fetch consultant data');
 		}
-
-		setConsultantData(res.data);
-		router.push('/ConsultantProfile');
 	};
 
 	return (

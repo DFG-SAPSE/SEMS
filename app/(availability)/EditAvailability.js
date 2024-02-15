@@ -17,12 +17,12 @@ import DaySchedule from '../../components/availability/DaySchedule';
 import TimePicker from '../../components/availability/TimePicker';
 import CustomModal from '../../components/common/CustomModal';
 import Button from '../../components/common/Button';
+import Loading from '../../components/common/Loading';
 import MeetingConfig from '../../components/availability/MeetingConfig';
 import CustomPicker from '../../components/availability/CustomPicker';
 import PricingConfig from '../../components/availability/PricingConfig';
 import { updateUserData } from '../../services/user';
 import { sortAvailability } from '../../utils/checkOrderPicker';
-import WarningIcon from '../../assets/svg/WarningIcon';
 
 // enums
 const BREAK_TIME = 'BREAK_TIME';
@@ -32,6 +32,7 @@ const MEETING_LENGTH = 'MEETING_LENGTH';
 const EditAvailability = () => {
 	const {
 		userData,
+		isUserLoading,
 		updateAvailability,
 		updateMeetingConfig,
 		updateMeetingLength,
@@ -65,10 +66,6 @@ const EditAvailability = () => {
 	const [meetingConfigType, setMeetingConfigType] = useState(null);
 	const [error, setError] = useState('');
 
-	useEffect(() => {
-		setTempAvail(userData.availability);
-	}, [userData.availability, setTempAvail]);
-
 	const handleSave = async () => {
 		// Ensure the availability is sorted
 		const sortedTimeSlots = sortAvailability(tempAvail);
@@ -92,6 +89,7 @@ const EditAvailability = () => {
 		};
 
 		userDataToUpdate.services[0] = {
+			...userDataToUpdate.services[0],
 			price: tempMeetingConfig.price,
 			meetingLength: tempMeetingConfig.meetingLength,
 		};
@@ -165,6 +163,10 @@ const EditAvailability = () => {
 	const setSelectedTime = (newTime) => {
 		setTimePickerState((prev) => ({ ...prev, selectedTime: newTime }));
 	};
+
+	if (isUserLoading) {
+		return <Loading message={'Loading'} />;
+	}
 
 	return (
 		<SafeAreaView style={styles.wrapper}>
@@ -273,30 +275,6 @@ const EditAvailability = () => {
 						);
 					})}
 				</View>
-
-				{/* <View style={styles.exceptionsFullContainer}>
-					<View style={styles.exceptionTextContainer}>
-						<WarningIcon width={30} height={30} color="red" />
-						<Text
-							style={{
-								...theme.typography.largeBold,
-								marginLeft: theme.spacing.small,
-							}}
-						>
-							Exceptions
-						</Text>
-					</View>
-					<View style={styles.exceptionsContainer}>
-						<TextInput
-							style={styles.exceptionInput}
-							onChangeText={(newExceptionText) => {
-								setTempExceptions(newExceptionText);
-							}}
-							value={tempExceptions}
-							multiline={true}
-						/>
-					</View>
-				</View> */}
 
 				{error && (
 					<View style={styles.errorMessageContainer}>

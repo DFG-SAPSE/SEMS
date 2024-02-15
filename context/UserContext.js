@@ -1,4 +1,4 @@
-import React, { createContext, useEffect } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import { useImmer } from 'use-immer';
 import { getAuthChange } from '../services/auth';
 import { cancelMeeting } from '../services/scheduling';
@@ -8,9 +8,13 @@ export const UserContext = createContext(null);
 
 const UserProvider = ({ children }) => {
 	const [userData, setUserData] = useImmer({});
+	const [isUserLoading, setIsUserLoading] = useState(true);
 
 	useEffect(() => {
-		getAuthChange(setUserData);
+		getAuthChange((d) => {
+			setUserData(d);
+			setIsUserLoading(false);
+		});
 
 		// TODO: Add clean up function to unsub from onAuthStateChanged
 	}, [setUserData]);
@@ -96,6 +100,7 @@ const UserProvider = ({ children }) => {
 
 	const contextValue = {
 		userData,
+		isUserLoading,
 		updateAvailability,
 		updateMeetingConfig,
 		updatePricing,
