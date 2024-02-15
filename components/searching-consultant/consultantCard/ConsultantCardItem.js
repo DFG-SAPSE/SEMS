@@ -7,14 +7,25 @@ import { theme } from '../../../styles/theme';
 import { BookingContext } from '../../../context/BookingContext';
 
 const ConsultantCardItem = ({ consultant }) => {
-	const { setConsultantData } = useContext(BookingContext);
+	const { changeConsultant } = useContext(BookingContext);
+
+	const handlePress = async () => {
+		// Although we have already had the consultant data
+		// we fetch whenever the user chooses this consultant
+		// to get the newest data. Because between the first time
+		// this consultant is fetched and the time the user view the
+		// data of this consultant, somebody might have booked a meeting with them
+		const res = await changeConsultant(consultant.id);
+		if (res.ok) {
+			router.push('/ConsultantProfile');
+		} else {
+			console.error('Cannot fetch consultant data');
+		}
+	};
 
 	return (
 		<TouchableOpacity
-			onPress={async () => {
-				await setConsultantData(consultant);
-				router.push('ConsultantProfile');
-			}}
+			onPress={handlePress}
 			style={styles.consultantCardContainer}
 		>
 			<View style={styles.consultantInfoContainer}>

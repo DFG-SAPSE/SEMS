@@ -17,12 +17,14 @@ import DaySchedule from '../../components/availability/DaySchedule';
 import TimePicker from '../../components/availability/TimePicker';
 import CustomModal from '../../components/common/CustomModal';
 import Button from '../../components/common/Button';
+import Loading from '../../components/common/Loading';
 import MeetingConfig from '../../components/availability/MeetingConfig';
 import CustomPicker from '../../components/availability/CustomPicker';
 import PricingConfig from '../../components/availability/PricingConfig';
 import { updateUserData } from '../../services/user';
 import { sortAvailability } from '../../utils/checkOrderPicker';
-import WarningIcon from '../../assets/svg/WarningIcon';
+
+// enums
 const BREAK_TIME = 'BREAK_TIME';
 const START_TIME_INCREMENT = 'START_TIME_INCREMENT';
 const MEETING_LENGTH = 'MEETING_LENGTH';
@@ -30,11 +32,13 @@ const MEETING_LENGTH = 'MEETING_LENGTH';
 const EditAvailability = () => {
 	const {
 		userData,
+		isUserLoading,
 		updateAvailability,
 		updateMeetingConfig,
 		updateMeetingLength,
 		updatePricing,
 		updateExceptions,
+		updateMeetingLink,
 	} = useContext(UserContext);
 
 	const [tempAvail, setTempAvail] = useImmer(userData.availability);
@@ -45,6 +49,9 @@ const EditAvailability = () => {
 		price: userData.services[0].price,
 	});
 	const [tempExceptions, setTempExceptions] = useState(userData.exceptions);
+	const [tempMeetingLink, setMeetingLink] = useState(
+		userData.permanentMeetingLink,
+	);
 
 	const [timerPickerVisibility, setTimePickerVisibility] = useState(false);
 	const [timePickerState, setTimePickerState] = useState({
@@ -59,20 +66,40 @@ const EditAvailability = () => {
 	const [meetingConfigType, setMeetingConfigType] = useState(null);
 	const [error, setError] = useState('');
 
-	useEffect(() => {
-		setTempAvail(userData.availability);
-	}, [userData.availability, setTempAvail]);
-
-	// UPDATE TO CONTEXT
 	const handleSave = async () => {
-		// update to UserContext
-		const sorting = sortAvailability(tempAvail);
-		console.log(sorting[0]);
-		if (sorting[0] === false) {
+		// Ensure the availability is sorted
+		const sortedTimeSlots = sortAvailability(tempAvail);
+		if (sortedTimeSlots[0] === false) {
 			setError('Invalid time slots');
 			return;
-		} else {
-			updateAvailability(sorting);
+		}
+
+		// Attempt to update Firebase
+
+		// Prepare data for backend update
+		const userDataToUpdate = {
+			...userData,
+			availability: JSON.stringify(sortedTimeSlots),
+			meetingConfig: {
+				startTimeIncrement: tempMeetingConfig.startTimeIncrement,
+				breakTimeLength: tempMeetingConfig.breakTimeLength,
+			},
+			exceptions: tempExceptions,
+			permanentMeetingLink: tempMeetingLink,
+		};
+
+		userDataToUpdate.services[0] = {
+			...userDataToUpdate.services[0],
+			price: tempMeetingConfig.price,
+			meetingLength: tempMeetingConfig.meetingLength,
+		};
+
+		// Call Firebase to update
+		const res = await updateUserData(userDataToUpdate);
+
+		if (res.ok) {
+			// If the Firebase update is successful, update context and redirect to home
+			updateAvailability(sortedTimeSlots);
 			updateMeetingConfig(
 				tempMeetingConfig.startTimeIncrement,
 				tempMeetingConfig.breakTimeLength,
@@ -80,15 +107,12 @@ const EditAvailability = () => {
 			updatePricing(tempMeetingConfig.price);
 			updateMeetingLength(tempMeetingConfig.meetingLength);
 			updateExceptions(tempExceptions);
-
-			// call to firebase
-			const res = await updateUserData(userData);
-			if (res.ok) {
-				router.back();
-			} else {
-				// TODO: Develop UI for errors
-				console.error(res.error);
-			}
+			updateMeetingLink(tempMeetingLink);
+			router.replace('/home');
+		} else {
+			// If Firebase update fails, log the error
+			console.error('Failed to save changes to Firebase:', res.error);
+			setError('Failed to update settings. Please try again.');
 		}
 	};
 
@@ -140,23 +164,71 @@ const EditAvailability = () => {
 		setTimePickerState((prev) => ({ ...prev, selectedTime: newTime }));
 	};
 
+	if (isUserLoading) {
+		return <Loading message={'Loading'} />;
+	}
+
 	return (
 		<SafeAreaView style={styles.wrapper}>
 			<ScrollView style={styles.container}>
 				<Stack.Screen options={{ headerShown: false }} />
 
 				<View style={styles.titleWrapper}>
-					<Text style={styles.title}>Scheduling settings</Text>
+					<Text style={styles.title}>Meeting settings</Text>
 				</View>
 
-				<Text
-					style={{
-						...theme.typography.largeBold,
-						marginBottom: theme.spacing.large,
-					}}
-				>
-					Meeting configuration
-				</Text>
+				<View>
+					<Text style={styles.bigHeader}>Event details</Text>
+				</View>
+
+				<View style={{ marginBottom: theme.spacing.large }}>
+					<View style={{ marginBottom: theme.spacing.large }}>
+						<Text style={styles.header}>
+							Permanent meeting link
+						</Text>
+						<View>
+							<TextInput
+								style={styles.meetingLinkInput}
+								onChangeText={(meetingLink) => {
+									setMeetingLink(meetingLink);
+								}}
+								value={tempMeetingLink}
+								placeholder="https://meet.google.com/oxr-qjoc-ijq"
+								placeholderTextColor="#aaaaaa"
+							/>
+						</View>
+					</View>
+
+					<PricingConfig
+						meetingPrice={tempMeetingConfig.price}
+						setMeetingPrice={(newPrice) => {
+							setTempMeetingConfig((prev) => ({
+								...prev,
+								price: Number(newPrice),
+							}));
+						}}
+					/>
+
+					<View>
+						<Text style={styles.header}>Exceptions</Text>
+						<View>
+							<TextInput
+								style={styles.exceptionInput}
+								onChangeText={(newExceptionText) => {
+									setTempExceptions(newExceptionText);
+								}}
+								value={tempExceptions}
+								multiline={true}
+								placeholder="I am not available on Wednesday Jan 18"
+								placeholderTextColor="#aaaaaa"
+							/>
+						</View>
+					</View>
+				</View>
+
+				<View>
+					<Text style={styles.bigHeader}>Scheduling settings</Text>
+				</View>
 
 				<MeetingConfig
 					currentlySelected={tempMeetingConfig.startTimeIncrement}
@@ -179,7 +251,7 @@ const EditAvailability = () => {
 				</MeetingConfig>
 
 				<MeetingConfig
-					currentlySelected={tempMeetingConfig.breakTimeLength}
+					currentlySelected={tempMeetingConfig.meetingLength}
 					openPicker={() => {
 						setMeetingConfigType(MEETING_LENGTH);
 						setIsMeetingConfigPickerOpen(true);
@@ -188,18 +260,8 @@ const EditAvailability = () => {
 					Meeting length
 				</MeetingConfig>
 
-				<PricingConfig
-					meetingPrice={tempMeetingConfig.price}
-					setMeetingPrice={(newPrice) => {
-						setTempMeetingConfig((prev) => ({
-							...prev,
-							price: Number(newPrice),
-						}));
-					}}
-				/>
-
 				<View style={styles.availabilityContainer}>
-					<Text style={{ ...theme.typography.largeBold }}>Hours</Text>
+					<Text style={styles.bigHeader}>Hours</Text>
 					{tempAvail.map((todayTimeSlots, dayIndex) => {
 						return (
 							<DaySchedule
@@ -214,29 +276,6 @@ const EditAvailability = () => {
 					})}
 				</View>
 
-				<View style={styles.exceptionsFullContainer}>
-					<View style={styles.exceptionTextContainer}>
-						<WarningIcon width={30} height={30} color="red" />
-						<Text
-							style={{
-								...theme.typography.largeBold,
-								marginLeft: theme.spacing.small,
-							}}
-						>
-							Exceptions
-						</Text>
-					</View>
-					<View style={styles.exceptionsContainer}>
-						<TextInput
-							style={styles.exceptionInput}
-							onChangeText={(newExceptionText) => {
-								setTempExceptions(newExceptionText);
-							}}
-							value={tempExceptions}
-							multiline={true}
-						/>
-					</View>
-				</View>
 				{error && (
 					<View style={styles.errorMessageContainer}>
 						<Text style={styles.errorMessageText}>{error}</Text>
@@ -319,16 +358,25 @@ const styles = StyleSheet.create({
 	titleWrapper: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
+		marginBottom: theme.spacing.large,
 	},
 	title: {
-		...theme.typography.extraLargeBold,
+		...theme.typography.titleBold,
 		marginTop: theme.spacing.xlarge,
-		marginBottom: theme.spacing.xxlarge,
+		marginBottom: theme.spacing.large,
+	},
+	bigHeader: {
+		...theme.typography.extraLargeBold,
+	},
+	header: {
+		...theme.typography.mediumBody,
+		opacity: 0.6,
+		marginBottom: theme.spacing.small,
 	},
 	buttonContainer: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
-		marginBottom: theme.spacing.xxlarge,
+		marginVertical: theme.spacing.xxlarge,
 	},
 	button: {
 		width: '46%',
@@ -346,17 +394,30 @@ const styles = StyleSheet.create({
 		...theme.typography.mediumBodyBold,
 		color: theme.colors.primary.light,
 	},
-	exceptionsContainer: {
-		marginVertical: theme.spacing.small,
+	meetingLinkInput: {
+		borderWidth: 1,
+		borderColor: theme.colors.border,
+		borderRadius: 4,
+		padding: theme.spacing.mediumSmall,
+		...theme.typography.mediumBody,
 	},
 	exceptionInput: {
-		fontSize: theme.typography.smallBody.fontSize,
+		borderWidth: 1,
+		borderColor: theme.colors.border,
+		borderRadius: 4,
+		padding: theme.spacing.mediumSmall,
+		paddingTop: theme.spacing.medium,
+		paddingBottom: theme.spacing.medium,
+		minHeight: 120,
+		...theme.typography.mediumBody,
 	},
 	errorMessageContainer: {
 		backgroundColor: '#FFCCCC',
-		padding: theme.spacing.large,
-		borderRadius: 8,
-		marginVertical: theme.spacing.large,
+		borderWidth: 1,
+		borderColor: theme.colors.border,
+		borderRadius: 4,
+		padding: theme.spacing.mediumSmall,
+		...theme.typography.mediumBody,
 	},
 	errorMessageText: {
 		...theme.typography.largeBold,
@@ -376,6 +437,7 @@ const styles = StyleSheet.create({
 		borderWidth: 2,
 		borderRadius: theme.spacing.large,
 		backgroundColor: '#ffe066',
+		minHeight: 80,
 	},
 });
 

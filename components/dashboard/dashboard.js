@@ -16,7 +16,6 @@ import { UserContext } from '../../context/UserContext';
 
 const Dashboard = () => {
 	const { userData } = useContext(UserContext);
-	console.log(userData.isConsultant);
 	const [fontsLoaded] = useFonts(fonts);
 
 	if (!fontsLoaded) {
@@ -27,7 +26,9 @@ const Dashboard = () => {
 			<SafeAreaView style={styles.wrapper}>
 				<View style={styles.header}>
 					<Text style={styles.headerText}>Welcome,</Text>
-					<Text style={styles.headerName}>{userData.fullName}</Text>
+					<Text style={styles.headerName}>
+						{userData.fullName || userData.name}
+					</Text>
 					<Text style={styles.headerText}> !</Text>
 				</View>
 
@@ -50,29 +51,29 @@ const Dashboard = () => {
 
 						<Text style={styles.iconText}>Meeting Dashboard</Text>
 					</TouchableOpacity>
-					{userData.isConsultant === false ? (
-						<></>
-					) : (
+					{userData.isConsultant ? (
 						<TouchableOpacity
 							onPress={() => {
 								router.push('EditAvailability');
 							}}
 							style={styles.iconContainer}
 						>
-							<View style={styles.iconWrapper}>
-								<Image
-									resizeMode="contain"
-									source={{
-										uri: 'https://cdn.builder.io/api/v1/image/assets/TEMP/7397f5e5c9a174fbcd84d47298e8185c33c7947d1b4d0b14e18e3863d9712836?apiKey=978f41e0131a442f8daf873f3d5553aa',
-									}}
-									style={styles.icon}
-								/>
+							<View style={styles.iconContainer}>
+								<View style={styles.iconWrapper}>
+									<Image
+										resizeMode="contain"
+										source={{
+											uri: 'https://cdn.builder.io/api/v1/image/assets/TEMP/7397f5e5c9a174fbcd84d47298e8185c33c7947d1b4d0b14e18e3863d9712836?apiKey=978f41e0131a442f8daf873f3d5553aa',
+										}}
+										style={styles.icon}
+									/>
+								</View>
+								<Text style={styles.iconText}>
+									Edit Availability
+								</Text>
 							</View>
-							<Text style={styles.iconText}>
-								Edit Availability
-							</Text>
 						</TouchableOpacity>
-					)}
+					) : null}
 				</View>
 				<Text style={styles.otherServicesText}>Other Services</Text>
 				<View style={styles.layer}>

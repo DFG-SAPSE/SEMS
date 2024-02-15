@@ -1,3 +1,20 @@
+export const isIntervalValid = (interval) => {
+	return interval[0] < interval[1];
+};
+
+export const sortIntervals = (intervals) => {
+	return intervals.sort((a, b) => a[0] - b[0]);
+};
+
+export const areIntervalsOverlapping = (intervals) => {
+	for (let i = 0; i < intervals.length - 1; i++) {
+		if (intervals[i][1] > intervals[i + 1][0]) {
+			return true;
+		}
+	}
+	return false;
+};
+
 export const sortAvailability = (availability) => {
 	return availability.map((daySlots) => {
 		// Validate and sort time slots based on the start time

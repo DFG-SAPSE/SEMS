@@ -1,7 +1,12 @@
 export const typography = {
+	titleBold: {
+		fontSize: 28,
+		fontWeight: 'bold',
+	},
 	extraLargeBold: {
 		fontSize: 24,
 		fontWeight: 'bold',
+		marginBottom: 16,
 	},
 	extraLarge: {
 		fontSize: 24,

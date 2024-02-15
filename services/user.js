@@ -16,6 +16,15 @@ export const fetchConsultantById = async (consultantId) => {
 	return res;
 };
 
+export const fetchEntrepreneurById = async (consultantId) => {
+	const res = await fetchDocumentById(
+		COLLECTION_NAMES.ENTREPRENEURS,
+		consultantId,
+	);
+
+	return res;
+};
+
 export const fetchConsultants = async () => {
 	const res = await fetchAllDocuments(COLLECTION_NAMES.CONSULTANTS);
 	return res;
