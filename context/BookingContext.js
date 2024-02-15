@@ -2,8 +2,13 @@ import React, { createContext, useState } from 'react';
 
 import { fetchConsultantById } from '../services/user';
 import { finalizeBooking } from '../services/scheduling';
+import { useImmer } from 'use-immer';
 
-const DEFAULT_BOOKING_DATA = {};
+const DEFAULT_BOOKING_DATA = {
+	service: 0,
+	answers: [],
+	payment: {},
+};
 const DEFAULT_CONSULTANT_DATA = {};
 const DEFAULT_MODAL_VISIBLE = false;
 
@@ -11,7 +16,7 @@ export const BookingContext = createContext(null);
 
 const BookingProvider = ({ children }) => {
 	// Booking information user provides
-	const [bookingData, setBookingData] = useState(DEFAULT_BOOKING_DATA);
+	const [bookingData, setBookingData] = useImmer(DEFAULT_BOOKING_DATA);
 	// Information about the consultant that user is booking
 	const [consultantData, setConsultantData] = useState(
 		DEFAULT_CONSULTANT_DATA,
@@ -20,6 +25,7 @@ const BookingProvider = ({ children }) => {
 	const [modalVisible, setModalVisible] = useState(DEFAULT_MODAL_VISIBLE);
 
 	const chooseDate = (date) => {
+		console.log("here's the date", date);
 		setBookingData((prev) => ({ ...prev, date }));
 	};
 
@@ -56,9 +62,12 @@ const BookingProvider = ({ children }) => {
 			{ ...bookingData },
 			consultantData.id,
 		);
-		if (res.ok) {
-			resetBookingContext();
-		} else console.error('Error booking', res.error);
+
+		if (!res.ok) {
+			console.error('Error booking', res.error);
+			return;
+		}
+
 		return { ok: res.ok, data: bookingData };
 	};
 
@@ -66,6 +75,11 @@ const BookingProvider = ({ children }) => {
 		const res = await fetchConsultantById(consultantId);
 		if (res.ok) {
 			setConsultantData(res.data);
+			setBookingData((prev) => {
+				prev.answers = Array(
+					res.data.services[0].questions.length,
+				).fill('');
+			});
 		}
 
 		return res;
