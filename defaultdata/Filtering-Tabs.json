@@ -1,6 +1,7 @@
 [
+    "Specialty",
     "Experience",
     "Region",
     "Price Range"
 ]
-// "Specialty" being equivalent to "Expertise" but not being implemented due to time constraints.
+//  being equivalent to "Expertise" but not being implemented due to time constraints.
