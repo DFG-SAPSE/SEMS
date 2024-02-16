@@ -34,6 +34,16 @@ export const enterpriseSectorsList = [
 
 export const certificateTypeList = ['DTI', 'SEC', 'DOLE', 'No Certificate'];
 
+export const consultantExpertiseList = [
+	'Community Organizing',
+	'Operations',
+	'Marketing',
+	'Finance',
+	'Human Resources',
+	'Product Design',
+	'Start-up',
+];
+
 export class Consultant {
 	constructor(id, name, email) {
 		this.id = id;

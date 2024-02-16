@@ -15,7 +15,11 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { RNMultiSelect } from 'rn-multipicker';
 import { router } from 'expo-router';
 import Button from '../common/Button';
-import { Consultant, regions } from '../../services/model';
+import {
+	Consultant,
+	regions,
+	consultantExpertiseList,
+} from '../../services/model';
 import { addConsultant } from '../../services/profile';
 
 const ConsultantForm = ({ user, enterprise, pushNextScreen }) => {
@@ -25,6 +29,7 @@ const ConsultantForm = ({ user, enterprise, pushNextScreen }) => {
 	const [enterpriseName, setEnterpriseName] = useState('');
 	const [enterpriseRole, setEnterpriseRole] = useState('');
 	const [description, setDescription] = useState('');
+	const [expertise, setExpertise] = useState([]);
 	const [experienceYears, setExperienceYears] = useState(0);
 	const [geographic_regions, setGeographic_regions] = useState([]);
 	const [minPrice, setMinPrice] = useState(0);
@@ -64,6 +69,7 @@ const ConsultantForm = ({ user, enterprise, pushNextScreen }) => {
 			newUser.experienceYears = experienceYears;
 			newUser.geographic_regions = geographic_regions;
 			newUser.enterpriseRole = enterpriseRole;
+			newUser.expertise = expertise;
 			newUser.minPrice = minPrice;
 			newUser.maxPrice = maxPrice;
 			newUser.services[0].price = minPrice;
@@ -90,7 +96,11 @@ const ConsultantForm = ({ user, enterprise, pushNextScreen }) => {
 		}
 
 		if (!enterpriseRole) {
-			errors.enterpriseRolee = 'Enterprise Role is required.';
+			errors.enterpriseRole = 'Enterprise Role is required.';
+		}
+
+		if (!expertise) {
+			errors.expertise = 'Expertise is required.';
 		}
 
 		if (experienceYears < 1) {
@@ -226,6 +236,16 @@ const ConsultantForm = ({ user, enterprise, pushNextScreen }) => {
 						underlineColorAndroid="transparent"
 						autoCapitalize="none"
 					/>
+					<View style={styles.wrapper}>
+						<RNMultiSelect
+							placeholder="Expertise"
+							data={consultantExpertiseList}
+							onSelectedItemsChange={(value) =>
+								setExpertise(value)
+							}
+							selectedItems={expertise}
+						/>
+					</View>
 					<View style={styles.wrapper}>
 						<RNMultiSelect
 							placeholder="Geographic regions"
