@@ -20,7 +20,7 @@ const firebaseConfig = {
 	measurementId: 'G-Z0XMDWF8HB',
 };
 
-const app = initializeApp(firebaseConfig);
+export const app = initializeApp(firebaseConfig);
 export const firestore = initializeFirestore(app, {
 	experimentalAutoDetectLongPolling: true,
 });
