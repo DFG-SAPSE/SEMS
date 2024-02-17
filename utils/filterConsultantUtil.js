@@ -19,7 +19,11 @@ export const filterConsultants = (data, filters) => {
 	// Filter by selected specialities
 	if (selectedSpecialities.length) {
 		filteredData = filteredData.filter((consultant) =>
-			selectedSpecialities.includes(consultant.specialty),
+			Array.isArray(consultant.expertise)
+				? consultant.expertise.some((expertise) =>
+						selectedSpecialities.includes(expertise),
+					)
+				: selectedSpecialities.includes(consultant.expertise),
 		);
 	}
 

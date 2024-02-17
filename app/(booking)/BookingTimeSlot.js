@@ -25,13 +25,11 @@ const BookTimeSlot = () => {
 		const {
 			availability,
 			bookedMeetings,
-			// meetingConfig: { startTimeIncrement, breakTimeLength },
+			meetingConfig: { breakTimeLength, startTimeIncrement },
 			services,
 		} = consultantData;
 
 		const meetingLength = services[0].meetingLength;
-		const startTimeIncrement = 15; // dummy data, waiting for Iyi to update database, this cannot be 0
-		const breakTimeLength = 15; // dummy data, waiting for Iyi to update database
 
 		const times = getAvailableStartTimes(
 			new Date(dateData.timestamp),
@@ -63,7 +61,7 @@ const BookTimeSlot = () => {
 				}}
 			/>
 
-			{/* <Exceptions /> */}
+			<Exceptions />
 
 			<CustomCalendar
 				onDayPress={onDayPress}

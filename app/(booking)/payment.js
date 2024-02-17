@@ -48,7 +48,7 @@ const PaymentComponent = () => {
 
 				<View style={styles.footer}>
 					<CancelBookingButton />
-					<NextButton nextRoute={'/PaymentForm'} />
+					<NextButton nextRoute={'/BookingReview'} />
 				</View>
 			</ScrollView>
 		</ScrollView>

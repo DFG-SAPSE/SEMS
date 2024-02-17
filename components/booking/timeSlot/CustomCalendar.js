@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 
 import { theme } from '../../../styles/theme';
+import { getAvailableStartTimes } from '../../../services/scheduling';
+import { BookingContext } from '../../../context/BookingContext';
 // import { getAvailableStartTimes } from '../../../services/scheduling';
 
 const CustomDayComponent = ({ date, state, selectedDate, onDayPress }) => {
+	const { consultantData } = useContext(BookingContext);
+
 	const today = new Date();
 	today.setHours(0, 0, 0, 0);
 	const currentDate = new Date(date.year, date.month - 1, date.day);
@@ -26,18 +30,25 @@ const CustomDayComponent = ({ date, state, selectedDate, onDayPress }) => {
 		alignSelf: 'center',
 	};
 
-	// Check if there are time slots available for the day
-	// const times = getAvailableStartTimes(
-	// 	new Date(dateData.timestamp),
-	// 	JSON.parse(availability),
-	// 	bookedMeetings,
-	// 	startTimeIncrement,
-	// 	breakTimeLength,
-	// 	meetingLength,
-	// );
+	const {
+		availability,
+		bookedMeetings,
+		meetingConfig: { breakTimeLength },
+		services,
+	} = consultantData;
 
-	// Dummy code. Delete, and uncomment the above when getAvailableStartTimes have been implemented
-	const times = [0];
+	const meetingLength = services[0].meetingLength;
+	const startTimeIncrement = 15; // dummy data, waiting for Iyi to update database, this cannot be 0
+
+	// Check if there are time slots available for the day
+	const times = getAvailableStartTimes(
+		new Date(date.timestamp),
+		JSON.parse(availability),
+		bookedMeetings,
+		startTimeIncrement,
+		breakTimeLength,
+		meetingLength,
+	);
 
 	// If the date is in the past
 	if (currentDate < today || times.length === 0) {

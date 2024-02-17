@@ -6,14 +6,17 @@ import { StackActions } from '@react-navigation/native';
 import Button from '../../common/Button';
 import { theme } from '../../../styles/theme';
 import { BookingContext } from '../../../context/BookingContext';
+import { UserContext } from '../../../context/UserContext';
 
 const ConfirmButton = () => {
-	const { book } = useContext(BookingContext);
+	const { bookAppointment, bookingData } = useContext(BookingContext);
+	const { handleAddMeeting } = useContext(UserContext);
 	const navigation = useNavigation();
 
 	const handleBookingConfirm = async () => {
-		const res = await book();
+		const res = await bookAppointment();
 		if (res.ok) {
+			handleAddMeeting(bookingData);
 			navigation.dispatch(StackActions.popToTop());
 			router.push('/BookingConfirmation');
 		}

@@ -18,9 +18,11 @@ export const getAvailableStartTimes = (
 ) => {
 	// Check if a potential meeting slot overlaps with any booked meeting
 	const isOverlap = (potentialStart, meeting) => {
+		// potentialStart = 7pm, meeting: 6-7pm
 		const potentialEnd = potentialStart + meetingLength + breakTimeLength;
 		return (
-			potentialStart < meeting.endTime && potentialEnd > meeting.startTime
+			potentialStart < meeting.endTime + breakTimeLength &&
+			potentialEnd > meeting.startTime
 		);
 	};
 
@@ -58,12 +60,20 @@ export const getAvailableStartTimes = (
 };
 
 export const finalizeBooking = async (bookingData, consultantId) => {
+	// retrieve the current user's id, add the meeting to the bookedMeetings field
+	const user = auth.currentUser;
+	if (!user) return { data: null, error: 'No user logged in', ok: false };
+	const entrepreneurId = user.uid;
+
 	// add the meeting to the bookedMeetings field of the consultant
+
 	try {
 		const docRef = createDocRef(
 			collection(firestore, COLLECTION_NAMES.CONSULTANTS),
 			consultantId,
 		);
+
+		bookingData.invitee = entrepreneurId;
 
 		await updateDoc(docRef, {
 			bookedMeetings: arrayUnion(bookingData),
@@ -76,16 +86,13 @@ export const finalizeBooking = async (bookingData, consultantId) => {
 		};
 	}
 
-	// retrieve the current user's id, add the meeting to the bookedMeetings field
-	const user = auth.currentUser;
-	if (!user) return { data: null, error: 'No user logged in', ok: false };
-
-	const entrepreneurId = user.uid;
 	try {
 		const docRef = createDocRef(
 			collection(firestore, COLLECTION_NAMES.ENTREPRENEURS),
 			entrepreneurId,
 		);
+
+		bookingData.invitee = consultantId;
 
 		await updateDoc(docRef, {
 			bookedMeetings: arrayUnion(bookingData),
@@ -102,22 +109,79 @@ export const finalizeBooking = async (bookingData, consultantId) => {
 	return { data: 'Success!', error: null, ok: true };
 };
 
-export const cancelMeeting = (meetingId) => {
-	return new Promise((resolve, reject) => {
-		setTimeout(() => {
-			const success = true;
+export const cancelMeeting = async (
+	currentUserId,
+	otherUserId,
+	startTime,
+	isConsultant,
+) => {
+	let res;
+	// Cancel meeting for current user
+	res = await _cancelMeeting(
+		currentUserId,
+		otherUserId,
+		startTime,
+		isConsultant,
+	);
+	if (!res.ok) {
+		return res;
+	}
 
-			if (success) {
-				resolve({
-					ok: true,
-					message: `Meeting with ID ${meetingId} was successfully cancelled.`,
-				});
-			} else {
-				reject({
-					ok: false,
-					message: `Failed to cancel meeting with ID ${meetingId}.`,
-				});
-			}
-		}, 2000);
-	});
+	// Cancel meeting for the other user
+	res = await _cancelMeeting(
+		otherUserId,
+		currentUserId,
+		startTime,
+		!isConsultant,
+	);
+	if (!res.ok) {
+		res.error = 'Already canceled meeting for current user' + res.ok;
+		return res;
+	}
+
+	return res;
+};
+
+const _cancelMeeting = async (
+	currentUserId,
+	otherUserId,
+	startTime,
+	isConsultant,
+) => {
+	const collectionName = isConsultant
+		? COLLECTION_NAMES.CONSULTANTS
+		: COLLECTION_NAMES.ENTREPRENEURS;
+
+	const docRef = createDocRef(firestore, collectionName, currentUserId);
+
+	try {
+		const docSnap = await getDoc(docRef);
+
+		if (docSnap.exists()) {
+			const data = docSnap.data();
+			const bookedMeetings = data.bookedMeetings || [];
+
+			// Remove the meeting that matches the criteria
+			const updatedMeetings = bookedMeetings.filter((meeting) => {
+				return !(
+					meeting.invitee === otherUserId &&
+					meeting.startTime === startTime
+				);
+			});
+
+			await updateDoc(docRef, {
+				bookedMeetings: updatedMeetings,
+			});
+
+			return { data: null, error: null, ok: true };
+		}
+
+		return { data: null, error: 'Document does not exist', ok: false };
+	} catch (error) {
+		return {
+			data: null,
+			error: 'Error canceling meeting for current user',
+			ok: false,
+		};
+	}
 };

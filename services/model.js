@@ -34,6 +34,16 @@ export const enterpriseSectorsList = [
 
 export const certificateTypeList = ['DTI', 'SEC', 'DOLE', 'No Certificate'];
 
+export const consultantExpertiseList = [
+	'Community Organizing',
+	'Operations',
+	'Marketing',
+	'Finance',
+	'Human Resources',
+	'Product Design',
+	'Start-up',
+];
+
 export class Consultant {
 	constructor(id, name, email) {
 		this.id = id;
@@ -51,11 +61,17 @@ export class Consultant {
 		this.permanentMeetingLink = '';
 		this.availability = JSON.stringify([[], [], [], [], [], [], []]);
 		this.meetingConfig = {
-			startTimeIncrement: 0,
+			startTimeIncrement: 15,
 			breakTimeLength: 0,
 		};
 		this.bookedMeetings = [];
-		this.services = [];
+		this.services = [
+			{
+				price: 0,
+				meetingLength: 45,
+				questions: ['Tell me everything helpful for this meeting!'],
+			},
+		];
 		this.geographic_regions = [];
 		this.minPrice = 0;
 		this.maxPrice = 0;
@@ -132,6 +148,7 @@ export class Entrepreneur {
 		this.enterpriseID = '';
 		this.enterpriseRole = '';
 		this.description = '';
+		this.bookedMeetings = [];
 	}
 
 	setObjectFromDatabase(data) {
@@ -139,6 +156,7 @@ export class Entrepreneur {
 		this.enterpriseID = data.enterpriseID;
 		this.description = data.description;
 		this.enterpriseRole = data.enterpriseRole;
+		this.bookedMeetings = data.bookedMeetings;
 	}
 }
 
@@ -154,6 +172,7 @@ export const entrepreneurConverter = {
 			enterpriseID: entrepreneur.enterpriseID,
 			enterpriseRole: entrepreneur.enterpriseRole,
 			description: entrepreneur.description,
+			bookedMeetings: entrepreneur.bookedMeetings,
 		};
 	},
 	fromFirestore: (snapshot, options) => {

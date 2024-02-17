@@ -33,7 +33,7 @@ const SpecialtyModal = ({ closeModal }) => {
 				style={[
 					styles.specialtyText,
 					isSpecialtySelected(specialty) &&
-					styles.selectedSpecialtyText,
+						styles.selectedSpecialtyText,
 				]}
 			>
 				{specialty}
