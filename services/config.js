@@ -8,11 +8,15 @@ import { initializeApp } from 'firebase/app';
 import { ReactNativeAsyncStorage } from '@react-native-async-storage/async-storage';
 import { initializeAuth, getReactNativePersistence } from '@firebase/auth';
 import { getFirestore, initializeFirestore } from 'firebase/firestore';
-import { API_KEY, AUTH_DOMAIN } from '@env';
+
+// Using @env package for local development
+//import { API_KEY, AUTH_DOMAIN } from '@env';
 
 const firebaseConfig = {
-	apiKey: API_KEY,
-	authDomain: AUTH_DOMAIN,
+	// Using process.env.[NAME] for Expo Go build
+	// ENV variables are defined in Secrets tab in Expo Go
+	apiKey: process.env.API_KEY,
+	authDomain: process.env.AUTH_DOMAIN,
 	projectId: 'dfg-sapse',
 	storageBucket: 'dfg-sapse.appspot.com',
 	messagingSenderId: '140818285182',
