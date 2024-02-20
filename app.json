@@ -1,11 +1,24 @@
 {
-	"expo": {
-		"scheme": "acme",
-		"web": {
-			"bundler": "metro"
-		},
-		"plugins": ["expo-router"],
-		"name": "sems",
-		"slug": "sems"
-	}
+  "expo": {
+    "scheme": "acme",
+    "web": {
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-router"
+    ],
+    "name": "sems",
+    "slug": "sems",
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "d1a46805-2018-4ea7-abb1-a482aec6ec5e"
+      }
+    },
+    "android": {
+      "package": "com.sapse.sems"
+    }
+  }
 }
